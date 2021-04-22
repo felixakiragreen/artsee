@@ -1,0 +1,24 @@
+# mac os
+.DS_Store
+
+# vscode
+.vscode/*
+*.code-workspace
+
+# node
+/node_modules/
+*/node_modules/
+
+# vite
+dist
+dist-ssr
+*.local
+
+# yarn
+yarn-error.log
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+
+# 
+.env

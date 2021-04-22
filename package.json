@@ -10,6 +10,7 @@
   "keywords": [],
   "author": "",
   "devDependencies": {
+    "@types/chrome": "^0.0.135",
     "vite": "^2.1.5",
     "vite-plugin-chrome-extension": "^0.0.5"
   }

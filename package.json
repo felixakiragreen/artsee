@@ -1,0 +1,16 @@
+{
+  "name": "vite-plugin-chrome-extension-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "vite build",
+    "debug": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "vite": "^2.1.5",
+    "vite-plugin-chrome-extension": "^0.0.5"
+  }
+}

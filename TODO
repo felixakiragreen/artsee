@@ -1,0 +1,35 @@
+
+Next:
+  [x] Svelte
+  [x] Tailwind
+  
+  [x] Mini settings panel
+    [ ] fetch all your opensea objects (SYNC)
+
+  [ ] configure storage to auto update
+    https://developer.chrome.com/docs/extensions/reference/storage/
+
+Data:
+  [x] persist wallet address
+  [x] persist last time fully synced
+  [ ] fetch all of the assets
+  [x] persist asset contract address & tokenId for each one
+
+Wallet component:
+  [ ] show abbreviated address
+  [ ] editing of address... 
+
+
+Initial Setup:
+  [ ] lala
+
+
+Future:
+  [ ] Try to get wallet address from MetaMask
+  [ ] Try to get total number of assets from OpenSea and then pick a random one to display 
+  [ ] Include links to open sea detail
+  [ ] Include artsee dev information in corner
+      [ ] Development build v0.1
+      [ ] Join our discord to request features or report bugs
+  [ ] 
+

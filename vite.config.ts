@@ -1,15 +1,22 @@
 import { defineConfig } from 'vite'
+import svelte from '@sveltejs/vite-plugin-svelte'
 import { chromeExtension } from 'vite-plugin-chrome-extension'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [chromeExtension()],
+  plugins: [svelte(), chromeExtension()],
   resolve: {
     alias: [{ find: '@', replacement: '/src' }],
   },
   build: {
     rollupOptions: {
-      input: 'src/manifest.json',
+      input: {
+        manifest: 'src/manifest.json',
+        // newtab: 'src/newtab/index.html',
+      },
+      output: {
+        name: 'ArtSee',
+      },
     },
   },
 })

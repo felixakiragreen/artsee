@@ -14,21 +14,19 @@
 
 </script>
 
-<aside>
-  {#if isOpen}
-    <div transition:fly="{{ y: -400 }}" class=panel>
-      <div transition:fly="{{ x: -400, y: 400 }}" on:click={onClick} class="icon close">
-        <IconClose />
-      </div>
-      <SettingsPanel />
-    </div>
-  {:else}
-    <div transition:fly="{{ x: 400 }}" on:click={onClick} class="icon cog">
-      <IconCog />
-    </div>
-  {/if}
 
-</aside>
+{#if isOpen}
+  <aside transition:fly="{{ x: -400 }}" class=panel>
+    <div on:click={onClick} class="icon close">
+      <IconClose />
+    </div>
+    <SettingsPanel />
+  </aside>
+{:else}
+  <aside transition:fly="{{ x: 400 }}" on:click={onClick} class="icon cog">
+    <IconCog />
+  </aside>
+{/if}
 
 <style style lang="postcss">
   
@@ -36,6 +34,7 @@
     @apply relative;
     @apply bg-grey-200 dark:bg-grey-800;
     @apply text-grey-900 dark:text-gray-100;
+    @apply backdrop-filter backdrop-blur-lg;
     @apply font-mono;
 
     @apply rounded;
@@ -50,6 +49,7 @@
 
   .panel {
     @apply p-8;
+    @apply bg-opacity-75;
   }
 
   .icon {
@@ -60,6 +60,7 @@
 
     @apply text-grey-900 dark:text-gray-100 hover:text-grey-700 hover:dark:text-gray-300;
     @apply hover:bg-grey-300 hover:dark:bg-gray-700;
+    @apply bg-opacity-25 hover:bg-opacity-50; 
 
     &.cog {
       @apply top-4 left-4;

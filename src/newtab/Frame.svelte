@@ -2,17 +2,13 @@
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
   import { model, fetchOpenSeaAsset } from './store'
-
   
+  import ColorThief from 'colorthief'
 
-  
-
-  
+  const colorThief = new ColorThief()
 
   onMount(async () => {
     console.log("frame onMount")
-
-
   })
 
   const randomElement = (arr: any[]) => {
@@ -22,18 +18,6 @@
       return null
     }
   }
-
-  // $: randoAsset = $model.assets ? randomElement($model.assets) : null
-
-  // const fetchRandomAsset = async (asset: OpenSeaAsset) => {
-  //   fetchOpenSeaAsset(asset.address, asset.tokenId)
-  //     .then((asset) => {
-  //       return asset
-  //     })
-  //     .catch(err => 
-  //       console.error(err)
-  //     )
-  // }
 
   let fetched = false
   let asset
@@ -50,19 +34,35 @@
       })
   }
 
-  console.log('bla', { asset })
+  const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+    const hex = x.toString(16)
+    return hex.length === 1 ? '0' + hex : hex
+  }).join('')
+
+  let bgHex
+
+  const getColor = async () => {
+    const img = document.querySelector('img')
+
+    const [r, g, b] = await colorThief.getColor(img)
+
+    bgHex = rgbToHex(r, g, b);
+
+    console.log({ bgHex })
+  }
 
 </script>
 
-<section>
+<section style="--img-bg-color: {bgHex || "--clear"};">
   {#if asset}
-    <div transition:fade>
-      <img src={asset["image_url"]} alt={asset["name"]} />
+    <div class="bg" transition:fade={{ duration: 800 }} />
+    <div class="img" transition:fade={{ duration: 200 }}>
+      <img src={asset["image_url"]} alt={asset["name"]} on:load={getColor} />
     </div>
   {:else}
-    <p>Loading...</p>
+    <p>🖼👀</p>
   {/if}
-</section>
+</section>`
 
 <style style lang="postcss">
   
@@ -72,7 +72,20 @@
     z-index: 1;
   }
 
+  .bg {
+    @apply absolute top-0 left-0 right-0 bottom-0;
+    background: var(--img-bg-color);
+    z-index: -1;
+  }
+
+  .img {
+    @apply z-20;
+  }
   img {
     @apply max-w-lg;
+  }
+
+  p {
+    @apply text-8xl;
   }
 </style>

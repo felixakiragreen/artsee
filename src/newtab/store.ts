@@ -5,7 +5,12 @@ export type WalletAddress = string
 export type Model = {
   wallet?: WalletAddress // wallet address
   synced?: number // last time fully synced
-  count?: number // number of assets
+  status?: {
+    started?: boolean
+    count?: number
+    finished?: number // time the sync was finished
+    error?: string
+  }
   assets?: OpenSeaAsset[] // array of open sea assets
 }
 
@@ -31,11 +36,61 @@ const createModel = () => {
     console.log('subscribed', model)
     if (model && Object.keys(model).length > 0) {
       // TEMPORARILY COMMENTING OUT
-      // saveToStorage(model)
+      saveToStorage(model)
     }
   })
 
+  const setSyncStarted = () => {
+    update((model) => ({
+      ...model,
+      status: {
+        ...model?.status,
+        started: true,
+        finished: undefined,
+      },
+    }))
+  }
+
+  const setSyncFinished = () => {
+    update((model) => ({
+      ...model,
+      status: {
+        ...model?.status,
+        started: false,
+        finished: new Date().valueOf(),
+      },
+    }))
+  }
+
+  const setSyncError = (error: string) => {
+    update((model) => ({
+      ...model,
+      status: {
+        ...model?.status,
+        started: false,
+        finished: undefined,
+        error,
+      },
+    }))
+  }
+
+  const syncAssets = (fetchedAssets) => {
+    update((model) => {
+      const assets = [...(model?.assets || []), ...fetchedAssets]
+
+      return {
+        ...model,
+        status: {
+          ...model?.status,
+          count: assets.length,
+        },
+        assets,
+      }
+    })
+  }
+
   return {
+    set,
     subscribe,
     update,
     initialize: async () => {
@@ -45,18 +100,53 @@ const createModel = () => {
       })
     },
     fetchAll: async () => {
+      setSyncStarted()
+
       let address: WalletAddress
+      let syncStarted: boolean
       const unsub = subscribe((model) => {
         address = model.wallet
+        syncStarted = model.status?.started
       })
-      loadOpenSeaAssets(address).then((assets) => {
-        console.log(`fetchAll(${address}) →`, { assets })
-        update((model) => ({
-          ...model,
-          synced: new Date().valueOf(),
-          assets: [...assets],
-        }))
-      })
+
+      console.log(`fetchAll(${address}`, syncStarted)
+
+      if (address) {
+        let i = 0
+        let imax = 4
+        let limit = 20
+        let timer = null
+        let delay = 2000
+
+        const fetchAssets = async (offset: number) => {
+          await loadOpenSeaAssets(address, offset).then((assets) => {
+            console.log(`loadOpenSeaAssets(${offset}) →`, { assets })
+
+            syncAssets(assets)
+
+            if (assets.length > 0 && i < imax && syncStarted) {
+              console.log('lala', assets, i, syncStarted)
+              i++
+              timer = setTimeout(() => {
+                fetchAssets(offset + limit)
+              }, delay)
+            } else {
+              setSyncFinished()
+              clearTimeout(timer)
+            }
+
+            // USE SYNC COUNT as offset
+            // IF we return 0 then we mark syncing finished
+            // ELSE if syncing isn't finished, go again.
+
+            // setSyncStarted(true)
+          })
+        }
+
+        fetchAssets(0)
+      } else {
+        setSyncError('address not defined BITCH!')
+      }
 
       // return new Promise((resolve, reject) => {
 
@@ -90,17 +180,19 @@ const loadFromStorage = async (): Promise<Model> => {
         return reject(chrome.runtime.lastError)
       }
 
-      if (data.wallet) {
-        model.wallet = data.wallet
-      }
+      model = data
 
-      if (data.synced) {
-        model.synced = data.synced
-      }
+      // if (data.wallet) {
+      //   model.wallet = data.wallet
+      // }
 
-      if (data.assets) {
-        model.assets = data.assets
-      }
+      // if (data.synced) {
+      //   model.synced = data.synced
+      // }
+
+      // if (data.assets) {
+      //   model.assets = data.assets
+      // }
 
       return resolve(model)
     })

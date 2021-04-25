@@ -15,13 +15,13 @@
 
   const logStorage = async () => {
     chrome.storage.sync.get(null, (data) => {
-      console.log('loadFromStorage() →', { data })
+      console.log('Settings.logStorage() →', { data })
     })
   }
 
   const delStorage = async () => {
     chrome.storage.sync.clear(() => {
-      console.log('cleared()')
+      console.log('Settings.delStorage()')
     })
   }
 
@@ -92,7 +92,7 @@
     @apply text-sm font-medium;
     @apply text-grey-800 dark:text-gray-200 text-base;
     
-    @apply px-4 py-2;
+    @apply px-2 py-1;
     @apply shadow-sm;
     @apply rounded-md;
 
@@ -100,18 +100,18 @@
   }
 
   dl {
-    @apply space-y-4;
+    @apply space-y-2;
   }
 
   dt {
-    @apply text-lg text-grey-600 dark:text-gray-400;
+    @apply text-base text-grey-600 dark:text-gray-400;
     @apply pt-4;
   }
 
   dd {
     @apply flex flex-col;
-    @apply text-xl;
-    @apply space-y-4;
+    @apply text-lg;
+    @apply space-y-2;
   }
 
   .json {

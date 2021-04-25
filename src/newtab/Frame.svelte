@@ -8,7 +8,7 @@
   const colorThief = new ColorThief()
 
   onMount(async () => {
-    console.log("frame onMount")
+    // console.log("frame onMount")
   })
 
   const randomElement = (arr: any[]) => {
@@ -23,13 +23,11 @@
   let asset
 
   $: if ($model.assets && !fetched) {
-    console.log("fetching...", fetched)
+    console.log("Frame.fetching...")
     fetched = true
     let randomAsset = randomElement($model.assets)
-    // fetchRandomAsset(randoAsset)
     fetchOpenSeaAsset(randomAsset.address, randomAsset.tokenId)
       .then(fetched => {
-        console.log("inside", fetched)
         asset = fetched
       })
   }
@@ -41,14 +39,14 @@
 
   let bgHex
 
-  const getColor = async () => {
+  const getBgColor = async () => {
     const img = document.querySelector('img')
 
     const [r, g, b] = await colorThief.getColor(img)
 
     bgHex = rgbToHex(r, g, b);
 
-    console.log({ bgHex })
+    console.log('Frame.getBgColor', { bgHex })
   }
 
 </script>
@@ -57,10 +55,10 @@
   {#if asset}
     <div class="bg" transition:fade={{ duration: 800 }} />
     <div class="img" transition:fade={{ duration: 200 }}>
-      <img src={asset["image_url"]} alt={asset["name"]} on:load={getColor} />
+      <img src={asset["image_url"]} alt={asset["name"]} on:load={getBgColor} />
     </div>
   {:else}
-    <p>🖼👀</p>
+    <p>🖼 👀</p>
   {/if}
 </section>`
 

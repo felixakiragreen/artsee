@@ -1,87 +1,72 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte'
-  import { model } from './store'
-  
-  onMount(async () => {
-    // console.log("b4", $model)
+  import { fly } from 'svelte/transition'
 
-    await model.initialize()
-    
-    // console.log("a5", $model)
-  })
+  import IconCog from '../lib/IconCog.svelte'
+  import IconClose from '../lib/IconClose.svelte'
+  import SettingsPanel from './SettingsPanel.svelte'
 
-  const resync = async () => {
-    // console.log("b4", $model)
-    
-    await model.fetchAll()
-    await tick()
-    // wallet.update(m => "haha")
+  let isOpen = false
 
-    // console.log("a5", $model)
+  const onClick = () => {
+    isOpen = !isOpen
   }
-
-  const storage = async () => {
-    chrome.storage.sync.get(null, (data) => {
-      console.log('loadFromStorage() →', { data })
-    })
-  }
-
-  const remove = async () => {
-    chrome.storage.sync.remove("model", () => {
-      console.log('removed() →')
-    })
-  }
-
-  $: syncedDate = $model.synced ? new Date($model.synced).toISOString() : "unsynced"
 
 </script>
 
 <aside>
-  <h2>settings</h2>
-
-  <dl>
-    <dt>
-      <label for="wallet">my wallet address:</label>
-    </dt>
-    <dd>
-      <input type="text" name="wallet" bind:value={$model.wallet} />
-    </dd>
-  
-    <dt>synced:</dt>
-    <dd>
-      <div>
-        {syncedDate}
+  {#if isOpen}
+    <div transition:fly="{{ y: -400 }}" class=panel>
+      <div transition:fly="{{ x: -400, y: 400 }}" on:click={onClick} class="icon close">
+        <IconClose />
       </div>
-      <div>
-        <button on:click={resync}>resync</button>
-        <button on:click={storage}>get storage</button>
-        <button on:click={remove}>clr storage</button>
-      </div>
-    </dd>
-
-    <dt>asset count:</dt>
-    <dd>
-      {$model.assets?.length || "n/a"}
-    </dd>
-  
-  </dl>
+      <SettingsPanel />
+    </div>
+  {:else}
+    <div transition:fly="{{ x: 400 }}" on:click={onClick} class="icon cog">
+      <IconCog />
+    </div>
+  {/if}
 
 </aside>
 
 <style style lang="postcss">
   
   aside {
+    @apply relative;
     @apply bg-grey-200 dark:bg-grey-800;
     @apply text-grey-900 dark:text-gray-100;
     @apply font-mono;
 
-    @apply p-8;
     @apply rounded;
 
     @apply absolute;
     @apply top-4 left-4;
 
     @apply space-y-4;
+
+    @apply z-50;
+  }
+
+  .panel {
+    @apply p-8;
+  }
+
+  .icon {
+    @apply p-2;
+    @apply rounded;
+    @apply cursor-pointer;
+    @apply absolute;
+
+    @apply text-grey-900 dark:text-gray-100 hover:text-grey-700 hover:dark:text-gray-300;
+    @apply hover:bg-grey-300 hover:dark:bg-gray-700;
+
+    &.cog {
+      @apply top-4 left-4;
+    }
+    &.close {
+      @apply top-4 right-4;
+    }
   }
 
   h2 {

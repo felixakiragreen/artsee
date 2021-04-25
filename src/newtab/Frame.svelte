@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
-  import { model, fetchOpenSeaAsset } from './store'
-  
   import ColorThief from 'colorthief'
 
+  import { model, fetchOpenSeaAsset } from '../model'
+  
   const colorThief = new ColorThief()
 
   onMount(async () => {

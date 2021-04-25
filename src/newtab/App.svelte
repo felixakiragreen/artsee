@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { model } from './store'
+  import { model } from '../model'
 
   import Settings from './Settings.svelte'
   import Frame from './Frame.svelte'

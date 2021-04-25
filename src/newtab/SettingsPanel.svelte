@@ -1,0 +1,121 @@
+<script lang="ts">
+  import { onMount, tick } from 'svelte'
+
+  import { model } from './store'
+  
+  const sync = async () => {
+    // console.log("b4", $model)
+    
+    await model.fetchAll()
+    await tick()
+    // wallet.update(m => "haha")
+
+    // console.log("a5", $model)
+  }
+
+  const logStorage = async () => {
+    chrome.storage.sync.get(null, (data) => {
+      console.log('loadFromStorage() →', { data })
+    })
+  }
+
+  const delStorage = async () => {
+    chrome.storage.sync.clear(() => {
+      console.log('cleared()')
+    })
+  }
+
+  $: syncedDate = $model.status?.finished ? new Date($model.status?.finished).toISOString() : "n/a"
+
+</script>
+
+<h2>settings</h2>
+
+<dl>
+  <dt>
+    <label for="wallet">my wallet address:</label>
+  </dt>
+  <dd>
+    <input type="text" name="wallet" bind:value={$model.wallet} />
+  </dd>
+
+  <dt>synced:</dt>
+  <dd>
+    <div>
+      {syncedDate}
+    </div>
+    <div>
+      <button on:click={sync}>sync</button>
+      <button on:click={logStorage}>log storage</button>
+      <button on:click={delStorage}>del storage</button>
+    </div>
+  </dd>
+
+  <dt>number of NFTs:</dt>
+  <dd>
+    {$model.assets?.length || "n/a"}
+  </dd>
+
+  <dt>fucking NERD shit</dt>
+  <dd>
+    <div class=json>
+      {JSON.stringify($model.status, null, 2)}
+    </div>
+  </dd>
+
+</dl>
+
+<style style lang="postcss">
+  
+  h2 {
+    @apply text-2xl;
+  }
+
+  input[type="text"] {
+    @apply bg-grey-300 dark:bg-grey-700;
+    
+    @apply text-base;
+    @apply text-grey-800 dark:text-gray-200;
+    
+    @apply px-4 pt-2 pb-1;
+    @apply rounded;
+    @apply w-[450px];
+
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-green-300 dark:focus:ring-green-700;
+  }
+
+  button {
+    @apply bg-grey-300 dark:bg-grey-700 hover:bg-grey-100 hover:dark:bg-grey-900;
+
+    @apply border border-gray-500;
+
+    @apply text-sm font-medium;
+    @apply text-grey-800 dark:text-gray-200 text-base;
+    
+    @apply px-4 py-2;
+    @apply shadow-sm;
+    @apply rounded-md;
+
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-green-700 dark:focus:ring-green-700;
+  }
+
+  dl {
+    @apply space-y-4;
+  }
+
+  dt {
+    @apply text-lg text-grey-600 dark:text-gray-400;
+    @apply pt-4;
+  }
+
+  dd {
+    @apply flex flex-col;
+    @apply text-xl;
+    @apply space-y-4;
+  }
+
+  .json {
+    @apply whitespace-pre;
+  }
+
+</style>

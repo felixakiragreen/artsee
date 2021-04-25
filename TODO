@@ -5,7 +5,7 @@ Next:
     [x] fetch first 100 your opensea objects (SYNC)
   [x] configure storage to auto update
     https://developer.chrome.com/docs/extensions/reference/storage/
-  [ ] @bylaunch PERF: dont overwrite if already the same?
+  [x] @bylaunch PERF: dont overwrite if already the same?
 
 Data:
   [x] persist wallet address

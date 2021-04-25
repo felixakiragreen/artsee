@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@f*g/felix": "^0.2.0",
-    "colorthief": "^2.3.2"
+    "colorthief": "^2.3.2",
+    "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "next",

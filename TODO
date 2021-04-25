@@ -1,4 +1,3 @@
-
 Next:
   [x] Svelte
   [x] Tailwind
@@ -6,30 +5,44 @@ Next:
     [x] fetch first 100 your opensea objects (SYNC)
   [x] configure storage to auto update
     https://developer.chrome.com/docs/extensions/reference/storage/
-  [ ] dont overwrite if already the same?
+  [ ] @bylaunch PERF: dont overwrite if already the same?
 
 Data:
   [x] persist wallet address
   [x] persist last time fully synced
   [x] fetch assets
     [x] fetch first 100
-    [ ] fetch more than 100
+    [ ] @bylaunch fetch more than 100
   [x] persist asset contract address & tokenId for each one
 
-Wallet component:
-  [ ] show abbreviated address
-  [x] editing of address... 
+NITPICKY SHIT:
+  [ ] @bylaunch space between emojis
 
 Initial Setup:
-  [ ] make an initial loading screen
+  [ ] @bylaunch make an initial loading screen
     [ ] setting the wallet really easy the first time
     [ ] so you don't have to open settings
 
+View Customization:
+  [ ] @bylaunch Include name of NFT
+  [ ] Background customization
+    [ ] turn dominant color on/off
+    [ ] blurred scaled-up
+  [ ] Frame around NFT
+    [ ] check attribute rarities !?
+
 Future:
+  [ ] Include links to OpenSea detail
+  [ ] @bylaunch Include ArtSee dev information in corner
+    [ ] eg: dev build v0.1
+    [ ] Join our Discord to request features or report bugs
+    [ ] show abbreviated wallet address
+
+NFT support:
+  [ ] @bylaunch filter out .eth domains
+    [ ] just add a hide NFT button, much easier
+  [ ] @bylaunch "animation_url" for .mp4
+  [ ] @bylaunch interative artblocks (iframe)
+
+MAYBE:
   [ ] Try to get wallet address from MetaMask
-  [ ] Try to get total number of assets from OpenSea and then pick a random one to display 
-  [ ] Include links to open sea detail
-  [ ] Include artsee dev information in corner
-      [ ] Development build v0.1
-      [ ] Join our discord to request features or report bugs
-  [ ] Include name

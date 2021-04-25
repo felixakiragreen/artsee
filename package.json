@@ -11,7 +11,8 @@
     "debug": "vite build"
   },
   "dependencies": {
-    "@f*g/felix": "^0.2.0"
+    "@f*g/felix": "^0.2.0",
+    "colorthief": "^2.3.2"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "next",

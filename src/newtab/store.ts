@@ -4,8 +4,7 @@ export type WalletAddress = string
 
 export type Model = {
   wallet?: WalletAddress // wallet address
-  synced?: number // last time fully synced
-  status?: {
+  synced?: {
     started?: boolean
     count?: number
     finished?: number // time the sync was finished
@@ -14,10 +13,17 @@ export type Model = {
   assets?: OpenSeaAsset[] // array of open sea assets
 }
 
+// nftAll
+// nft001
+// nft002
+
 export type OpenSeaAsset = {
   address: string
   tokenId: string
 }
+
+// ass_01, ass_02, ass_03 ...
+//
 
 const createModel = () => {
   const { subscribe, set, update } = writable<Model>({})
@@ -95,7 +101,7 @@ const createModel = () => {
     update,
     initialize: async () => {
       loadFromStorage().then((model) => {
-        console.log('initialize() →', { model })
+        console.log('store.initialize() →', { model })
         set(model)
       })
     },
@@ -109,7 +115,7 @@ const createModel = () => {
         syncStarted = model.status?.started
       })
 
-      console.log(`fetchAll(${address}`, syncStarted)
+      console.log(`store.fetchAll(${address}`, syncStarted)
 
       if (address) {
         let i = 0
@@ -120,12 +126,12 @@ const createModel = () => {
 
         const fetchAssets = async (offset: number) => {
           await loadOpenSeaAssets(address, offset).then((assets) => {
-            console.log(`loadOpenSeaAssets(${offset}) →`, { assets })
+            console.log(`store.loadOpenSeaAssets(${offset}) →`, { assets })
 
             syncAssets(assets)
 
             if (assets.length > 0 && i < imax && syncStarted) {
-              console.log('lala', assets, i, syncStarted)
+              console.log('store.fetching loop...', assets, i, syncStarted)
               i++
               timer = setTimeout(() => {
                 fetchAssets(offset + limit)
@@ -174,7 +180,7 @@ const loadFromStorage = async (): Promise<Model> => {
     let model: Model = {}
 
     chrome.storage.sync.get(null, (data) => {
-      console.log('loadFromStorage() →', { data })
+      console.log('store.loadFromStorage() →', { data })
 
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError)
@@ -200,7 +206,7 @@ const loadFromStorage = async (): Promise<Model> => {
 }
 
 const saveToStorage = async (model: Model) => {
-  console.log('saveToStorage() →', { model })
+  console.log('store.saveToStorage() →', { model })
   chrome.storage.sync.set(model)
 }
 
@@ -210,19 +216,9 @@ const loadOpenSeaAssets = async (
   limit: number = 20,
 ): Promise<OpenSeaAsset[]> => {
   return new Promise((resolve, reject) => {
-    let accAssets: OpenSeaAsset[] = []
-
     fetchOpenSeaAssets(address, offset, limit)
       .then((assets) => {
-        accAssets = accAssets.concat(assets)
-
-        if (assets.length < limit) {
-          console.log('done fetching')
-        } else {
-          console.log('fetch more')
-        }
-
-        resolve(accAssets)
+        resolve(assets)
       })
       .catch((err) => {
         console.error(err)
@@ -240,19 +236,15 @@ const fetchOpenSeaAssets = async (
 ): Promise<OpenSeaAsset[]> => {
   const url = `${OPENSEA_ASSETS_URL}?owner=${address}&order_direction=desc&offset=${offset}&limit=${limit}`
 
-  console.log('fetchOpenSeaAssets()', url)
+  console.log('store.fetchOpenSeaAssets()', url)
 
   return new Promise((resolve, reject) => {
     try {
       fetch(url)
         .then((res) => res.json())
         .then((json) => {
-          console.log(json)
-
+          console.log('store.fetchOpenSeaAssets() → ', { json })
           resolve(json.assets.map((asset) => mapOpenSeaAsset(asset)))
-          // chrome.storage.sync.set({ images: json.assets }, () => {
-          //   console.log('Value is set to ', json.assets)
-          // })
         })
     } catch (err) {
       console.error(err)
@@ -283,12 +275,9 @@ export const fetchOpenSeaAsset = (
       fetch(url)
         .then((res) => res.json())
         .then((json) => {
-          console.log('fetched', json)
+          console.log('store.fetchOpenSeaAsset() → ', { json })
 
           resolve(json)
-          // chrome.storage.sync.set({ images: json.assets }, () => {
-          //   console.log('Value is set to ', json.assets)
-          // })
         })
     } catch (err) {
       console.error(err)

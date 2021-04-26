@@ -3,7 +3,7 @@
   import { model } from '../model'
 
   import Settings from './Settings.svelte'
-  import Frame from './Frame.svelte'
+  import Frame from './Frame2.svelte'
 
   const init = async () => {
     await model.initialize()

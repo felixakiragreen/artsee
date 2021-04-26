@@ -17,6 +17,7 @@ Data:
 
 NITPICKY SHIT:
   [x] @bylaunch space between emojis
+  [ ] random shouldn't pick the same one again
 
 Initial Setup:
   [ ] @bylaunch make an initial loading screen
@@ -24,7 +25,7 @@ Initial Setup:
     [ ] so you don't have to open settings
 
 Visuals:
-  [ ] change the text color (white/black) based on whether the BG is light/dark
+  [x] change the text color (white/black) based on whether the BG is light/dark
   [ ] show the buttons on mouse move, fade them out after 1 sec
 
 View Customization:

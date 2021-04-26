@@ -22,9 +22,9 @@
   const delayMM = 500
   let throttled = false
 
-  const onMouseMove = () => {
+  const onInteract = () => {
     if (!throttled) {
-      console.log("onMouseMove")
+      console.log("onInteract")
       if (timerUI) {
         clearTimeout(timerUI)
       }
@@ -56,7 +56,7 @@
 
 </script>
 
-<main on:mousemove={onMouseMove}>
+<main on:mousemove={onInteract} on:click={onInteract} on:keyup={onInteract} on:pointermove={onInteract}>
 
   <Settings />
   <Frame />

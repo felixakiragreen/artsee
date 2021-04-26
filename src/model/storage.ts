@@ -1,6 +1,6 @@
 import chunk from 'lodash.chunk'
 
-import type { WalletAddress, Model, StorageModel, OpenSeaAsset } from './types'
+import type { Model, StorageModel, OpenSeaAsset } from './types'
 
 export const loadStorage = async (): Promise<Model> => {
   return new Promise((resolve, reject) => {
@@ -14,18 +14,6 @@ export const loadStorage = async (): Promise<Model> => {
       }
 
       model = data
-
-      // if (data.wallet) {
-      //   model.wallet = data.wallet
-      // }
-
-      // if (data.synced) {
-      //   model.synced = data.synced
-      // }
-
-      // if (data.assets) {
-      //   model.assets = data.assets
-      // }
 
       return resolve(model)
     })
@@ -57,19 +45,19 @@ const CHUNK_SIZE = 100
 export const mapToStorage = (model: Model): StorageModel => {
   const chunkedAssets = chunk(model.assets, CHUNK_SIZE)
 
-  console.log('b4', model)
+  // console.log('mapToStorage()', { model })
 
   let storage = { ...model }
 
   delete storage.assets
 
-  console.log('a5', storage)
+  // console.log('mapToStorage()', { storage })
 
   chunkedAssets.map((eachChunk, index) => {
     storage[`ass${pad(index)}`] = [...eachChunk]
   })
 
-  console.log('a6', storage)
+  console.log('mapToStorage()', { model, storage })
 
   return storage
 }
@@ -81,13 +69,13 @@ export const mapFromStorage = (storage: StorageModel): Model => {
     ...(storage || {}),
   }
 
-  console.log('b4', model)
+  // console.log('mapFromStorage()', { model })
 
   for (let i = 0; i < 9; i++) {
     let id = `ass${pad(i)}`
     let chunkedAssets = storage[id]
 
-    console.log({ chunkedAssets })
+    // console.log('mapFromStorage()', { chunkedAssets })
 
     if (chunkedAssets) {
       assets = assets.concat(chunkedAssets)
@@ -97,7 +85,7 @@ export const mapFromStorage = (storage: StorageModel): Model => {
 
   model.assets = assets
 
-  console.log('a5', model)
+  console.log('mapFromStorage()', { storage, model })
 
   return model
 }

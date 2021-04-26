@@ -20,32 +20,53 @@
         .catch((err) => reject(err))
     })
   }
-    
-  const getType = (asset) => {
-    // html
-  
+
+  const getFileTypeFromUrl = (url: string): string => {
+    let type = url.split(".").pop()
+
+    console.log('getFileTypeFromUrl()', url, type)
+
+    if (type && type.length < 5) {
+      return type
+    }
+  }
+
+  type NiftyTag = "video" | "img"
+  type Nifty = {
+    tag: NiftyTag
+    file: string
+  }
+
+  const getType = (asset): Nifty => {
+    let file: string
+    let tag: NiftyTag
   
     // animation
     if (asset["animation_url"]) {
-      if (asset["animation_url"].slice(-4) === ".mp4") {
-        console.log('VID', asset["animation_url"].slice(-4))
-        return "VID"
-      } else {
-        return asset["animation_url"].slice(-4)
-      }
+      file = getFileTypeFromUrl(asset["animation_url"])
+      tag = "video" 
     }
-    
+
+    if (!file && asset["animation_original_url"]) {
+      file = getFileTypeFromUrl(asset["animation_original_url"])
+      tag = "video"
+    }
+
     // image
-    else if (asset["image_url"]) {
-      console.log("IMG", asset["image_url"].slice(-4))
-      return "IMG"
-      // return asset["image_url"].slice(-4)
+    if (!file && asset["image_url"]) {
+      file = getFileTypeFromUrl(asset["image_url"])
+      tag = "img"
     }
-  
-    // n/a
-    else {
-      console.error('could not find URL for:', { asset })
-      return ''
+
+    if (!file && asset["image_original_url"]) {
+      file = getFileTypeFromUrl(asset["image_original_url"])
+      tag = "img"
+    }
+
+    console.log('getType()', tag, file)
+
+    return {
+      tag, file
     }
   }
   
@@ -83,16 +104,30 @@
 
   <section transition:fade={{ duration: 300 }}>
     <div class="frame">
-      {#if getType(nftData) === "VID"}
-        <video loop autoplay>
-          <source src={getUrl(nftData)} type="video/mp4" />
-        </video>
+      {#if getType(nftData).tag === "video"}
+        {#if getType(nftData).file === "html"}
+          <iframe
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            frameborder="0"
+            sandbox="allow-scripts"
+            src={getUrl(nftData)}
+            width="100%"
+            height="100%"
+            style="min-height: inherit;"
+            title={nftData["name"]}
+          ></iframe>
+        {:else}
+          <video loop autoplay>
+            <source src={getUrl(nftData)} type="video/mp4" />
+            <track default kind="captions" />
+          </video>
+        {/if}
       {/if}
       <img
         id={`img-${index}`}
         src={getImgUrl(nftData)}
         alt={nftData["name"]}
-        class="{getType(nftData) === "VID" && "hide"}"
+        class="{getType(nftData).tag === "video" && "hide"}"
         on:load={getBgColor}
       />
     </div>
@@ -132,12 +167,13 @@
     @apply py-4;
 
     & .index {
-      @apply font-mono text-base text-grey-500;
+      @apply font-mono text-base opacity-50 mr-4;
     }
   }
 
   .hide {
-    @apply absolute opacity-0;
+    @apply absolute opacity-0 pointer-events-none;
+    z-index: -1;
   }
 
   .bg {

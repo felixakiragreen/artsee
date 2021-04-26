@@ -24,7 +24,10 @@ export const fetchOpenSeaAssets = async (
   offset: number = 0,
   limit: number = 20,
 ): Promise<OpenSeaAsset[]> => {
-  const url = `${OPENSEA_ASSETS_URL}?owner=${address}&order_by=sale_date&order_direction=desc&offset=${offset}&limit=${limit}`
+  const url = `${OPENSEA_ASSETS_URL}?owner=${address}&order_direction=desc&offset=${offset}&limit=${limit}`
+
+  // doing this makes it so that all of them don't load...?
+  // &order_by=sale_date
 
   console.log('store.fetchOpenSeaAssets()', url)
 
@@ -34,7 +37,10 @@ export const fetchOpenSeaAssets = async (
         .then((res) => res.json())
         .then((json) => {
           console.log('store.fetchOpenSeaAssets() → ', { json })
-          resolve(json.assets.map((asset) => mapOpenSeaAsset(asset)))
+          const newShit = {
+            ...json,
+          }
+          resolve(newShit.assets.map((asset) => mapOpenSeaAsset(asset)))
         })
     } catch (err) {
       console.error(err)

@@ -24,7 +24,7 @@ export const fetchOpenSeaAssets = async (
   offset: number = 0,
   limit: number = 20,
 ): Promise<OpenSeaAsset[]> => {
-  const url = `${OPENSEA_ASSETS_URL}?owner=${address}&order_direction=desc&offset=${offset}&limit=${limit}`
+  const url = `${OPENSEA_ASSETS_URL}?owner=${address}&order_by=sale_date&order_direction=desc&offset=${offset}&limit=${limit}`
 
   console.log('store.fetchOpenSeaAssets()', url)
 
@@ -45,8 +45,8 @@ export const fetchOpenSeaAssets = async (
 
 const mapOpenSeaAsset = (object: any): OpenSeaAsset => {
   return {
-    address: object['asset_contract']?.address,
-    tokenId: object['token_id'],
+    c: object['asset_contract']?.address,
+    t: object['token_id'],
   }
 }
 

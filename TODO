@@ -25,6 +25,7 @@ Initial Setup:
 
 Visuals:
   [ ] change the text color (white/black) based on whether the BG is light/dark
+  [ ] show the buttons on mouse move, fade them out after 1 sec
 
 View Customization:
   [ ] @bylaunch Include name of NFT
@@ -44,7 +45,10 @@ Future:
   [ ] Auto syncing...?
     [ ] check every load → get any new ones 
   [x] button → Show most recent one 
-  [x] button → Show random one 
+  [x] button → Show random one
+  [ ] add custom name / add note ?
+  [ ] show acquired date
+
 
 
 NFT support:

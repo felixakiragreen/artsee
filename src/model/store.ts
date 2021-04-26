@@ -1,13 +1,15 @@
 import { writable, Updater } from 'svelte/store'
 import isEqual from 'lodash.isequal'
 
-import type { WalletAddress, Model, OpenSeaAsset } from './types'
+import type { WalletAddress, Model, StorageModel, OpenSeaAsset } from './types'
 
-import { loadStorage, saveStorage } from './storage'
+import {
+  loadStorage,
+  saveStorage,
+  mapToStorage,
+  mapFromStorage,
+} from './storage'
 import { loadOpenSeaAssets } from './opensea'
-
-// ass_01, ass_02, ass_03 ...
-//
 
 const createModel = () => {
   const { subscribe, set, update } = writable<Model>({})
@@ -16,7 +18,7 @@ const createModel = () => {
     console.log('store.subscribe _ to model changes', model)
     if (model && !isEqual(model, {})) {
       chrome.storage.sync.get(null, (data) => {
-        const shouldSaveModel = !isEqual(data, model)
+        const shouldSaveModel = !isEqual(mapFromStorage(data), model)
         console.log(
           'store.subscribe _ save model to storage?',
           shouldSaveModel,
@@ -27,7 +29,7 @@ const createModel = () => {
         )
 
         if (shouldSaveModel) {
-          saveStorage(model)
+          saveStorage(mapToStorage(model))
         }
       })
     }
@@ -89,7 +91,10 @@ const createModel = () => {
     initialize: async () => {
       loadStorage().then((model) => {
         console.log('store.initialize() →', { model })
-        set(model)
+
+        if (!isEqual(model, {})) {
+          set(mapFromStorage(model))
+        }
       })
     },
     fetchAll: async () => {
@@ -106,7 +111,7 @@ const createModel = () => {
 
       if (address) {
         let i = 0
-        let imax = 4
+        let imax = 50
         let limit = 20
         let timer = null
         let delay = 2000

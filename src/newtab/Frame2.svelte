@@ -1,5 +1,4 @@
 <script lang="ts">
-
   import { onMount } from 'svelte'
   import ColorThief from 'colorthief'
   import { contrastColor } from 'contrast-color'
@@ -76,11 +75,18 @@
     console.log("onNext", index)
   }
 
-  const onNewest = () => {
+  const onFirst = () => {
     lastIndex = index
     index = 0
     
-    console.log("onNewest", index)
+    console.log("onFirst", index)
+  }
+
+  const onLast = () => {
+    lastIndex = index
+    index = $model.assets.length - 1
+    
+    console.log("onLast", index)
   }
 
   const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
@@ -123,7 +129,7 @@
     <div class="frame">
       <Art assets={$model.assets} {index} {getBgColor} />
     </div>
-    <Controls {onRandom} {onPrev} {onNext} {onNewest} />
+    <Controls {onRandom} {onPrev} {onNext} {onFirst} {onLast} />
   
   {:else}
 

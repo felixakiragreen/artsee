@@ -12,16 +12,19 @@ Data:
   [x] persist last time fully synced
   [x] fetch assets
     [x] fetch first 100
-    [ ] @bylaunch fetch more than 100
+    [x] @bylaunch fetch more than 100
   [x] persist asset contract address & tokenId for each one
 
 NITPICKY SHIT:
-  [ ] @bylaunch space between emojis
+  [x] @bylaunch space between emojis
 
 Initial Setup:
   [ ] @bylaunch make an initial loading screen
     [ ] setting the wallet really easy the first time
     [ ] so you don't have to open settings
+
+Visuals:
+  [ ] change the text color (white/black) based on whether the BG is light/dark
 
 View Customization:
   [ ] @bylaunch Include name of NFT
@@ -37,6 +40,12 @@ Future:
     [ ] eg: dev build v0.1
     [ ] Join our Discord to request features or report bugs
     [ ] show abbreviated wallet address
+  [ ] create grayscale version of artsee emojis for loading
+  [ ] Auto syncing...?
+    [ ] check every load → get any new ones 
+  [x] button → Show most recent one 
+  [x] button → Show random one 
+
 
 NFT support:
   [ ] @bylaunch filter out .eth domains
@@ -46,3 +55,5 @@ NFT support:
 
 MAYBE:
   [ ] Try to get wallet address from MetaMask
+  [ ] use "background_color" if set on OpeSea asset
+

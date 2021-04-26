@@ -1,4 +1,4 @@
-import type { WalletAddress, Model, OpenSeaAsset } from './types'
+import type { WalletAddress, OpenSeaAsset } from './types'
 
 export const loadOpenSeaAssets = async (
   address: WalletAddress,

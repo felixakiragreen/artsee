@@ -1,7 +1,7 @@
-import { writable, Updater } from 'svelte/store'
+import { writable } from 'svelte/store'
 import isEqual from 'lodash.isequal'
 
-import type { WalletAddress, Model, StorageModel, OpenSeaAsset } from './types'
+import type { WalletAddress, Model } from './types'
 
 import {
   loadStorage,
@@ -9,6 +9,7 @@ import {
   mapToStorage,
   mapFromStorage,
 } from './storage'
+
 import { loadOpenSeaAssets } from './opensea'
 
 const createModel = () => {

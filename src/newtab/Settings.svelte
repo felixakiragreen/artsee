@@ -1,15 +1,19 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
-
-  import IconButton from '../lib/IconButton.svelte'
+  
   import Icon, { X, Cog } from 'svelte-hero-icons'
+  import IconButton from '../lib/IconButton.svelte'
+
   import SettingsPanel from './SettingsPanel.svelte'
+  import { ui } from '../model'
 
   let isOpen = false
 
   const onClick = () => {
     isOpen = !isOpen
   }
+
+  $: ({ showAllControls } = ui)
 </script>
 
 
@@ -24,9 +28,13 @@
   </aside>
 {:else}
   <aside transition:fly="{{ x: 400 }}" class="icon cog">
-    <IconButton {onClick}>
-      <Icon src="{Cog}" />
-    </IconButton>
+    {#if $showAllControls}
+      <div transition:fly="{{ x: -50 }}">
+        <IconButton {onClick}>
+          <Icon src="{Cog}" />
+        </IconButton>
+      </div>
+    {/if}
   </aside>
 {/if}
 

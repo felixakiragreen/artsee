@@ -28,6 +28,7 @@
     }
   }
 
+  let lastIndex: number
   let index: number
   let hasFetched = false
 
@@ -38,14 +39,23 @@
   }
 
   const onRandom = () => {
-    index = randomInt($model.assets.length)
+    lastIndex = index
+    let newIndex = randomInt($model.assets.length)
+    let i = 0
+    while (i < 10 && lastIndex === newIndex) {
+      console.log("onRandom.tryAgain", { lastIndex, newIndex })
+      i++
+      newIndex = randomInt($model.assets.length)
+    }
+    index = newIndex
 
-    console.log("onRandom", index)
+    console.log("onRandom", { lastIndex, newIndex, index })
   }
 
   // TODO: make random not pick the same one again
 
   const onPrev = () => {
+    lastIndex = index
     if (index > 0) {
       index = index - 1
     } else {
@@ -56,6 +66,7 @@
   }
 
   const onNext = () => {
+    lastIndex = index
     if (index < $model.assets.length - 1) {
       index = index + 1
     } else {
@@ -66,6 +77,7 @@
   }
 
   const onNewest = () => {
+    lastIndex = index
     index = 0
     
     console.log("onNewest", index)

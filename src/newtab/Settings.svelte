@@ -1,9 +1,8 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
 
-  import Icon from '../lib/Icon.svelte'
-  import IconCog from '../lib/IconCog.svelte'
-  import IconClose from '../lib/IconClose.svelte'
+  import IconButton from '../lib/IconButton.svelte'
+  import Icon, { X, Cog } from 'svelte-hero-icons'
   import SettingsPanel from './SettingsPanel.svelte'
 
   let isOpen = false
@@ -16,18 +15,18 @@
 
 {#if isOpen}
   <aside transition:fly="{{ x: -400 }}" class=panel>
-    <div class="icon close" on:click={onClick}>
-      <Icon>
-        <IconClose />
-      </Icon>
+    <div class="icon close">
+      <IconButton {onClick}>
+        <Icon src="{X}" />
+      </IconButton>
     </div>
     <SettingsPanel />
   </aside>
 {:else}
-  <aside transition:fly="{{ x: 400 }}" on:click={onClick} class="icon cog">
-    <Icon>
-      <IconCog />
-    </Icon>
+  <aside transition:fly="{{ x: 400 }}" class="icon cog">
+    <IconButton {onClick}>
+      <Icon src="{Cog}" />
+    </IconButton>
   </aside>
 {/if}
 
@@ -57,6 +56,7 @@
 
   .icon {
     @apply absolute;
+    @apply bg-transparent;
 
     &.cog {
       @apply top-4 left-4;

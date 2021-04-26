@@ -2,6 +2,7 @@
 
   import { onMount } from 'svelte'
   import ColorThief from 'colorthief'
+  import { contrastColor } from 'contrast-color'
 
   import { model } from '../model'
 
@@ -76,6 +77,8 @@
   }).join('')
 
   let bgHex
+  let bgIsDark = true
+  // let textHex
 
   const getBgColor = async () => {
     const img = document.querySelector(`img#img-${index}`)
@@ -84,7 +87,11 @@
 
     bgHex = rgbToHex(r, g, b);
 
-    console.log('Frame.getBgColor', { img, bgHex })
+    let textHex = contrastColor({ bgColor: bgHex })
+
+    bgIsDark = textHex === "#FFFFFF"
+
+    console.log('Frame.getBgColor', { img, bgHex, textHex, bgIsDark })
   }
 
 </script>
@@ -94,7 +101,10 @@
 
 
 
-<section style="--img-bg-color: {bgHex || "--clear"};">
+<section
+  style="--img-bg-color: {bgHex || "--clear"};"
+  class="{bgIsDark ? "light" : "dark"}"
+>
   
   {#if $model.assets && $model.assets[index]}
 
@@ -118,9 +128,14 @@
 <style style lang="postcss">
 
   section {
-    @apply text-grey-900 dark:text-gray-100;
-
     z-index: 1;
+
+    &.dark {
+      @apply text-grey-900;
+    }
+    &.light {
+      @apply text-grey-100;
+    }
   }
 
   .frame {

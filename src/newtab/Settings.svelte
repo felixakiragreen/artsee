@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount, tick } from 'svelte'
   import { fly } from 'svelte/transition'
 
+  import Icon from '../lib/Icon.svelte'
   import IconCog from '../lib/IconCog.svelte'
   import IconClose from '../lib/IconClose.svelte'
   import SettingsPanel from './SettingsPanel.svelte'
@@ -11,20 +11,23 @@
   const onClick = () => {
     isOpen = !isOpen
   }
-
 </script>
 
 
 {#if isOpen}
   <aside transition:fly="{{ x: -400 }}" class=panel>
-    <div on:click={onClick} class="icon close">
-      <IconClose />
+    <div class="icon close" on:click={onClick}>
+      <Icon>
+        <IconClose />
+      </Icon>
     </div>
     <SettingsPanel />
   </aside>
 {:else}
   <aside transition:fly="{{ x: 400 }}" on:click={onClick} class="icon cog">
-    <IconCog />
+    <Icon>
+      <IconCog />
+    </Icon>
   </aside>
 {/if}
 
@@ -53,14 +56,7 @@
   }
 
   .icon {
-    @apply p-2;
-    @apply rounded;
-    @apply cursor-pointer;
     @apply absolute;
-
-    @apply text-grey-900 dark:text-gray-100 hover:text-green-700 hover:dark:text-green-300;
-    @apply hover:bg-grey-300 hover:dark:bg-gray-700;
-    @apply bg-opacity-25 hover:bg-opacity-50; 
 
     &.cog {
       @apply top-4 left-4;

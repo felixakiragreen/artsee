@@ -3,7 +3,7 @@
   import { fade } from 'svelte/transition'
   import ColorThief from 'colorthief'
 
-  import { model, fetchOpenSeaAsset } from '../model'
+  import { model, fetchOpenSeaAsset, OpenSeaAsset } from '../model'
   
   const colorThief = new ColorThief()
 
@@ -11,7 +11,7 @@
     // console.log("frame onMount")
   })
 
-  const randomElement = (arr: any[]) => {
+  function randomElement<T> (arr: T[]): T {
     if (arr.length > 0) {
       return arr[Math.floor(Math.random() * arr.length)]
     } else {
@@ -25,8 +25,8 @@
   $: if ($model.assets && !fetched) {
     console.log("Frame.fetching...")
     fetched = true
-    let randomAsset = randomElement($model.assets)
-    fetchOpenSeaAsset(randomAsset.address, randomAsset.tokenId)
+    let randomAsset = randomElement<OpenSeaAsset>($model.assets)
+    fetchOpenSeaAsset(randomAsset.c, randomAsset.t)
       .then(fetched => {
         asset = fetched
       })

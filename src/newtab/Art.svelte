@@ -92,7 +92,7 @@
         id={`img-${index}`}
         src={getImgUrl(nftData)}
         alt={nftData["name"]}
-        class="{getType(nftData) === "IMG" ? "show" : "hide"}"
+        class="{getType(nftData) === "VID" && "hide"}"
         on:load={getBgColor}
       />
     </div>
@@ -132,12 +132,8 @@
     @apply py-4;
 
     & .index {
-      @apply font-mono text-base text-grey-600 dark:text-gray-400;
+      @apply font-mono text-base text-grey-500;
     }
-  }
-
-  .show {
-
   }
 
   .hide {

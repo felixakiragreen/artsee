@@ -36,7 +36,7 @@
     {$model.assets?.length || "n/a"}
   </dd>
 
-  <dt>fucking NERD shit</dt>
+  <dt>fucking NERD shit:</dt>
   <dd>
     <div class=json>
       {JSON.stringify($model.status, null, 2)}

@@ -13,32 +13,48 @@
 
   onMount(init)
   
-  $: ({ showAllControls } = ui)
+  $: ({ showAllControls, showAllText } = ui)
 
-  let timerUI
   let timerMM
+  let timerUI
+  let timerTI
 
-  const delayUI = 5000
   const delayMM = 500
+  const delayUI = 4000
+  const delayTI = 8000
   let throttled = false
 
   const onInteract = () => {
     if (!throttled) {
       console.log("onInteract")
-      if (timerUI) {
-        clearTimeout(timerUI)
-      }
       if (timerMM) {
         clearTimeout(timerMM)
       }
+      if (timerUI) {
+        clearTimeout(timerUI)
+      }
+      if (timerTI) {
+        clearTimeout(timerTI)
+      }
+      
       throttled = true
   
       if (!$showAllControls) {
         showAllControls.set(true)
       }
+      if (!$showAllText) {
+        showAllText.set(true)
+      }
       timeoutMM()
       timeoutUI()
+      timeoutTI()
     }
+  }
+
+  const timeoutMM = () => {
+    timerMM = setTimeout(() => {
+      throttled = false
+    }, delayMM)
   }
 
   const timeoutUI = () => {
@@ -48,10 +64,11 @@
     }, delayUI)
   }
 
-  const timeoutMM = () => {
-    timerMM = setTimeout(() => {
-      throttled = false
-    }, delayMM)
+  const timeoutTI = () => {
+    timerTI = setTimeout(() => {
+      console.log("timeoutTI()")
+      showAllText.set(false)
+    }, delayTI)
   }
 
 </script>
@@ -65,7 +82,7 @@
 
 <style style lang="postcss">
   main {
-    @apply bg-grey-100 dark:bg-grey-900;
+    @apply bg-grey-300 dark:bg-grey-700;
     @apply w-screen h-screen max-h-screen max-w-full;
     @apply flex items-center justify-center;
   }

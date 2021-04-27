@@ -17,7 +17,7 @@ div {
   @apply hover:text-green-700 hover:dark:text-green-300;
 
   @apply bg-grey-200 dark:bg-grey-800;
-  @apply hover:bg-grey-300 hover:dark:bg-gray-700;
+  @apply hover:bg-green-300 hover:dark:bg-green-700;
 
   @apply bg-opacity-25 hover:bg-opacity-50;
   @apply transition;

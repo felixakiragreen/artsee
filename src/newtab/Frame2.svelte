@@ -8,6 +8,7 @@
   import Controls from './Controls.svelte'
   import Empty from './Empty.svelte'
   import Art from './Art.svelte'
+  import Dev from './Dev.svelte'
 
   const colorThief = new ColorThief()
 
@@ -136,6 +137,8 @@
     <Empty />
 
   {/if}
+
+  <Dev />
 </section>
 
 

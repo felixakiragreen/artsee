@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
 
-  import { fetchOpenSeaAsset } from '../model'
+  import { fetchOpenSeaAsset, ui } from '../model'
   import type { OpenSeaAsset } from '../model'
 
   import Empty from './Empty.svelte'
@@ -89,6 +89,8 @@
       return ''
     }
   }
+
+  $: ({ showAllText } = ui)
 </script>
 
 
@@ -103,6 +105,9 @@
   <div class="bg" transition:fade={{ duration: 600 }} />
 
   <section transition:fade={{ duration: 300 }}>
+    {#if $showAllText}
+      <div class="caption" transition:fade={{ duration: 300 }}><span class="index">{index}</span></div>
+    {/if}
     <div class="frame">
       {#if getType(nftData).tag === "video"}
         {#if getType(nftData).file === "html"}
@@ -131,7 +136,9 @@
         on:load={getBgColor}
       />
     </div>
-    <div class="caption"><span class="index">{index}</span> {nftData["name"]}</div>
+    {#if $showAllText}
+      <div class="caption" transition:fade={{ duration: 300 }}>{nftData["name"]}</div>
+    {/if}
   </section>
 
 {:catch err}

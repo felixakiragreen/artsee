@@ -26,7 +26,12 @@ Initial Setup:
 
 Visuals:
   [x] change the text color (white/black) based on whether the BG is light/dark
-  [ ] show the buttons on mouse move, fade them out after 1 sec
+  [x] show the buttons on mouse move, fade them out after a bit
+    [ ] customize the transition, so it slides out, but then returns with 0 opacity so that if you click in the same spot, still works
+UI:
+  [ ] add error messaging
+  [ ] make loading state clearer
+
 
 View Customization:
   [ ] @bylaunch Include name of NFT
@@ -49,14 +54,15 @@ Future:
   [x] button → Show random one
   [ ] add custom name / add note ?
   [ ] show acquired date
-
+  [ ] add donate ETH button
+  
 
 
 NFT support:
   [ ] @bylaunch filter out .eth domains
     [ ] just add a hide NFT button, much easier
-  [ ] @bylaunch "animation_url" for .mp4
-  [ ] @bylaunch interative artblocks (iframe)
+  [x] @bylaunch "animation_url" for .mp4
+  [x] @bylaunch interative artblocks (iframe)
 
 MAYBE:
   [ ] Try to get wallet address from MetaMask

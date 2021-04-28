@@ -39,8 +39,8 @@ const createModel = () => {
   const setSyncStarted = () => {
     update((model) => ({
       ...model,
-      status: {
-        ...model?.status,
+      synced: {
+        ...model?.synced,
         started: true,
         finished: undefined,
       },
@@ -51,8 +51,8 @@ const createModel = () => {
   const setSyncFinished = () => {
     update((model) => ({
       ...model,
-      status: {
-        ...model?.status,
+      synced: {
+        ...model?.synced,
         started: false,
         finished: new Date().valueOf(),
       },
@@ -62,8 +62,8 @@ const createModel = () => {
   const setSyncError = (error: string) => {
     update((model) => ({
       ...model,
-      status: {
-        ...model?.status,
+      synced: {
+        ...model?.synced,
         started: false,
         finished: undefined,
         error,
@@ -77,8 +77,8 @@ const createModel = () => {
 
       return {
         ...model,
-        status: {
-          ...model?.status,
+        synced: {
+          ...model?.synced,
           count: assets.length,
         },
         assets,
@@ -106,7 +106,7 @@ const createModel = () => {
       let syncStarted: boolean
       const unsub = subscribe((model) => {
         address = model.wallet
-        syncStarted = model.status?.started
+        syncStarted = model.synced?.started
       })
 
       console.log(`store.fetchAll(${address}`, syncStarted)

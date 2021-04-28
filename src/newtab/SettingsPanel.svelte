@@ -5,7 +5,7 @@
     await model.fetchAll()
   }
 
-  $: syncedDate = $model.status?.finished ? new Date($model.status?.finished).toISOString() : "n/a"
+  $: syncedDate = $model.synced?.finished ? new Date($model.synced?.finished).toISOString() : "n/a"
 
 </script>
 
@@ -39,7 +39,7 @@
   <dt>fucking NERD shit:</dt>
   <dd>
     <div class=json>
-      {JSON.stringify($model.status, null, 2)}
+      {JSON.stringify($model.synced, null, 2)}
     </div>
   </dd>
 

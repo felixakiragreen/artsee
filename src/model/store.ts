@@ -44,6 +44,7 @@ const createModel = () => {
         started: true,
         finished: undefined,
       },
+      assets: [],
     }))
   }
 

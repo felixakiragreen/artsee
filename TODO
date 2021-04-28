@@ -1,81 +1,67 @@
-Next:
-  [x] Svelte
-  [x] Tailwind
-  [x] Mini settings panel
-    [x] fetch first 100 your opensea objects (SYNC)
-  [x] configure storage to auto update
-    https://developer.chrome.com/docs/extensions/reference/storage/
-  [x] @bylaunch PERF: dont overwrite if already the same?
 
-Data:
-  [x] persist wallet address
-  [x] persist last time fully synced
-  [x] fetch assets
-    [x] fetch first 100
-    [x] @bylaunch fetch more than 100
-  [x] persist asset contract address & tokenId for each one
-
-NITPICKY SHIT:
-  [x] @bylaunch space between emojis
-  [x] random shouldn't pick the same one again
-
-Some Shit:
-  [ ] put the releases on Github
-  [ ] make a CHANGELOG.md
-    [ ] document everything I've done for it
-  [ ] add the expand/contract button
-  [ ] move the index number down to the pagination controls
-  [ ] add little hover tooltips for the buttons
-  [ ] auto advance to next NFT after a minute?
-  [ ] OPTION to prefer "original_url"? (loads slower, higher bandwidth)
-
-
-Initial Setup:
-  [ ] @bylaunch make an initial loading screen
-    [ ] setting the wallet really easy the first time
-    [ ] so you don't have to open settings
-
-Visuals:
-  [x] change the text color (white/black) based on whether the BG is light/dark
-  [x] show the buttons on mouse move, fade them out after a bit
-    [ ] customize the transition, so it slides out, but then returns with 0 opacity so that if you click in the same spot, still works
-UI:
-  [ ] add error messaging
-  [ ] make loading state clearer
-
-
-View Customization:
-  [ ] @bylaunch Include name of NFT
-  [ ] Background customization
-    [ ] turn dominant color on/off
-    [ ] blurred scaled-up
-  [ ] Frame around NFT
-    [ ] check attribute rarities !?
-
-Future:
-  [ ] Include links to OpenSea detail
-  [ ] @bylaunch Include ArtSee dev information in corner
-    [ ] eg: dev build v0.1
-    [ ] Join our Discord to request features or report bugs
-    [ ] show abbreviated wallet address
-  [ ] create grayscale version of artsee emojis for loading
-  [ ] Auto syncing...?
+BY LAUNCH:
+  [ ] @bylaunch add the expand/contract button "cinematic mode"
+  [ ] add little hover tooltips for the buttons (or make text?)
+  [ ] just add a hide NFT button, much easier
+  [ ] @bylaunch Auto-syncing
     [ ] check every load → get any new ones 
-  [x] button → Show most recent one 
-  [x] button → Show random one
-  [ ] add custom name / add note ?
-  [ ] show acquired date
-  [ ] add donate ETH button
+  [ ] prevent ScreenSave if interacting inside iframe!?
+  [ ] gallery mode
+  [ ] logo size on load
+
+  Labels:
+    [ ] add artist name
+    [ ] Include links to OpenSea detail
+    [ ] REDO the label with name / artist name to look like jeff davis' wesbite
+  
+  Controls:
+    [ ] move the index number down to the pagination controls
+    [ ] let you type in which number
+    [ ] button placement ? (refresh in middle)
+
+  Settings:
+    [ ] dark mode? (different from system dark mode)
+    [ ] Background customization
+      [ ] turn dominant color on/off
+      [ ] blurred scaled-up
+      [ ] light/dark
+    [ ] language (this will be localized)
+      [ ] "clear wallet"
+      [ ] "refresh"
+    [ ] donate/settings/credits
+      [ ] add donate ETH button
   
 
-
 NFT support:
-  [ ] @bylaunch filter out .eth domains
-    [ ] just add a hide NFT button, much easier
-  [x] @bylaunch "animation_url" for .mp4
-  [x] @bylaunch interative artblocks (iframe)
+  [ ] get the art for this music one
+    https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/36719803494851039880066145456282917715064893508771189490274221064385390968833
+  [ ] make sure all of artblocks work
+    https://api.artblocks.io/image/12000010
+  
+  [ ] use new Image() - onload to get the images that are undefined
+
+
+FUTURE:
+  [ ] Frame around NFT
+    [ ] check attribute rarities !?
+  [ ] show abbreviated wallet address ??
+  [ ] improve background experience
+  [ ] performance ??
 
 MAYBE:
   [ ] Try to get wallet address from MetaMask
   [ ] use "background_color" if set on OpeSea asset
+  [ ] OPTION to prefer "original_url"? (loads slower, higher bandwidth)
+  [ ] customize the controls button transition, so it slides out, but then returns with 0 opacity so that if you click in the same spot, still works
+  [ ] add custom title name / add note ?
+  [ ] show acquired date
 
+
+Some Shit:
+  [ ] put the releases on Github
+  [ ] add error messaging
+    [ ] make loading state clearer
+  
+DM:
+  [ ] Jeff Davis (artblocks)
+    

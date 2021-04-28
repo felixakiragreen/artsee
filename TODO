@@ -17,7 +17,18 @@ Data:
 
 NITPICKY SHIT:
   [x] @bylaunch space between emojis
-  [ ] random shouldn't pick the same one again
+  [x] random shouldn't pick the same one again
+
+Some Shit:
+  [ ] put the releases on Github
+  [ ] make a CHANGELOG.md
+    [ ] document everything I've done for it
+  [ ] add the expand/contract button
+  [ ] move the index number down to the pagination controls
+  [ ] add little hover tooltips for the buttons
+  [ ] auto advance to next NFT after a minute?
+  [ ] OPTION to prefer "original_url"? (loads slower, higher bandwidth)
+
 
 Initial Setup:
   [ ] @bylaunch make an initial loading screen

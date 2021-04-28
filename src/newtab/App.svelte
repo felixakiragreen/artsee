@@ -4,6 +4,7 @@
 
   import Settings from './Settings.svelte'
   import Frame from './Frame2.svelte'
+  import Intro from './Intro.svelte'
 
   const init = async () => {
     await model.initialize()
@@ -76,7 +77,12 @@
 <main on:mousemove={onInteract} on:click={onInteract} on:keyup={onInteract} on:pointermove={onInteract}>
 
   <Settings />
-  <Frame />
+  
+  {#if $model.wallet && $model.synced?.finished}
+    <Frame />
+  {:else}
+    <Intro />
+  {/if}
 
 </main>
 

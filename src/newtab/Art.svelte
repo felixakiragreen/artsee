@@ -73,9 +73,17 @@
   const getUrl = (asset) => {
     if (asset["animation_url"]) {
       return asset["animation_url"]
-    } else if (asset["image_url"]) {
+    }
+    else if (asset["animation_original_url"]) {
+      return asset["animation_original_url"]
+    }
+    else if (asset["image_url"]) {
       return asset["image_url"]
-    } else {
+    }
+    else if (asset["image_original_url"]) {
+      return asset["image_original_url"]
+    } 
+    else {
       console.error('could not find URL for:', { asset })
       return ''
     }
@@ -84,7 +92,11 @@
   const getImgUrl = (asset) => {
     if (asset["image_url"]) {
       return asset["image_url"]
-    } else {
+    }
+    else if (asset["image_original_url"]) {
+      return asset["image_original_url"]
+    } 
+    else {
       console.error('could not find URL for:', { asset })
       return ''
     }

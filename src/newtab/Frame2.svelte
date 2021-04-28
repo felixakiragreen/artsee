@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import ColorThief from 'colorthief'
   import { contrastColor } from 'contrast-color'
 
@@ -14,6 +14,11 @@
 
   onMount(async () => {
     // console.log("frame onMount")
+    onScreenSave()
+  })
+  onDestroy(() => {
+    clearTimeout(timerSS)
+    timerSS = null
   })
 
   function randomInt (n: number) {
@@ -88,6 +93,17 @@
     index = $model.assets.length - 1
     
     console.log("onLast", index)
+  }
+
+  let timerSS
+  let delaySS = 60 * 1000
+  const onScreenSave = () => {
+    timerSS = setTimeout(() => {
+      console.log("onScreenSave()")
+      onRandom()
+      onScreenSave()
+      
+    }, delaySS)
   }
 
   const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {

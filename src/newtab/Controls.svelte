@@ -1,16 +1,36 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
   
-  import Icon, { ChevronLeft, ChevronRight, ChevronDoubleLeft, ChevronDoubleRight, Refresh } from 'svelte-hero-icons'
+  import Icon, { ChevronLeft, ChevronRight, ChevronDoubleLeft, ChevronDoubleRight, Refresh, Link, ExternalLink } from 'svelte-hero-icons'
   import IconButton from '../lib/IconButton.svelte'
   
   import { ui } from '../model'
+
+  import { cachedAssetData } from '../model/cache'
   
+  export let onRandom
   export let onPrev
   export let onNext
   export let onFirst
   export let onLast
-  export let onRandom
+
+  
+  
+
+  let link = ''
+  let extLink = ''
+
+  // const getLink = async (): Promise<string> => {
+  //   return $cachedAssetData.then((data) => data.permalink)
+  // }
+
+  $: { $cachedAssetData.then(data => {
+      link = data.permalink
+      extLink = data.external_link
+    })
+  }
+
+  console.log($cachedAssetData, link, extLink)
 
   $: ({ showAllControls } = ui)
 </script>
@@ -57,6 +77,24 @@
         <Icon src="{ChevronDoubleRight}" />
       </IconButton>
     </div>
+    {#if link}
+      <div>
+        <a href={link} target="_blank">
+          <IconButton>
+            <Icon src="{Link}" />
+          </IconButton>
+        </a>
+      </div>
+    {/if}
+    {#if extLink}
+      <div>
+        <a href={extLink} target="_blank">
+          <IconButton>
+            <Icon src="{ExternalLink}" />
+          </IconButton>
+        </a>
+      </div>
+    {/if}
   </div>
 {/if}
 

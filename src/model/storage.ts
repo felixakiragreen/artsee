@@ -1,13 +1,13 @@
-import chunk from 'lodash.chunk'
+import { chunk } from 'lodash'
 
-import type { Model, StorageModel, OpenSeaAsset } from './types'
+import type { Model, StorageModel, OpenSeaAsset, AssetStorage } from './types'
 
-export const loadStorage = async (): Promise<Model> => {
+export const loadStorage = async (): Promise<StorageModel> => {
   return new Promise((resolve, reject) => {
-    let model: Model = {}
+    let model: StorageModel = {}
 
     chrome.storage.sync.get(null, (data) => {
-      console.log('storage.loadFromStorage() →', { data })
+      // console.log('storage.loadFromStorage() →', { data })
 
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError)
@@ -20,7 +20,7 @@ export const loadStorage = async (): Promise<Model> => {
   })
 }
 
-export const saveStorage = async (model: Model) => {
+export const saveStorage = async (model: StorageModel) => {
   console.log('storage.saveToStorage() →', { model })
   chrome.storage.sync.set(model)
 }
@@ -109,3 +109,28 @@ chunk
 
 
 */
+
+export const chunkAssets = (assets: OpenSeaAsset[]): AssetStorage => {
+  return chunk(assets, CHUNK_SIZE).reduce(
+    (acc, eachChunk, index) => ({
+      ...acc,
+      [`ass${pad(index)}`]: [...eachChunk],
+    }),
+    {},
+  )
+}
+
+export const dechunkAssets = (storage: StorageModel): OpenSeaAsset[] => {
+  let assets: OpenSeaAsset[] = []
+
+  for (let i = 0; i < 9; i++) {
+    let id = `ass${pad(i)}`
+    let chunkedAssets = storage[id]
+
+    if (chunkedAssets) {
+      assets = assets.concat(chunkedAssets)
+    }
+  }
+
+  return assets
+}

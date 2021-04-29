@@ -26,7 +26,7 @@
 
   aside {
     @apply absolute;
-    @apply top-4 right-4;
+    @apply top-8 right-8;
     @apply font-mono text-right opacity-50;
     @apply z-50;
     @apply space-y-4;

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import isEqual from 'lodash.isequal'
+import { isEqual } from 'lodash'
 
 import type { WalletAddress, Model } from './types'
 
@@ -15,26 +15,26 @@ import { loadOpenSeaAssets } from './opensea'
 const createModel = () => {
   const { subscribe, set, update } = writable<Model>({})
 
-  const unsub = subscribe((model) => {
-    console.log('store.subscribe _ to model changes', model)
-    if (model && !isEqual(model, {})) {
-      chrome.storage.sync.get(null, (data) => {
-        const shouldSaveModel = !isEqual(mapFromStorage(data), model)
-        console.log(
-          'store.subscribe _ save model to storage?',
-          shouldSaveModel,
-          {
-            data,
-            model,
-          },
-        )
+  // const unsub = subscribe((model) => {
+  //   console.log('store.subscribe _ to model changes', model)
+  //   if (model && !isEqual(model, {})) {
+  //     chrome.storage.sync.get(null, (data) => {
+  //       const shouldSaveModel = !isEqual(mapFromStorage(data), model)
+  //       console.log(
+  //         'store.subscribe _ save model to storage?',
+  //         shouldSaveModel,
+  //         {
+  //           data,
+  //           model,
+  //         },
+  //       )
 
-        if (shouldSaveModel) {
-          saveStorage(mapToStorage(model))
-        }
-      })
-    }
-  })
+  //       if (shouldSaveModel) {
+  //         saveStorage(mapToStorage(model))
+  //       }
+  //     })
+  //   }
+  // })
 
   const setSyncStarted = () => {
     update((model) => ({

@@ -32,9 +32,11 @@ export const initialize = async () => {
     if (data.synced) {
       synced.set(data.synced)
     }
-    if (data.ass001) {
+    if (data.ass000) {
       assets.set(dechunkAssets(data))
     }
+
+    createPersistence()
   })
 }
 
@@ -48,48 +50,38 @@ const createPersistence = () => {
   const unsubW = wallet.subscribe((wallet) => {
     chrome.storage.sync.get(null, (data) => {
       if (!isEqual(wallet, data.wallet)) {
-        saveStorage({ wallet })
+        // saveStorage({ wallet })
       }
+      // if (!isEqual(wallet, '') && !isEqual(wallet, data.wallet)) {
+      //   saveStorage({ wallet })
+      // }
     })
-
-    // console.log('store.subscribe _ to model changes', model)
-    // if (model && !isEqual(model, {})) {
-    //   chrome.storage.sync.get(null, (data) => {
-    //     const shouldSaveModel = !isEqual(mapFromStorage(data), model)
-    //     console.log(
-    //       'store.subscribe _ save model to storage?',
-    //       shouldSaveModel,
-    //       {
-    //         data,
-    //         model,
-    //       },
-    //     )
-
-    //     if (shouldSaveModel) {
-    //       saveStorage(mapToStorage(model))
-    //     }
-    //   })
-    // }
   })
 
   const unsubS = synced.subscribe((synced) => {
     chrome.storage.sync.get(null, (data) => {
       if (!isEqual(synced, data.synced)) {
-        saveStorage({ synced })
+        // saveStorage({ synced })
       }
+      // if (!isEqual(synced, {}) && !isEqual(synced, data.synced)) {
+      //   saveStorage({ synced })
+      // }
     })
   })
 
   const unsubA = assets.subscribe((assets) => {
     chrome.storage.sync.get(null, (data) => {
       if (!isEqual(assets, dechunkAssets(data))) {
-        saveStorage(chunkAssets(assets))
+        // saveStorage(chunkAssets(assets))
       }
+      // if (!isEqual(assets, []) && !isEqual(assets, dechunkAssets(data))) {
+      //   saveStorage(chunkAssets(assets))
+      // }
     })
   })
 }
 
-export const persistence = createPersistence()
+// export const persistence = createPersistence()
 
 const setSyncStarted = () => {
   // set started, clear finished
@@ -146,7 +138,7 @@ export const fetchAllAssets = async () => {
     syncStarted = s.started
   })
 
-  console.log(`store.fetchAll(${address}`, syncStarted)
+  console.log(`store.fetchAll(${address})`, syncStarted)
 
   if (address) {
     let i = 0
@@ -190,12 +182,9 @@ export const fetchAllAssets = async () => {
 const fetchLatestEvent = async (address) => {
   if (address) {
     return fetchMostRecentOpenSeaEvent(address)
-      .then((fetched) => {
-        console.log({ fetched })
-        return fetched
-      })
+      .then((fetched) => fetched)
       .catch((err) => {
-        console.error('couldnt fetch first asset', err)
+        console.error(`couldn't fetch most recent event`, err)
       })
   } else {
     console.error('address not defined')
@@ -212,9 +201,13 @@ export const isSyncedUp = async () => {
     eventId = s.eventId
   })
 
-  const fetchedLatestEvent = await fetchLatestEvent(address)
+  if (address && eventId) {
+    const fetchedLatestEvent = await fetchLatestEvent(address)
 
-  // console.log('isSyncedUp()', { eventId, fetchedLatestEvent })
+    // console.log('isSyncedUp()', { eventId, fetchedLatestEvent })
 
-  return isEqual(eventId, fetchedLatestEvent.id)
+    return isEqual(eventId, fetchedLatestEvent.id)
+  } else {
+    return false
+  }
 }

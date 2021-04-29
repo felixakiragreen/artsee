@@ -2037,7 +2037,14 @@ svelte-preprocess@^4.6.9:
     detect-indent "^6.0.0"
     strip-indent "^3.0.0"
 
-svelte@^3.35.0:
+svelte-promisable-stores@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/svelte-promisable-stores/-/svelte-promisable-stores-0.1.3.tgz#2b76e7b08453608bca8d2507ea7f9f2182dddfed"
+  integrity sha512-fDRKHXSq1tnf6TTxL63P8gnoV4i1C2Kt5rE5yZHO7s3EftZuPhuz2p21d21QlCSVl0ffdy/QTgAknVSv5/R8IA==
+  dependencies:
+    svelte "^3.24.1"
+
+svelte@^3.24.1, svelte@^3.35.0:
   version "3.37.0"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.37.0.tgz#dc7cd24bcc275cdb3f8c684ada89e50489144ccd"
   integrity sha512-TRF30F4W4+d+Jr2KzUUL1j8Mrpns/WM/WacxYlo5MMb2E5Qy2Pk1Guj6GylxsW9OnKQl1tnF8q3hG/hQ3h6VUA==

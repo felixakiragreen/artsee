@@ -3,13 +3,15 @@
   import ColorThief from 'colorthief'
   import { contrastColor } from 'contrast-color'
 
-  import { model } from '../model'
-  import { currentAssetIndex } from '../model/cache'
+  // import { model } from '../model'
+  import { assets } from '../model/store2'
+  import { viewingIndex, viewingAsset } from '../model/cache'
 
   import Controls from './Controls.svelte'
   import Empty from './Empty.svelte'
   import Art from './Art.svelte'
   import Dev from './Dev.svelte'
+  import Details from './Details.svelte'
 
   const colorThief = new ColorThief()
 
@@ -35,70 +37,70 @@
   }
 
   let lastIndex: number
-  let index: number
+  // let index: number
   let hasFetched = false
 
-  $: if ($model.assets && !hasFetched) {
+  $: if ($assets && !hasFetched) {
     console.log("$ Frame.reactive")
     
     onRandom()
   }
 
   const onRandom = () => {
-    lastIndex = index
-    let newIndex = randomInt($model.assets.length)
+    lastIndex = $viewingIndex
+    let newIndex = randomInt($assets.length)
     let i = 0
     while (i < 10 && lastIndex === newIndex) {
       console.log("onRandom.tryAgain", { lastIndex, newIndex })
       i++
-      newIndex = randomInt($model.assets.length)
+      newIndex = randomInt($assets.length)
     }
-    index = newIndex
-    currentAssetIndex.set(index)
+    // index = newIndex
+    viewingIndex.set(newIndex)
 
-    console.log("onRandom", { lastIndex, newIndex, index })
+    console.log("onRandom", { lastIndex, newIndex })
   }
 
   // TODO: make random not pick the same one again
 
   const onPrev = () => {
-    lastIndex = index
-    if (index > 0) {
-      index = index - 1
+    lastIndex = $viewingIndex
+    if ($viewingIndex > 0) {
+      viewingIndex.update(i => i - 1)
     } else {
-      index = $model.assets.length - 1
+      viewingIndex.set($assets.length - 1)
     }
-    currentAssetIndex.set(index)
+    // currentAssetIndex.set(index)
 
-    console.log("onPrev", index)
+    console.log("onPrev", $viewingIndex)
   }
 
   const onNext = () => {
-    lastIndex = index
-    if (index < $model.assets.length - 1) {
-      index = index + 1
+    lastIndex = $viewingIndex
+    if ($viewingIndex < $assets.length - 1) {
+      viewingIndex.update(i => i + 1)
     } else {
-      index = 0
+      viewingIndex.set(0)
     }
-    currentAssetIndex.set(index)
+    // currentAssetIndex.set(index)
 
-    console.log("onNext", index)
+    console.log("onNext", $viewingIndex)
   }
 
   const onFirst = () => {
-    lastIndex = index
-    index = 0
-    currentAssetIndex.set(index)
+    lastIndex = $viewingIndex
+    // index = 0
+    viewingIndex.set(0)
     
-    console.log("onFirst", index)
+    console.log("onFirst", $viewingIndex)
   }
 
   const onLast = () => {
-    lastIndex = index
-    index = $model.assets.length - 1
-    currentAssetIndex.set(index)
+    lastIndex = $viewingIndex
+    // index = $assets.length - 1
+    viewingIndex.set($assets.length - 1)
     
-    console.log("onLast", index)
+    console.log("onLast", $viewingIndex)
   }
 
   let timerSS
@@ -122,7 +124,7 @@
   // let textHex
 
   const getBgColor = async () => {
-    const img = document.querySelector(`img#img-${index}`)
+    const img = document.querySelector(`img#img-${$viewingIndex}`)
 
     const [r, g, b] = await colorThief.getColor(img)
 
@@ -147,12 +149,13 @@
   class="{bgIsDark ? "light" : "dark"}"
 >
   
-  {#if $model.assets && $model.assets[index]}
+  {#if $viewingAsset}
 
     <div class="frame">
-      <Art assets={$model.assets} {index} {getBgColor} />
+      <Art {getBgColor} />
     </div>
     <Controls {onRandom} {onPrev} {onNext} {onFirst} {onLast} />
+    <Details />
   
   {:else}
 

@@ -3,24 +3,30 @@
 
 </script>
 
-<div class="empty">
+<div class=empty>
   <!-- <p>🖼 👀</p> -->
-  <ArtSee />
+  <div class=shrink>
+    <ArtSee />
+  </div>
 </div>
 
 <style style lang="postcss">
 
-.empty {
-  width: 50vw;
-  height: 50vh;
-  @apply flex items-center justify-center;
+  .empty {
+    width: 50vw;
+    height: 50vh;
+    @apply flex items-center justify-center;
 
-  @apply text-grey-900 opacity-50;
-}
+    @apply text-grey-900 opacity-50;
+  }
 
-p {
-  @apply text-8xl;
-  font-size: 256px;
-}
+  .shrink {
+    @apply w-48;
+  }
+
+  p {
+    @apply text-8xl;
+    font-size: 256px;
+  }
 
 </style>

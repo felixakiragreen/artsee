@@ -1,13 +1,101 @@
 <script lang="ts">
-  import { model } from '../model'
-  import ArtSee from '../lib/ArtSee.svelte'
+  import { onMount } from 'svelte'
+  import { ethers } from 'ethers'
   import Button from '../lib/Button.svelte'
+
+  import { wallet, synced, fetchAllAssets } from '../model/store2'
   
-  let syncing
+  let provider
+
+  onMount(async () => {
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum)
+    } else {
+      provider = new ethers.providers.JsonRpcProvider(
+        'https://mainnet.infura.io/v3/da815cf05b444e48a14150ab422c132e',
+      )
+    }
+  })
+
+  let address
+  let isValid
+  let isEth
+  let error
+
+  const ethAddress = new RegExp(/^0x[a-fA-F0-9]{40}$/)
+
+  const onAddressInput = () => {
+    if (address.slice(-4) === '.eth') {
+      isValid = true
+      isEth = true
+      // console.log("IS ETH")
+    } else if (ethAddress.test(address)) {
+      isValid = true
+      // console.log("valid address")
+    } else {
+      // console.log(address)
+    }
+  }
+
+  const onAddressBlur = () => {
+    if (address.slice(-4) === '.eth') {
+      isValid = true
+      isEth = true
+      // console.log("IS ETH")
+    } else if (ethAddress.test(address)) {
+      isValid = true
+      // console.log("valid address")
+    } else if (address == "") {
+      isValid = undefined
+      // console.log(address)
+    } else {
+      isValid = false
+      // console.log(address)
+    }
+  }
+
+  const onAddressChange = async () => {
+    // onAddressBlur()
+
+    await sync()
+  }
+
+  const onAddressPersist = async () => {
+    return new Promise((resolve, reject) => {
+      if (isValid) {
+        if (isEth) {
+          provider.resolveName(address)
+            .then((addy) => {
+              // it returns null if none was found
+              if (!addy) {
+                const err = `ENS lookup did not find an address for: ${address}`
+                error = err
+                console.error(err)
+                reject(err)      
+              } else {
+                wallet.set(addy)
+                resolve(addy)
+              }
+            })
+        } else {
+          wallet.set(address)
+          resolve(address)
+        }
+      } else {
+        const err = "invalid address"
+        error = err
+        console.error(err)
+        reject(err)
+      }
+    })
+  }
 
   const sync = async () => {
-    syncing = true
-    await model.fetchAll()
+    error = undefined
+    onAddressPersist()
+      .then(() => {
+        fetchAllAssets()
+      })
   }
 
 </script>
@@ -17,12 +105,9 @@
 
 <section>
 
-  <!-- <div class=logo>
-    <ArtSee />
-  </div> -->
-  <div class="logo emoji">
+  <p class=emoji>
     🖼 👀
-  </div>
+  </p>
 
   <h2>welcome to the artsee BETA!</h2>
   
@@ -30,19 +115,25 @@
 
   <p>
     right now things are super basic<br />
-    to get started just enter your wallet here and click "sync"
+    to get started just enter your wallet here
   </p>
 
   <div class=wallet>
-    <input type="text" bind:value={$model.wallet} placeholder="wallet address" />
-    <Button action={sync}>{syncing ? `syncing...${$model.synced?.count || 0}` : "sync"}</Button>
+    <input
+      type="text"
+      bind:value={address}
+      on:input={onAddressInput}
+      on:change={onAddressChange}
+      on:blur={onAddressBlur}
+      placeholder="wallet address (or .eth)"
+      class={isValid ? "valid" : isValid === false ? "invalid" : undefined}
+    />
+    <Button>{$synced.started ? `syncing... ${$synced.count || 0}` : "sync"}</Button>
   </div>
 
-  <p>
-    if you acquire any new NFTs<br />
-    you'll need to click on the gear icon and click "sync" again<br />
-    (until we add auto-syncing ;)
-  </p>
+  {#if error}
+    <p class=error>{error}</p>
+  {/if}
 
   <p>
     pls join our <a href="https://discord.gg/6j65H7nqSd" target="_blank">discord</a>
@@ -75,9 +166,8 @@
     @apply px-4;
   }
 
-  .logo {
-    @apply w-48 h-24 mx-auto my-4;
-    @apply text-grey-900;
+  .emoji {
+    @apply text-8xl font-sans;
   }
 
   h2 {
@@ -112,10 +202,22 @@
     @apply ring-green-300 dark:ring-green-700;
     @apply hover:ring-1;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-0;
+
+    &.valid {
+      @apply bg-green-200 dark:bg-green-800;
+    }
+
+    &.invalid {
+      @apply bg-red-200 dark:bg-red-800;
+    }
   }
 
   a {
     @apply underline hover:no-underline;
+  }
+
+  .error {
+    @apply text-red-700 dark:text-red-300;
   }
 
 </style>

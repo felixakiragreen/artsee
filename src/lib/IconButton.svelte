@@ -20,11 +20,10 @@ div {
   @apply hover:bg-green-300 hover:dark:bg-green-700;
 
   @apply bg-opacity-25 hover:bg-opacity-50;
+  @apply backdrop-filter backdrop-blur-md;
   @apply transition;
 
   @apply h-10 w-10;
 }
-
-
 
 </style>

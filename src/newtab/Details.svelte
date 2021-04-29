@@ -6,10 +6,14 @@
   import { ui } from '../model'
   import { viewingIndex, viewingAsset, cachedAssetData } from '../model/cache'
 
-  import { getFileTypeFromUrl,
-getType,
-getUrl,
-getImgUrl, } from '../model/funcs'
+  import {
+    getFileTypeFromUrl,
+    getType,
+    getUrl,
+    getImgUrl,
+    getOpenSeaLink,
+    getExternalLink,
+  } from '../model/funcs'
 
   $: ({ showAllText } = ui)
 
@@ -23,7 +27,17 @@ getImgUrl, } from '../model/funcs'
     }
   }
 
-  $: medium = getType($cachedAssetData)
+  let medium
+  let seaLink
+  let extLink
+
+  $: {
+    $cachedAssetData.then(data => {
+      medium = getType(data)
+      seaLink = getOpenSeaLink(data)
+      extLink = getExternalLink(data)
+    })
+  }
 
 
 </script>
@@ -44,9 +58,9 @@ getImgUrl, } from '../model/funcs'
       <p class=artist>{get(nftData, 'creator.user.username', '')}</p>
       <p class=collection>{get(nftData, 'collection.name', '')}</p>
 
-      <p class=medium>{getType(nftData).tag}/{getType(nftData).file}</p>
+      <p class=medium>{medium.tag}/{medium.file}</p>
 
-      <p>opensea, rarible</p>
+      <p><a href={seaLink.url} target="_blank">{seaLink.label}</a>, <a href={extLink.url} target="_blank">{extLink.label}</a></p>
 
     </aside>
 
@@ -90,6 +104,10 @@ getImgUrl, } from '../model/funcs'
 
   .medium {
     @apply uppercase text-grey-500;
+  }
+
+  a {
+    @apply font-mono underline hover:no-underline;
   }
 
 

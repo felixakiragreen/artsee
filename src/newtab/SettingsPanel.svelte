@@ -1,11 +1,16 @@
 <script lang="ts">
   import { model, logStorage, deleteStorage } from '../model'
-  
+  import { wallet, synced, assets, fetchAllAssets } from '../model/store2'
+
   const sync = async () => {
-    await model.fetchAll()
+    await fetchAllAssets()
   }
 
-  $: syncedDate = $model.synced?.finished ? new Date($model.synced?.finished).toISOString() : "n/a"
+  $: syncedDate = $synced?.finished ? new Date($synced?.finished).toISOString() : "n/a"
+
+  // const delStorage = () => {
+  //   wallet.set('')
+  // }
 
 </script>
 
@@ -16,7 +21,7 @@
     <label for="wallet">my wallet address:</label>
   </dt>
   <dd>
-    <input type="text" name="wallet" bind:value={$model.wallet} />
+    <input type="text" name="wallet" bind:value={$wallet} />
   </dd>
 
   <dt>synced:</dt>
@@ -33,13 +38,13 @@
 
   <dt>number of NFTs:</dt>
   <dd>
-    {$model.assets?.length || "n/a"}
+    {$assets?.length || "n/a"}
   </dd>
 
   <dt>fucking NERD shit:</dt>
   <dd>
     <div class=json>
-      {JSON.stringify($model.synced, null, 2)}
+      {JSON.stringify($synced, null, 2)}
     </div>
   </dd>
 

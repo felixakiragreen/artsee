@@ -1,15 +1,32 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { model, ui } from '../model'
+  import { onMount, tick } from 'svelte'
+  import { ui } from '../model'
+  import { 
+    initialize,
+    isSyncedUp,
+    fetchAllAssets,
+    wallet,
+    synced
+  } from '../model/store2'
 
   import Settings from './Settings.svelte'
   import Frame from './Frame2.svelte'
   import Intro from './Intro.svelte'
+  import Gallery from './Gallery.svelte'
 
   const init = async () => {
-    await model.initialize()
+    await initialize()
+    // .then(async () => {
+      
+    // })
+    // await model.initialize()
+    
+    // timeoutUI()
+    const syncedUp = await isSyncedUp()
 
-    timeoutUI()
+    if (!syncedUp) {
+      await fetchAllAssets()
+    }
   }
 
   onMount(init)
@@ -23,7 +40,7 @@
   const delayMM = 500
   const delayUI = 4000
   const delayTI = 8000
-  let throttled = false
+  let throttled = true
 
   const onInteract = () => {
     if (!throttled) {
@@ -78,7 +95,8 @@
 
   <Settings />
   
-  {#if $model.wallet && $model.synced?.finished}
+  {#if $wallet && $synced?.finished}
+    <Gallery />
     <Frame />
   {:else}
     <Intro />

@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { onMount} from 'svelte'
   import { fade } from 'svelte/transition'
 
   import { fetchOpenSeaAsset, ui } from '../model'
   import type { OpenSeaAsset } from '../model'
+  import { currentAssetIndex, currentAsset, cachedAsset } from '../model/cache'
 
   import Empty from './Empty.svelte'
 
@@ -10,21 +12,26 @@
   export let assets: OpenSeaAsset[]
   export let getBgColor: () => void
 
-  $: fetchNft = getNftData(assets[index])
+  // onMount(async () => {
+  //   console.log("asdf", $currentAssetIndex, $currentAsset)
+  // })
+
+  // $: fetchNft = getNftData(assets[index])
+  // $: fetchNft = getNftData($currentAsset)
     
-  const getNftData = async (asset) => {
-    console.log("Frame.getNftData()", { asset })
-    return new Promise((resolve, reject) => {
-      fetchOpenSeaAsset(asset.c, asset.t)
-        .then(result => resolve(result))
-        .catch((err) => reject(err))
-    })
-  }
+  // const getNftData = async (asset) => {
+  //   console.log("Frame.getNftData()", { asset })
+  //   return new Promise((resolve, reject) => {
+  //     fetchOpenSeaAsset(asset.c, asset.t)
+  //       .then(result => resolve(result))
+  //       .catch((err) => reject(err))
+  //   })
+  // }
 
   const getFileTypeFromUrl = (url: string): string => {
     let type = url.split(".").pop()
 
-    console.log('getFileTypeFromUrl()', url, type)
+    // console.log('getFileTypeFromUrl()', url, type)
 
     if (type && type.length < 5) {
       return type
@@ -63,7 +70,7 @@
       tag = "img"
     }
 
-    console.log('getType()', tag, file)
+    // console.log('getType()', tag, file)
 
     return {
       tag, file
@@ -107,8 +114,8 @@
 
 
 
-
-{#await fetchNft}
+{#if $currentAsset}
+{#await $cachedAsset}
 
   <Empty />
 
@@ -158,7 +165,7 @@
   <Empty />
 
 {/await}
-
+{/if}
 
 
 <style style lang="postcss">
@@ -174,6 +181,8 @@
 
     width: 50vw;
     height: 50vh;
+
+    @apply drop-shadow-lg;
   }
 
   img, video {
@@ -197,7 +206,7 @@
 
   .bg {
     @apply absolute top-0 left-0 right-0 bottom-0;
-    background: var(--img-bg-color);
+    /* background: var(--img-bg-color); */
     z-index: -1;
   }
 

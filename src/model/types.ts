@@ -1,24 +1,25 @@
 export type WalletAddress = string
 
+export type Synced = {
+  started?: boolean
+  count?: number
+  finished?: number // time the sync was finished
+  eventId?: string // most recent OpenSea event ID
+  error?: string
+}
+
 export type Model = {
   wallet?: WalletAddress // wallet address
-  synced?: {
-    started?: boolean
-    count?: number
-    finished?: number // time the sync was finished
-    error?: string
-  }
+  synced?: Synced
   assets?: OpenSeaAsset[] // array of open sea assets
 }
 
 export type StorageModel = {
   wallet?: WalletAddress // wallet address
-  synced?: {
-    started?: boolean
-    count?: number
-    finished?: number // time the sync was finished
-    error?: string
-  }
+  synced?: Synced
+} & AssetStorage
+
+export type AssetStorage = {
   ass000?: OpenSeaAsset[]
   ass001?: OpenSeaAsset[]
   ass002?: OpenSeaAsset[]

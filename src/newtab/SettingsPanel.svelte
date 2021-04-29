@@ -8,9 +8,11 @@
 
   $: syncedDate = $synced?.finished ? new Date($synced?.finished).toISOString() : "n/a"
 
-  // const delStorage = () => {
-  //   wallet.set('')
-  // }
+  const clearWallet = () => {
+    wallet.set('')
+    synced.set({})
+    assets.set([])
+  }
 
 </script>
 
@@ -30,9 +32,10 @@
       {syncedDate}
     </div>
     <div>
-      <button on:click={sync}>sync</button>
+      <button on:click={sync}>refresh NFTs</button>
       <button on:click={logStorage}>log storage</button>
       <button on:click={deleteStorage}>del storage</button>
+      <button on:click={clearWallet}>clear wallet</button>
     </div>
   </dd>
 
@@ -44,7 +47,7 @@
   <dt>fucking NERD shit:</dt>
   <dd>
     <div class=json>
-      {JSON.stringify($synced, null, 2)}
+      {$synced && JSON.stringify($synced, null, 2)}
     </div>
   </dd>
 

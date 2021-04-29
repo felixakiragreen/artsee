@@ -7,9 +7,7 @@ export const loadOpenSeaAssets = async (
 ): Promise<OpenSeaAsset[]> => {
   return new Promise((resolve, reject) => {
     fetchOpenSeaAssets(address, offset, limit)
-      .then((assets) => {
-        resolve(assets)
-      })
+      .then((assets) => resolve(assets))
       .catch((err) => {
         console.error(err)
         reject(err)
@@ -29,14 +27,14 @@ export const fetchOpenSeaAssets = async (
   // doing this makes it so that all of them don't load...?
   // &order_by=sale_date
 
-  console.log('store.fetchOpenSeaAssets()', url)
+  // console.log('store.fetchOpenSeaAssets()', url)
 
   return new Promise((resolve, reject) => {
     try {
       fetch(url)
         .then((res) => res.json())
         .then((json) => {
-          console.log('store.fetchOpenSeaAssets() → ', { json })
+          console.log(`store.fetchOpenSeaAssets(${url}) → `, { json })
           const newShit = {
             ...json,
           }
@@ -69,14 +67,14 @@ export const fetchOpenSeaAsset = (
 ): Promise<Object> => {
   const url = fetchOpenSeaAssetUrl(address, tokenId)
 
-  console.log('store.fetchOpenSeaAsset()', url)
+  // console.log('store.fetchOpenSeaAsset()', url)
 
   return new Promise((resolve, reject) => {
     try {
       fetch(url)
         .then((res) => res.json())
         .then((json) => {
-          console.log('store.fetchOpenSeaAsset() → ', { json })
+          console.log(`store.fetchOpenSeaAsset(${url}) → `, { json })
 
           resolve(json)
         })
@@ -98,14 +96,14 @@ export const fetchMostRecentOpenSeaEvent = async (
 
   // 'https://api.opensea.io/api/v1/events?account_address=0xc0d4a42dd3cf5ac320d82e20a1285b50efe26615&only_opensea=false&offset=0&limit=20'
 
-  console.log('store.fetchMostRecentOpenSeaEvents()', url)
+  // console.log('store.fetchMostRecentOpenSeaEvents()', url)
 
   return new Promise((resolve, reject) => {
     try {
       fetch(url)
         .then((res) => res.json())
         .then((json) => {
-          console.log('store.fetchMostRecentOpenSeaEvents() → ', { json })
+          console.log(`store.fetchMostRecentOpenSeaEvent(${url}) → `, { json })
           resolve(json['asset_events'][0])
         })
     } catch (err) {

@@ -4,6 +4,7 @@
   import { contrastColor } from 'contrast-color'
 
   import { model } from '../model'
+  import { currentAssetIndex } from '../model/cache'
 
   import Controls from './Controls.svelte'
   import Empty from './Empty.svelte'
@@ -14,7 +15,7 @@
 
   onMount(async () => {
     // console.log("frame onMount")
-    onScreenSave()
+    // onScreenSave()
   })
   onDestroy(() => {
     clearTimeout(timerSS)
@@ -53,6 +54,7 @@
       newIndex = randomInt($model.assets.length)
     }
     index = newIndex
+    currentAssetIndex.set(index)
 
     console.log("onRandom", { lastIndex, newIndex, index })
   }
@@ -66,6 +68,7 @@
     } else {
       index = $model.assets.length - 1
     }
+    currentAssetIndex.set(index)
 
     console.log("onPrev", index)
   }
@@ -77,6 +80,7 @@
     } else {
       index = 0
     }
+    currentAssetIndex.set(index)
 
     console.log("onNext", index)
   }
@@ -84,6 +88,7 @@
   const onFirst = () => {
     lastIndex = index
     index = 0
+    currentAssetIndex.set(index)
     
     console.log("onFirst", index)
   }
@@ -91,6 +96,7 @@
   const onLast = () => {
     lastIndex = index
     index = $model.assets.length - 1
+    currentAssetIndex.set(index)
     
     console.log("onLast", index)
   }

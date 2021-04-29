@@ -5,25 +5,28 @@
 import { writable, derived } from 'svelte/store'
 import { derivedPromisable } from 'svelte-promisable-stores'
 
-import { model } from './store'
+// import { model } from './store'
+import { assets } from './store2'
 import { fetchOpenSeaAsset, fetchOpenSeaAssetUrl } from './opensea'
 import type { OpenSeaAsset } from './types'
 
-export const currentAssetIndex = writable(0)
+// TODO: update to use store2
 
-export const currentAsset = derived(
-  [model, currentAssetIndex],
-  ([$model, $currentAssetIndex]) => $model.assets?.[$currentAssetIndex],
+export const viewingIndex = writable(0)
+
+export const viewingAsset = derived(
+  [assets, viewingIndex],
+  ([$assets, $viewingIndex]) => $assets[$viewingIndex],
 )
 
 const cache = new Map()
 
-const retrieveAsset = async ($asset) => {
-  console.log('fetchAsset()', { $asset })
+const retrieveAssetData = async ($asset) => {
+  console.log('fetchAssetData()', { $asset })
   const url = fetchOpenSeaAssetUrl($asset.c, $asset.t)
 
   if (cache.has(url)) {
-    console.log('cached', { url })
+    console.log('cached', { url }, cache.get(url))
     return Promise.resolve(cache.get(url))
   } else {
     console.log('fetching', { url })
@@ -38,9 +41,9 @@ const retrieveAsset = async ($asset) => {
   }
 }
 
-export const cachedAsset = derivedPromisable(
-  currentAsset,
-  retrieveAsset,
+export const cachedAssetData = derivedPromisable(
+  viewingAsset,
+  retrieveAssetData,
   // (current, $asset, previousAsset) => {
   //   console.log('cachedAsset', current, $asset, previousAsset)
   //   return true

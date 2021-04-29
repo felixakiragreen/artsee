@@ -1,11 +1,12 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
   
-  import Icon, { X, Cog } from 'svelte-hero-icons'
+  import Icon, { X, Cog, Refresh } from 'svelte-hero-icons'
   import IconButton from '../lib/IconButton.svelte'
 
   import SettingsPanel from './SettingsPanel.svelte'
   import { ui } from '../model'
+  import { synced } from '../model/store2'
 
   let isOpen = false
 
@@ -33,6 +34,11 @@
         <IconButton {onClick}>
           <Icon src="{Cog}" />
         </IconButton>
+      </div>
+    {/if}
+    {#if $synced.started}
+      <div class=spinner>
+        <Icon src={Refresh} />
       </div>
     {/if}
   </aside>
@@ -65,6 +71,8 @@
   .icon {
     @apply absolute;
     @apply bg-transparent;
+    @apply flex flex-row;
+    @apply space-y-0 space-x-4;
 
     &.cog {
       @apply top-4 left-4;
@@ -72,6 +80,11 @@
     &.close {
       @apply top-4 right-4;
     }
+  }
+
+  .spinner {
+    @apply h-10 w-10 p-2;
+    @apply transition-transform animate-spin;
   }
 
 </style>

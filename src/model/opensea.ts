@@ -49,7 +49,7 @@ export const fetchOpenSeaAssets = async (
   })
 }
 
-const mapOpenSeaAsset = (object: any): OpenSeaAsset => {
+export const mapOpenSeaAsset = (object: any): OpenSeaAsset => {
   return {
     c: object['asset_contract']?.address,
     t: object['token_id'],
@@ -58,11 +58,16 @@ const mapOpenSeaAsset = (object: any): OpenSeaAsset => {
 
 const OPENSEA_ASSET_URL = 'https://api.opensea.io/api/v1/asset'
 
+export const fetchOpenSeaAssetUrl = (
+  address: string,
+  tokenId: string,
+): string => `${OPENSEA_ASSET_URL}/${address}/${tokenId}`
+
 export const fetchOpenSeaAsset = (
   address: string,
   tokenId: string,
 ): Promise<Object> => {
-  const url = `${OPENSEA_ASSET_URL}/${address}/${tokenId}`
+  const url = fetchOpenSeaAssetUrl(address, tokenId)
 
   console.log('store.fetchOpenSeaAsset()', url)
 
@@ -74,6 +79,34 @@ export const fetchOpenSeaAsset = (
           console.log('store.fetchOpenSeaAsset() → ', { json })
 
           resolve(json)
+        })
+    } catch (err) {
+      console.error(err)
+      reject(err)
+    }
+  })
+}
+
+const OPENSEA_EVENTS_URL = 'https://api.opensea.io/api/v1/events'
+
+export const fetchMostRecentOpenSeaEvent = async (
+  address: WalletAddress,
+  offset: number = 0,
+  limit: number = 1,
+): Promise<Object> => {
+  const url = `${OPENSEA_EVENTS_URL}?account_address=${address}&only_opensea=false&offset=${offset}&limit=${limit}`
+
+  // 'https://api.opensea.io/api/v1/events?account_address=0xc0d4a42dd3cf5ac320d82e20a1285b50efe26615&only_opensea=false&offset=0&limit=20'
+
+  console.log('store.fetchMostRecentOpenSeaEvents()', url)
+
+  return new Promise((resolve, reject) => {
+    try {
+      fetch(url)
+        .then((res) => res.json())
+        .then((json) => {
+          console.log('store.fetchMostRecentOpenSeaEvents() → ', { json })
+          resolve(json['asset_events'][0])
         })
     } catch (err) {
       console.error(err)

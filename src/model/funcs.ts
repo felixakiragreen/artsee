@@ -73,3 +73,25 @@ export const getImgUrl = (asset) => {
     return ''
   }
 }
+
+type LinkLabel = {
+  url: string
+  label: string
+}
+
+export const getOpenSeaLink = (asset): LinkLabel => {
+  return {
+    url: asset['permalink'],
+    label: 'opensea',
+  }
+}
+
+export const getExternalLink = (asset): LinkLabel => {
+  const url = asset['external_link']
+  const link = new URL(url)
+  const label = link.hostname
+  return {
+    url,
+    label,
+  }
+}

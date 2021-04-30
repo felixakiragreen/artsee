@@ -192,10 +192,11 @@
 
     width: 50vw;
     height: 50vh;
-    &.full {
+
+    /* &.full {
       width: 100vw;
       height: 100vh;
-    }
+    } */
   }
 
 </style>

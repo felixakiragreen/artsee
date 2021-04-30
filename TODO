@@ -2,11 +2,11 @@
 BY LAUNCH:
   [x] @bylaunch Auto-syncing
     [x] check every load → get any new ones
-  [ ] just add a hide NFT button, much easier
-  
+
   Settings:
     [ ] autohiding
     [ ] gallery mode
+    [ ] auto play setting
     [ ] make auto-syncing a setting
       [ ] people with huge data sets might want to disable
     [ ] dark mode? (different from system dark mode)
@@ -16,7 +16,7 @@ BY LAUNCH:
       [ ] light/dark
     [ ] language (this will be localized)
       [x] "clear wallet"
-      [ ] "refresh"
+      [x] "refresh"
     [ ] donate/settings/credits
       [ ] add donate ETH button
   [ ] prevent ScreenSave if interacting inside iframe!?
@@ -26,8 +26,8 @@ BY LAUNCH:
   [x] fix the artist name for CryptoJunks (make it ambition.wtf)
   [ ] make cryptojunks.wtf & ambition.wtf & hexis.wtf linkable
 
-  [ ] if animation URL ends in .mp3, we also show the image URL
-  [ ] update VIDEO/HTML to MEDIA/HTML
+  [x] if animation URL ends in .mp3, we also show the image URL
+  [x] update VIDEO/HTML to MEDIA/HTML
 
   Labels:
     [x] add artist name
@@ -39,9 +39,9 @@ BY LAUNCH:
     [x] let you type in which number
 
 NFT support:
-  [ ] get the art for this music one
+  [x] get the art for this music one
     https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/36719803494851039880066145456282917715064893508771189490274221064385390968833
-  [ ] make sure all of artblocks work
+  [x] make sure all of artblocks work
     https://api.artblocks.io/image/12000010
   
   [x] use new Image() - onload to get the images that are undefined
@@ -57,6 +57,7 @@ FUTURE:
   [ ] performance ??
   [ ] add the expand/contract button "cinematic mode"
   [ ] add little hover tooltips for the buttons (or make text?)
+  [ ] just add a hide NFT button, much easier
   
 
 MAYBE:

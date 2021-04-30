@@ -10,7 +10,25 @@ export const getFileTypeFromUrl = (url: string): string => {
   }
 }
 
-type NiftyTag = 'video' | 'img'
+export const figureOutUndefined = async (url: string) => {
+  let req = new Request(url)
+
+  return fetch(req)
+    .then((res) => {
+      // console.log(JSON.stringify(res.headers, null, 2), res)
+      return res.blob()
+    })
+    .then((res) => {
+      // console.log({ res })
+      const [tag, file] = res.type.split('/')
+      return {
+        tag,
+        file,
+      }
+    })
+}
+
+type NiftyTag = 'video' | 'image'
 type Nifty = {
   tag: NiftyTag
   file: string
@@ -34,12 +52,12 @@ export const getType = (asset): Nifty => {
   // image
   if (!file && asset['image_url']) {
     file = getFileTypeFromUrl(asset['image_url'])
-    tag = 'img'
+    tag = 'image'
   }
 
   if (!file && asset['image_original_url']) {
     file = getFileTypeFromUrl(asset['image_original_url'])
-    tag = 'img'
+    tag = 'image'
   }
 
   // console.log('getType()', tag, file)
@@ -93,7 +111,7 @@ export const getExternalLink = (asset): LinkLabel => {
   const link = new URL(url)
   const label = link.hostname
     .split('.')
-    .filter((v) => !['app', 'com'].includes(v))
+    .filter((v) => !['app', 'com', 'www'].includes(v))
     .join('.')
 
   return {

@@ -54,13 +54,9 @@
     .floor {
       background-image: url('../assets/galleryFloorFade@2x.png');
     }
-}
+  }
   
   .wall {
     @apply flex-1;
   }
-
-  /* .floor {
-    @apply absolute bottom-0;
-  } */
 </style>

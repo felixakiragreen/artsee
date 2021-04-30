@@ -23,21 +23,24 @@ const cache = new Map()
 
 const retrieveAssetData = async ($asset) => {
   console.log('fetchAssetData()', { $asset })
-  const url = fetchOpenSeaAssetUrl($asset.c, $asset.t)
 
-  if (cache.has(url)) {
-    console.log('cached', { url }, cache.get(url))
-    return Promise.resolve(cache.get(url))
-  } else {
-    console.log('fetching', { url })
-    return new Promise((resolve, reject) => {
-      fetchOpenSeaAsset($asset.c, $asset.t)
-        .then((result) => {
-          cache.set(url, result)
-          resolve(result)
-        })
-        .catch((err) => reject(err))
-    })
+  if ($asset) {
+    const url = fetchOpenSeaAssetUrl($asset.c, $asset.t)
+
+    if (cache.has(url)) {
+      console.log('cached', { url }, cache.get(url))
+      return Promise.resolve(cache.get(url))
+    } else {
+      console.log('fetching', { url })
+      return new Promise((resolve, reject) => {
+        fetchOpenSeaAsset($asset.c, $asset.t)
+          .then((result) => {
+            cache.set(url, result)
+            resolve(result)
+          })
+          .catch((err) => reject(err))
+      })
+    }
   }
 }
 

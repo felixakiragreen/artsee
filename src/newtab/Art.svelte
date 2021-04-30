@@ -38,13 +38,25 @@
   //   })
   // }
 
-  const getClass = (nftData) => {
+  const iFrameClass = (nftData) => {
     const artist = get(nftData, 'creator.user.username', '')
     switch (artist) {
       case "ge1doot": return "wide"
       default: return undefined
     }
-  } 
+  }
+
+  const imgClass = (nftData) => {
+    const medium = getType(nftData)
+
+    switch (true) {
+      case medium.tag === "video":
+      case medium.tag === "media":
+        return "hide"
+      default:
+        return
+    }
+  }
 
   $: ({ showAllText } = ui)
 </script>
@@ -65,31 +77,34 @@
         <div class="caption" transition:fade={{ duration: 300 }}><span class="index">{index}</span></div>
       {/if} -->
       <div class=frame>
-        {#if getType(nftData).tag === "video"}
-          {#if getType(nftData).file === "html"}
-            <iframe
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              frameborder="0"
-              sandbox="allow-scripts"
-              src={getUrl(nftData)}
-              width="100%"
-              height="100%"
-              style="min-height: inherit;"
-              title={nftData["name"]}
-              class={getClass(nftData)}
-            ></iframe>
-          {:else}
-            <video loop autoplay>
-              <source src={getUrl(nftData)} type="video/mp4" />
-              <track default kind="captions" />
-            </video>
-          {/if}
+        {#if getType(nftData).tag === "media"}
+          <iframe
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            frameborder="0"
+            sandbox="allow-scripts"
+            src={getUrl(nftData)}
+            width="100%"
+            height="100%"
+            style="min-height: inherit;"
+            title={nftData["name"]}
+            class={iFrameClass(nftData)}
+          ></iframe>
+        {:else if getType(nftData).tag === "video"}
+          <video loop autoplay>
+            <source src={getUrl(nftData)} type="video/mp4" />
+            <track default kind="captions" />
+          </video>
+        {:else if getType(nftData).tag === "audio"}
+          <audio loop autoplay controls>
+            <source src={getUrl(nftData)} type="audio/mpeg" />
+            <track default kind="captions" />
+          </audio>
         {/if}
         <img
           id={`img-${$viewingIndex}`}
           src={getImgUrl(nftData)}
           alt={nftData["name"]}
-          class="{getType(nftData).tag === "video" && "hide"}"
+          class={imgClass(nftData)}
           on:load={getBgColor}
         />
       </div>
@@ -116,6 +131,7 @@
   .frame {
     @apply z-20;
     @apply flex flex-col items-center justify-center;
+    @apply relative;
 
     width: 50vw;
     height: 50vh;
@@ -127,15 +143,39 @@
         0px 24px 12px -8px rgba(0, 0, 0, 0.20);
     }
 
-    & iframe:not(.wide, .full) {
+    & iframe:not(.wide) {
       width: 50vh;
     }
 
-    &.full {
+    /* &.full {
       width: 100vw;
       height: 100vh;
+    } */
+
+    & audio {
+      @apply h-12;
+      @apply absolute;
+      @apply bottom-12;
+      -webkit-appearance:none;
+      background-color: transparent;
     }
   }
+
+  img, video {
+    max-width: 50vw;
+    max-height: 50vh;
+  }
+
+  audio::-webkit-media-controls-enclosure {
+    background-color: transparent;
+  }
+
+  audio::-webkit-media-controls-panel {
+    background-color: rgba(255, 255, 255, 0.5);
+    @apply backdrop-filter backdrop-blur-md;
+  }
+  
+  /* audio::-webkit-media-controls-play-button {} */
 
   .caption {
     @apply text-center text-xl;

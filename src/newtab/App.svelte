@@ -24,6 +24,7 @@
     // timeoutUI()
     const syncedUp = await isSyncedUp()
 
+    // TODO: add background syncing...
     if (!syncedUp) {
       await fetchAllAssets()
     }

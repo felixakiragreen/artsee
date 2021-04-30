@@ -116,6 +116,10 @@
         0px 8px 6px -3px rgba(0, 0, 0, 0.35),
         0px 24px 12px -8px rgba(0, 0, 0, 0.20);
     }
+
+    & iframe {
+      width: 50vh;
+    }
   }
 
   img, video {

@@ -30,6 +30,8 @@
     @apply font-mono text-right opacity-50;
     @apply z-50;
     @apply space-y-4;
+
+    @apply text-grey-800;
   }
 
   a {

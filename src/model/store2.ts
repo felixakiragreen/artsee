@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store'
-import { isEqual } from 'lodash'
+import { isEqual, uniqWith, concat } from 'lodash'
 
 import type { WalletAddress, Synced, OpenSeaAsset, Model } from './types'
 
@@ -49,34 +49,34 @@ const createPersistence = () => {
   console.log('createPersistence()')
   const unsubW = wallet.subscribe((wallet) => {
     chrome.storage.sync.get(null, (data) => {
-      if (!isEqual(wallet, data.wallet)) {
-        // saveStorage({ wallet })
-      }
-      // if (!isEqual(wallet, '') && !isEqual(wallet, data.wallet)) {
+      // if (!isEqual(wallet, data.wallet)) {
       //   saveStorage({ wallet })
       // }
+      if (!isEqual(wallet, '') && !isEqual(wallet, data.wallet)) {
+        saveStorage({ wallet })
+      }
     })
   })
 
   const unsubS = synced.subscribe((synced) => {
     chrome.storage.sync.get(null, (data) => {
-      if (!isEqual(synced, data.synced)) {
-        // saveStorage({ synced })
-      }
-      // if (!isEqual(synced, {}) && !isEqual(synced, data.synced)) {
+      // if (!isEqual(synced, data.synced)) {
       //   saveStorage({ synced })
       // }
+      if (!isEqual(synced, {}) && !isEqual(synced, data.synced)) {
+        saveStorage({ synced })
+      }
     })
   })
 
   const unsubA = assets.subscribe((assets) => {
     chrome.storage.sync.get(null, (data) => {
-      if (!isEqual(assets, dechunkAssets(data))) {
-        // saveStorage(chunkAssets(assets))
-      }
-      // if (!isEqual(assets, []) && !isEqual(assets, dechunkAssets(data))) {
+      // if (!isEqual(assets, dechunkAssets(data))) {
       //   saveStorage(chunkAssets(assets))
       // }
+      if (!isEqual(assets, []) && !isEqual(assets, dechunkAssets(data))) {
+        saveStorage(chunkAssets(assets))
+      }
     })
   })
 }
@@ -90,8 +90,6 @@ const setSyncStarted = () => {
     started: true,
     finished: undefined,
   }))
-  // clear the assets
-  assets.set([])
 }
 
 const setSyncFinished = () => {
@@ -115,7 +113,10 @@ const setSyncError = (error: string) => {
 
 const incrSyncAssets = (fetchedAssets) => {
   assets.update((existingAssets) => {
-    const assets = (existingAssets || []).concat(fetchedAssets)
+    const assets = uniqWith(
+      concat(existingAssets || [], fetchedAssets),
+      isEqual,
+    )
 
     synced.update((existing) => ({
       ...existing,
@@ -124,6 +125,11 @@ const incrSyncAssets = (fetchedAssets) => {
 
     return assets
   })
+}
+
+export const clearAssets = () => {
+  // clear the assets
+  assets.set([])
 }
 
 export const fetchAllAssets = async () => {
@@ -143,7 +149,7 @@ export const fetchAllAssets = async () => {
   if (address) {
     let i = 0
     let imax = 50
-    let limit = 20
+    let limit = 50
     let timer = null
     let delay = 1000
 
@@ -155,7 +161,7 @@ export const fetchAllAssets = async () => {
     })
 
     const fetchAssets = async (offset: number) => {
-      await loadOpenSeaAssets(address, offset).then((assets) => {
+      await loadOpenSeaAssets(address, offset, limit).then((assets) => {
         console.log(`store.loadOpenSeaAssets(${offset}) →`, { assets })
 
         incrSyncAssets(assets)

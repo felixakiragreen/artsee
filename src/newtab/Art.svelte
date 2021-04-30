@@ -16,6 +16,8 @@
 
   import Empty from './Empty.svelte'
 
+  // $: ({ isFullScreen } = ui)
+
   // export let index: number
   // export let assets: OpenSeaAsset[]
   export let getBgColor: () => void
@@ -62,7 +64,7 @@
       <!-- {#if $showAllText}
         <div class="caption" transition:fade={{ duration: 300 }}><span class="index">{index}</span></div>
       {/if} -->
-      <div class="frame">
+      <div class=frame>
         {#if getType(nftData).tag === "video"}
           {#if getType(nftData).file === "html"}
             <iframe
@@ -125,14 +127,14 @@
         0px 24px 12px -8px rgba(0, 0, 0, 0.20);
     }
 
-    & iframe:not(.wide) {
+    & iframe:not(.wide, .full) {
       width: 50vh;
     }
-  }
 
-  img, video {
-    max-width: 50vw;
-    max-height: 50vh;
+    &.full {
+      width: 100vw;
+      height: 100vh;
+    }
   }
 
   .caption {

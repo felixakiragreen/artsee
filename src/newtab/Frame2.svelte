@@ -4,6 +4,7 @@
   import { contrastColor } from 'contrast-color'
 
   // import { model } from '../model'
+  import { ui } from '../model'
   import { assets } from '../model/store2'
   import { viewingIndex, viewingAsset } from '../model/cache'
 
@@ -12,6 +13,8 @@
   import Art from './Art.svelte'
   import Dev from './Dev.svelte'
   import Details from './Details.svelte'
+
+  // $: ({ isFullScreen } = ui)
 
   const colorThief = new ColorThief()
 
@@ -46,6 +49,8 @@
     onRandom()
   }
 
+  // TODO: maybe this logic should move out to a store.... !?
+
   const onRandom = () => {
     lastIndex = $viewingIndex
     let newIndex = randomInt($assets.length)
@@ -55,13 +60,10 @@
       i++
       newIndex = randomInt($assets.length)
     }
-    // index = newIndex
     viewingIndex.set(newIndex)
 
     console.log("onRandom", { lastIndex, newIndex })
   }
-
-  // TODO: make random not pick the same one again
 
   const onPrev = () => {
     lastIndex = $viewingIndex
@@ -70,7 +72,6 @@
     } else {
       viewingIndex.set($assets.length - 1)
     }
-    // currentAssetIndex.set(index)
 
     console.log("onPrev", $viewingIndex)
   }
@@ -82,14 +83,12 @@
     } else {
       viewingIndex.set(0)
     }
-    // currentAssetIndex.set(index)
 
     console.log("onNext", $viewingIndex)
   }
 
   const onFirst = () => {
     lastIndex = $viewingIndex
-    // index = 0
     viewingIndex.set(0)
     
     console.log("onFirst", $viewingIndex)
@@ -97,10 +96,13 @@
 
   const onLast = () => {
     lastIndex = $viewingIndex
-    // index = $assets.length - 1
     viewingIndex.set($assets.length - 1)
     
     console.log("onLast", $viewingIndex)
+  }
+
+  const onExpand = () => {
+    // isFullScreen.update(isFS => !isFS)
   }
 
   let timerSS
@@ -151,10 +153,10 @@
   
   {#if $viewingAsset}
 
-    <div class="frame">
+    <div class=frame>
       <Art {getBgColor} />
     </div>
-    <Controls {onRandom} {onPrev} {onNext} {onFirst} {onLast} />
+    <Controls {onRandom} {onPrev} {onNext} {onFirst} {onLast} {onExpand} />
     <Details />
   
   {:else}
@@ -190,6 +192,10 @@
 
     width: 50vw;
     height: 50vh;
+    &.full {
+      width: 100vw;
+      height: 100vh;
+    }
   }
 
 </style>

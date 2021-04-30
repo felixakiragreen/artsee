@@ -14,7 +14,7 @@
   export let onNext
   export let onFirst
   export let onLast
-  export let onExpand
+  // export let onExpand
 
   let index = $viewingIndex + 1
 
@@ -100,11 +100,11 @@
         <Icon src="{ChevronDoubleRight}" />
       </IconButton>
     </div>
-    <div>
+    <!-- <div>
       <IconButton onClick={onExpand}>
         <Icon src="{ArrowsExpand}" />
       </IconButton>
-    </div>
+    </div> -->
   </div>
 {/if}
 
@@ -115,6 +115,7 @@
     @apply space-x-4;
     @apply p-4;
     @apply fixed bottom-0 left-0 right-0;
+    @apply z-50;
   }
 
   .pagination {

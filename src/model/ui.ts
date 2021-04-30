@@ -4,10 +4,15 @@ const showAllControls = writable(true)
 const showAllText = writable(true)
 // const autoHide = writable(true)
 
+// const isFullScreen = writable(false)
+
 export const ui = {
   showAllControls,
   showAllText,
+  // isFullScreen,
 }
+
+// Persist certain settings in storage...
 
 /*
 

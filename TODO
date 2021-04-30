@@ -1,36 +1,42 @@
 
 BY LAUNCH:
-  [ ] @bylaunch add the expand/contract button "cinematic mode"
-  [ ] add little hover tooltips for the buttons (or make text?)
+  [x] @bylaunch Auto-syncing
+    [x] check every load → get any new ones
   [ ] just add a hide NFT button, much easier
-  [ ] @bylaunch Auto-syncing
-    [ ] check every load → get any new ones 
-  [ ] prevent ScreenSave if interacting inside iframe!?
-  [ ] gallery mode
-  [ ] logo size on load
-
-  Labels:
-    [ ] add artist name
-    [ ] Include links to OpenSea detail
-    [ ] REDO the label with name / artist name to look like jeff davis' wesbite
   
-  Controls:
-    [ ] move the index number down to the pagination controls
-    [ ] let you type in which number
-    [ ] button placement ? (refresh in middle)
-
   Settings:
+    [ ] autohiding
+    [ ] gallery mode
+    [ ] make auto-syncing a setting
+      [ ] people with huge data sets might want to disable
     [ ] dark mode? (different from system dark mode)
     [ ] Background customization
       [ ] turn dominant color on/off
       [ ] blurred scaled-up
       [ ] light/dark
     [ ] language (this will be localized)
-      [ ] "clear wallet"
+      [x] "clear wallet"
       [ ] "refresh"
     [ ] donate/settings/credits
       [ ] add donate ETH button
+  [ ] prevent ScreenSave if interacting inside iframe!?
   
+  [x] logo size on load
+  [x] MAYBE - support .eth domains
+  [x] fix the artist name for CryptoJunks (make it ambition.wtf)
+  [ ] make cryptojunks.wtf & ambition.wtf & hexis.wtf linkable
+
+  [ ] if animation URL ends in .mp3, we also show the image URL
+  [ ] update VIDEO/HTML to MEDIA/HTML
+
+  Labels:
+    [x] add artist name
+    [x] Include links to OpenSea detail
+    [x] REDO the label with name / artist name to look like jeff davis' wesbite
+  
+  Controls:
+    [x] move the index number down to the pagination controls
+    [x] let you type in which number
 
 NFT support:
   [ ] get the art for this music one
@@ -38,7 +44,9 @@ NFT support:
   [ ] make sure all of artblocks work
     https://api.artblocks.io/image/12000010
   
-  [ ] use new Image() - onload to get the images that are undefined
+  [x] use new Image() - onload to get the images that are undefined
+  [ ] WebGL 
+    https://www.solvency.art/view/384
 
 
 FUTURE:
@@ -47,6 +55,9 @@ FUTURE:
   [ ] show abbreviated wallet address ??
   [ ] improve background experience
   [ ] performance ??
+  [ ] add the expand/contract button "cinematic mode"
+  [ ] add little hover tooltips for the buttons (or make text?)
+  
 
 MAYBE:
   [ ] Try to get wallet address from MetaMask
@@ -55,6 +66,7 @@ MAYBE:
   [ ] customize the controls button transition, so it slides out, but then returns with 0 opacity so that if you click in the same spot, still works
   [ ] add custom title name / add note ?
   [ ] show acquired date
+  [ ] make .eth domains work when typing in wallet address
 
 
 Some Shit:

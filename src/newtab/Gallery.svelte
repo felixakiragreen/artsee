@@ -1,15 +1,20 @@
 <script lang="ts">
 
-  import pngBottom from '../assets/gallerybottom.png'
+  // import pngBottom from '../assets/gallerybottom.png'
+  // import pngGalleryFloor from '../assets/galleryFloorFade.png'
+  // import pngGalleryCeiling from '../assets/galleryCeilingFade.png'
 
 </script>
 
 <div class=gallery>
+  <div class=ceiling>
+
+  </div>
   <div class=wall>
 
   </div>
   <div class=floor>
-    <img alt="wooden gallery floor" src={pngBottom} />
+    <!-- <img alt="wooden gallery floor" src={pngBottom} /> -->
   </div>
 </div>
 
@@ -20,25 +25,42 @@
     @apply absolute;
     @apply h-screen w-screen;
     @apply flex flex-col;
-  }
-  
-  .wall {
-    @apply flex-1;
     background: linear-gradient(to bottom,
-    #d6d3d1 0%,
-    #cfcbc7 3%,
-    #b6b3ad 4.9%,
-    #a8a49e 5%, 
-    #d3d0c8 5.1%,
-    #dbd6d3 6%,
-    #ddd8d4 10%,
-    #fefaf7 25%,
-    #fffffb 50%,
-    #fafaf6
+      #efece9 0%,
+      #fffffb 50%,
+      #fafaf6
     );
   }
 
-  .floor {
-    @apply absolute bottom-0;
+  .ceiling {
+    background-image: url('../assets/galleryCeilingFade.png');
+    background-position: top center;
+    background-size: auto 100%;
+    height: 150px;
   }
+  .floor {
+    background-image: url('../assets/galleryFloorFade.png');
+    background-position: bottom center;
+    background-size: auto 100%;
+    height: 150px;
+  }
+
+  @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+    .ceiling {
+      background-image: url('../assets/galleryCeilingFade@2x.png');
+    }
+    .floor {
+      background-image: url('../assets/galleryFloorFade@2x.png');
+    }
+}
+  
+  .wall {
+    @apply flex-1;
+  }
+
+  /* .floor {
+    @apply absolute bottom-0;
+  } */
 </style>

@@ -13,6 +13,7 @@
     getImgUrl,
     getOpenSeaLink,
     getExternalLink,
+    remapArtist
   } from '../model/funcs'
 
   $: ({ showAllText } = ui)
@@ -55,12 +56,12 @@
         <span class=year>{getYear(get(nftData, 'collection.created_date', ''))}</span>
       </p>
       
-      <p class=artist>{get(nftData, 'creator.user.username', '')}</p>
+      <p class=artist>{remapArtist(nftData)}</p>
       <p class=collection>{get(nftData, 'collection.name', '')}</p>
 
       <p class=medium>{medium.tag}/{medium.file}</p>
 
-      <p><a href={seaLink.url} target="_blank">{seaLink.label}</a>, <a href={extLink.url} target="_blank">{extLink.label}</a></p>
+      <p class=links><a href={seaLink.url} target="_blank">{seaLink.label}</a>, <a href={extLink.url} target="_blank">{extLink.label}</a></p>
 
     </aside>
 
@@ -81,14 +82,11 @@
     @apply bg-grey-200;
     @apply text-grey-900;
     @apply backdrop-filter backdrop-blur-lg;
-    @apply bg-opacity-75;
+    @apply bg-opacity-70;
 
     @apply rounded;
   }
 
-  .muted {
-    @apply text-grey-500;
-  }
 
   .title {
     @apply font-bold text-xl;
@@ -106,8 +104,15 @@
     @apply uppercase text-grey-500;
   }
 
+  .collection, .links {
+    @apply text-grey-500;
+  }
+  .links {
+    /* font-mono */
+  }
+
   a {
-    @apply font-mono underline hover:no-underline;
+    @apply underline hover:no-underline;
   }
 
 

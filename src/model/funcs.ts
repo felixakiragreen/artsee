@@ -1,3 +1,5 @@
+import { get } from 'lodash'
+
 export const getFileTypeFromUrl = (url: string): string => {
   let type = url.split('.').pop()
 
@@ -90,8 +92,25 @@ export const getExternalLink = (asset): LinkLabel => {
   const url = asset['external_link']
   const link = new URL(url)
   const label = link.hostname
+    .split('.')
+    .filter((v) => !['app', 'com'].includes(v))
+    .join('.')
+
   return {
     url,
     label,
+  }
+}
+
+export const remapArtist = (asset: string): string => {
+  const artist = get(asset, 'creator.user.username', '')
+
+  switch (true) {
+    case artist === 'CryptoJunks_wtf':
+      return 'ambition.wtf'
+    case artist === 'ambition_wtf':
+      return 'ambition.wtf'
+    default:
+      return artist
   }
 }

@@ -96,7 +96,7 @@
 
   <Settings />
   
-  {#if $wallet && $synced?.finished}
+  {#if $wallet && $synced.finished}
     <Gallery />
     <Frame />
   {:else}

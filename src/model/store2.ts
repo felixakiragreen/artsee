@@ -88,7 +88,7 @@ const setSyncStarted = () => {
   synced.update((existing) => ({
     ...existing,
     started: true,
-    finished: undefined,
+    // finished: undefined,
   }))
 }
 

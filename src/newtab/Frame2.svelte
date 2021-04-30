@@ -124,17 +124,17 @@
   // let textHex
 
   const getBgColor = async () => {
-    const img = document.querySelector(`img#img-${$viewingIndex}`)
+    // const img = document.querySelector(`img#img-${$viewingIndex}`)
 
-    const [r, g, b] = await colorThief.getColor(img)
+    // const [r, g, b] = await colorThief.getColor(img)
 
-    bgHex = rgbToHex(r, g, b);
+    // bgHex = rgbToHex(r, g, b);
 
-    let textHex = contrastColor({ bgColor: bgHex })
+    // let textHex = contrastColor({ bgColor: bgHex })
 
-    bgIsDark = textHex === "#FFFFFF"
+    // bgIsDark = textHex === "#FFFFFF"
 
-    console.log('Frame.getBgColor', { img, bgHex, textHex, bgIsDark })
+    // console.log('Frame.getBgColor', { img, bgHex, textHex, bgIsDark })
   }
 
 </script>

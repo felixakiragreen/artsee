@@ -1,8 +1,9 @@
 <script lang="ts">
   import { model, logStorage, deleteStorage } from '../model'
-  import { wallet, synced, assets, fetchAllAssets } from '../model/store2'
+  import { wallet, synced, assets, clearAssets, fetchAllAssets } from '../model/store2'
 
   const sync = async () => {
+    clearAssets()
     await fetchAllAssets()
   }
 

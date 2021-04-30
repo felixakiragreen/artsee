@@ -69,7 +69,12 @@
         <span class=year>{getYear(get(nftData, 'collection.created_date', ''))}</span>
       </p>
       
-      <p class=artist>{remapArtist(nftData)}</p>
+      <p class=artist>
+        {remapArtist(nftData)}
+        {#if remapArtist(nftData) === "n/a"}
+          <span class=todo>(🚧 TODO)</span>
+        {/if}
+      </p>
       <p class=collection>{get(nftData, 'collection.name', '')}</p>
 
       <p class=medium>{medium.tag}/{medium.file}</p>
@@ -128,5 +133,8 @@
     @apply underline hover:no-underline;
   }
 
+  .todo {
+    @apply text-xs font-mono text-grey-500 font-normal;
+  }
 
 </style>

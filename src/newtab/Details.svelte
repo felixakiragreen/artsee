@@ -72,7 +72,7 @@
       <p class=artist>
         {remapArtist(nftData)}
         {#if remapArtist(nftData) === "n/a"}
-          <span class=todo>(🚧 TODO)</span>
+          <span class=todo>[🚧TODO]</span>
         {/if}
       </p>
       <p class=collection>{get(nftData, 'collection.name', '')}</p>
@@ -134,7 +134,7 @@
   }
 
   .todo {
-    @apply text-xs font-mono text-grey-500 font-normal;
+    @apply text-xs font-mono text-grey-500 not-italic;
   }
 
 </style>

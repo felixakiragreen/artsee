@@ -91,7 +91,7 @@ export const getUrl = (asset) => {
   } else if (asset['image_original_url']) {
     return asset['image_original_url']
   } else {
-    console.error('could not find URL for:', { asset })
+    console.error('getUrl() could not find URL for:', { asset })
     return ''
   }
 }
@@ -102,7 +102,7 @@ export const getImgUrl = (asset) => {
   } else if (asset['image_original_url']) {
     return asset['image_original_url']
   } else {
-    console.error('could not find URL for:', { asset })
+    console.error('getImgUrl() could not find URL for:', { asset })
     return ''
   }
 }

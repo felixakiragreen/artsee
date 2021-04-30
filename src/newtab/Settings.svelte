@@ -75,7 +75,7 @@
     @apply space-y-0 space-x-4;
 
     &.cog {
-      @apply top-4 left-4;
+      @apply top-8 left-8;
     }
     &.close {
       @apply top-4 right-4;

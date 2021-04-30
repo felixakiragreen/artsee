@@ -38,6 +38,9 @@
   //   })
   // }
 
+  let imgH
+  let imgW
+
   const iFrameClass = (nftData) => {
     const artist = get(nftData, 'creator.user.username', '')
     switch (artist) {
@@ -83,8 +86,8 @@
             frameborder="0"
             sandbox="allow-scripts"
             src={getUrl(nftData)}
-            width="100%"
-            height="100%"
+            width={imgW ? `${imgW}px` : "100%"}
+            height={imgH ? `${imgH}px` : "100%"}
             style="min-height: inherit;"
             title={nftData["name"]}
             class={iFrameClass(nftData)}
@@ -100,13 +103,20 @@
             <track default kind="captions" />
           </audio>
         {/if}
-        <img
-          id={`img-${$viewingIndex}`}
-          src={getImgUrl(nftData)}
-          alt={nftData["name"]}
-          class={imgClass(nftData)}
-          on:load={getBgColor}
-        />
+        {#if getImgUrl(nftData)}
+          <div
+            class="dimensions"
+            bind:clientHeight={imgH}
+            bind:clientWidth={imgW}
+          >
+            <img
+              id={`img-${$viewingIndex}`}
+              src={getImgUrl(nftData)}
+              alt={nftData["name"]}
+              class={imgClass(nftData)}
+            />
+          </div>
+        {/if}
       </div>
       <!-- {#if $showAllText}
         <div class="caption" transition:fade={{ duration: 300 }}>{nftData["name"]}</div>
@@ -143,8 +153,8 @@
         0px 24px 12px -8px rgba(0, 0, 0, 0.20);
     }
 
-    & iframe:not(.wide) {
-      width: 50vh;
+    & .wide {
+      @apply w-full;
     }
 
     /* &.full {
@@ -186,9 +196,14 @@
     }
   }
 
-  .hide {
-    @apply absolute opacity-0 pointer-events-none;
+  .dimensions {
+    @apply absolute;
     z-index: -1;
+  }
+
+  .hide {
+    @apply pointer-events-none;
+    box-shadow: none !important;
   }
 
   .bg {

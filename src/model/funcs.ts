@@ -1,4 +1,5 @@
 import { get } from 'lodash'
+import type { Medium, MediumTag } from './types'
 
 export const getFileTypeFromUrl = (url: string): string => {
   let type = url.split('.').pop()
@@ -21,22 +22,16 @@ export const figureOutUndefined = async (url: string) => {
     .then((res) => {
       // console.log({ res })
       const [tag, file] = res.type.split('/')
-      return {
+      return remapTypes({
         tag,
         file,
-      }
+      })
     })
 }
 
-type NiftyTag = 'video' | 'image'
-type Nifty = {
-  tag: NiftyTag
-  file: string
-}
-
-export const getType = (asset): Nifty => {
+export const getType = (asset): Medium => {
   let file: string
-  let tag: NiftyTag
+  let tag: MediumTag
 
   // animation
   if (asset['animation_url']) {
@@ -61,6 +56,24 @@ export const getType = (asset): Nifty => {
   }
 
   // console.log('getType()', tag, file)
+
+  return remapTypes({
+    tag,
+    file,
+  })
+}
+
+const remapTypes = (medium: Medium): Medium => {
+  let { tag, file } = medium
+
+  switch (true) {
+    case file === 'html':
+      tag = 'media'
+      break
+    case file === 'mp3':
+      tag = 'audio'
+      break
+  }
 
   return {
     tag,
@@ -128,6 +141,8 @@ export const remapArtist = (asset: string): string => {
       return 'ambition.wtf'
     case artist === 'ambition_wtf':
       return 'ambition.wtf'
+    case artist === '' || artist === null || artist === 'null':
+      return 'n/a'
     default:
       return artist
   }

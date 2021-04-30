@@ -36,3 +36,9 @@ export type OpenSeaAsset = {
   c: string
   t: string
 }
+
+export type MediumTag = 'video' | 'image' | 'media' | 'audio'
+export type Medium = {
+  tag: MediumTag
+  file: string
+}

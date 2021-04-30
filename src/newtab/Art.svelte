@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount} from 'svelte'
   import { fade } from 'svelte/transition'
+  import { get } from 'lodash'
 
   import { fetchOpenSeaAsset, ui } from '../model'
   import { assets } from '../model/store2'
@@ -35,7 +36,13 @@
   //   })
   // }
 
-  
+  const getClass = (nftData) => {
+    const artist = get(nftData, 'creator.user.username', '')
+    switch (artist) {
+      case "ge1doot": return "wide"
+      default: return undefined
+    }
+  } 
 
   $: ({ showAllText } = ui)
 </script>
@@ -67,6 +74,7 @@
               height="100%"
               style="min-height: inherit;"
               title={nftData["name"]}
+              class={getClass(nftData)}
             ></iframe>
           {:else}
             <video loop autoplay>
@@ -117,7 +125,7 @@
         0px 24px 12px -8px rgba(0, 0, 0, 0.20);
     }
 
-    & iframe {
+    & iframe:not(.wide) {
       width: 50vh;
     }
   }

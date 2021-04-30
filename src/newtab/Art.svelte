@@ -110,7 +110,12 @@
     width: 50vw;
     height: 50vh;
 
-    @apply drop-shadow-lg;
+    & img, video, iframe {
+      box-shadow:
+        0px 5px 2px -3px rgba(0, 0, 0, 0.25),
+        0px 8px 6px -3px rgba(0, 0, 0, 0.35),
+        0px 24px 12px -8px rgba(0, 0, 0, 0.20);
+    }
   }
 
   img, video {

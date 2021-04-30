@@ -3,7 +3,7 @@
   import { ethers } from 'ethers'
   import Button from '../lib/Button.svelte'
 
-  import { wallet, synced, fetchAllAssets } from '../model/store2'
+  import { wallet, synced, fetchAllAssets, clearAssets } from '../model/store2'
   
   let provider
 
@@ -94,6 +94,7 @@
     error = undefined
     onAddressPersist()
       .then(() => {
+        clearAssets()
         fetchAllAssets()
       })
   }

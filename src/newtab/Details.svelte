@@ -13,7 +13,8 @@
     getImgUrl,
     getOpenSeaLink,
     getExternalLink,
-    remapArtist
+    remapArtist,
+    figureOutUndefined
   } from '../model/funcs'
 
   $: ({ showAllText } = ui)
@@ -40,6 +41,18 @@
     })
   }
 
+  const getUndefinedMedium = async () => {
+    const data = await $cachedAssetData
+    const url = getUrl(data)
+    return figureOutUndefined(url)
+  }
+
+  $: if (medium && typeof medium.file === "undefined") {
+    getUndefinedMedium()
+      .then(m => {
+        medium = m
+      })
+  }
 
 </script>
 
@@ -79,7 +92,7 @@
     @apply font-sans;
     @apply space-y-1;
 
-    @apply bg-grey-200;
+    @apply bg-grey-100;
     @apply text-grey-900;
     @apply backdrop-filter backdrop-blur-lg;
     @apply bg-opacity-70;

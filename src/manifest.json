@@ -1,11 +1,8 @@
 {
   "name": "artsee",
-  "short_name": "🖼 👀",
+  "description": "bring NFTs into your daily life",
   "version": "0.1.0",
   "manifest_version": 3,
-  "background": {
-    "service_worker": "background.ts"
-  },
   "action": {
     "default_icon": {
       "16": "assets/icons/icon16.png",
@@ -18,19 +15,13 @@
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content-scripts/content-script.ts"]
-    }
-  ],
   "chrome_url_overrides": {
     "newtab": "newtab/index.html"
   },
   "permissions": ["storage"],
   "web_accessible_resources": [
     {
-      "resources": ["assets/icons/icon16.png", "resource1.ts", "resource2.ts"],
+      "resources": ["assets/icons/icon16.png"],
       "matches": ["<all_urls>"]
     }
   ]

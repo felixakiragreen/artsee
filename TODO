@@ -3,17 +3,15 @@ BY LAUNCH:
   [x] @bylaunch Auto-syncing
     [x] check every load → get any new ones
 
+  [ ] make icon, half art, half eye
+
   Settings:
-    [ ] autohiding
-    [ ] gallery mode
-    [ ] auto play setting
-    [ ] make auto-syncing a setting
-      [ ] people with huge data sets might want to disable
-    [ ] dark mode? (different from system dark mode)
-    [ ] Background customization
-      [ ] turn dominant color on/off
-      [ ] blurred scaled-up
-      [ ] light/dark
+    [ ] autoSync 
+    [ ] autoHideButtons
+    [ ] autoHideText
+    [ ] autoCycle
+    [ ] autoPlay (video/audio)
+
     [ ] language (this will be localized)
       [x] "clear wallet"
       [x] "refresh"
@@ -24,7 +22,7 @@ BY LAUNCH:
   [x] logo size on load
   [x] MAYBE - support .eth domains
   [x] fix the artist name for CryptoJunks (make it ambition.wtf)
-  [ ] make cryptojunks.wtf & ambition.wtf & hexis.wtf linkable
+  [-] make cryptojunks.wtf & ambition.wtf & hexis.wtf linkable
 
   [x] if animation URL ends in .mp3, we also show the image URL
   [x] update VIDEO/HTML to MEDIA/HTML
@@ -58,7 +56,10 @@ FUTURE:
   [ ] add the expand/contract button "cinematic mode"
   [ ] add little hover tooltips for the buttons (or make text?)
   [ ] just add a hide NFT button, much easier
-  
+  [ ] Background customization
+      [ ] turn dominant color on/off
+      [ ] blurred scaled-up
+      [ ] light/dark
 
 MAYBE:
   [ ] Try to get wallet address from MetaMask
@@ -67,7 +68,7 @@ MAYBE:
   [ ] customize the controls button transition, so it slides out, but then returns with 0 opacity so that if you click in the same spot, still works
   [ ] add custom title name / add note ?
   [ ] show acquired date
-  [ ] make .eth domains work when typing in wallet address
+  [x] make .eth domains work when typing in wallet address
 
 
 Some Shit:
@@ -77,4 +78,3 @@ Some Shit:
   
 DM:
   [ ] Jeff Davis (artblocks)
-    

@@ -16,7 +16,7 @@
     <p>
       join our <a href="https://discord.gg/6j65H7nqSd" target="_blank">discord</a><br />
       to report bugs<br />
-      or request features!
+      or request features
     </p>
 
   </aside>
@@ -26,12 +26,12 @@
 
   aside {
     @apply absolute;
-    @apply top-8 right-8;
-    @apply font-mono text-right opacity-50;
+    @apply top-4 right-4;
+    @apply font-mono text-right;
     @apply z-50;
     @apply space-y-4;
 
-    @apply text-grey-800;
+    @apply text-grey-500;
   }
 
   a {

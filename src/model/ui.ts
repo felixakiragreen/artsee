@@ -2,6 +2,7 @@ import { writable } from 'svelte/store'
 
 const showAllControls = writable(true)
 const showAllText = writable(true)
+const isAboveArt = writable(false)
 // const autoHide = writable(true)
 
 // const isFullScreen = writable(false)
@@ -9,6 +10,7 @@ const showAllText = writable(true)
 export const ui = {
   showAllControls,
   showAllText,
+  isAboveArt,
   // isFullScreen,
 }
 

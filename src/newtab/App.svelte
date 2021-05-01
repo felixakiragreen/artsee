@@ -9,7 +9,7 @@
   } from '../model'
 
   import Settings from './Settings.svelte'
-  import Frame from './Frame2.svelte'
+  import Frame from './Frame.svelte'
   import Intro from './Intro.svelte'
   import Gallery from './Gallery.svelte'
   import Timers from './Timers.svelte'

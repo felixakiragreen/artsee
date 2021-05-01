@@ -34,13 +34,14 @@
 
   .ceiling {
     background-image: url('../assets/galleryCeilingFade.png');
-    background-position: top center;
+    background-position: center -5px;
+    background-repeat: no-repeat;
     background-size: auto 100%;
     height: 150px;
   }
   .floor {
     background-image: url('../assets/galleryFloorFade.png');
-    background-position: bottom center;
+    background-position: center bottom;
     background-size: auto 100%;
     height: 150px;
   }

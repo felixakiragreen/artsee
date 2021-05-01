@@ -1,6 +1,6 @@
 <script lang="ts">
   import { 
-    settings,
+    config,
     logStorage,
     deletePersistence,
     wallet,
@@ -21,62 +21,66 @@
     deletePersistence()
   }
 
-  $: ({ autoSync,
-    autoHideControls,
-    autoHideText,
-    autoCycle,
-    autoPlay
-  } = settings)
-
 </script>
 
 <h2>settings</h2>
 
 <ul>
   <li>
-    <label for=autoSync>auto sync:</label>
-    <input type=checkbox name=autoSync id=autoSync bind:checked={$autoSync} />
-    <span class=info>(might want to disable for large collections)</span>
+    <label for=autoSync>sync new NFTs automatically</label>
+    <input type=checkbox name=autoSync id=autoSync bind:checked={$config.autoSync} />
+    <br />
+    <span class=info>increases network usage for collections over 50</span>
   </li>
   <li>
-    <label for=autoHideControls>auto hide controls:</label>
-    <input type=number name=autoHideControls id=autoHideControls bind:value={$autoHideControls} />
-    <span class=info>(seconds — set to 0 to disable)</span>
+    <label for=autoHideControls>hide controls after</label>
+    <input type=number name=autoHideControls id=autoHideControls bind:value={$config.autoHideControls} />
+    <span>seconds</span>
+    <br /><span class=info>set to 0 to disable</span>
   </li>
   <li>
-    <label for=autoHideText>auto hide text:</label>
-    <input type=number name=autoHideText id=autoHideText bind:value={$autoHideText} />
-    <span class=info>(seconds — set to 0 to disable)</span>
+    <label for=autoHideText>hide text after</label>
+    <input type=number name=autoHideText id=autoHideText bind:value={$config.autoHideText} />
+    <span>seconds</span>
+    <br /><span class=info>set to 0 to disable</span>
   </li>
   <li>
-    <label for=autoCycle>auto cycle:</label>
-    <input type=number name=autoCycle id=autoCycle bind:value={$autoCycle} />
-    <span class=info>(kinda like a screensaver)</span>
+    <label for=autoCycle>display new NFT after</label>
+    <input type=number name=autoCycle id=autoCycle bind:value={$config.autoCycle} />
+    <span>seconds</span>
+    <br /><span class=info>kinda like a screensaver</span>
   </li>
   <li>
-    <label for=autoPlay>auto play:</label>
-    <input type=checkbox name=autoPlay id=autoPlay bind:checked={$autoPlay} />
-    <span class=info>(video & audio)</span>
+    <label for=autoPlay>auto play audio & video</label>
+    <input type=checkbox name=autoPlay id=autoPlay bind:checked={$config.autoPlay} />
   </li>
 </ul>
 <ul>
   <li>
-    <label for="wallet">wallet address:</label><br />
+    <label for="wallet">wallet address</label><br />
     <input type="text" name="wallet" id=wallet bind:value={$wallet} />
   </li>
   <li>
-    <div><label>last sync:</label> {syncedDate}</div>
+    <div><label>last sync</label> {syncedDate}</div>
   </li>
   <li>
-    <div><label>number of NFTs:</label> {$assets?.length || "n/a"}</div>
+    <div><label>number of NFTs</label> {$assets?.length || "n/a"}</div>
   </li>
   <li>
     <div>
       <button on:click={sync}>refresh NFTs</button>
-      <button on:click={clearWallet}>clear wallet</button>
+      <button on:click={clearWallet}>remove wallet</button>
       <!-- <button on:click={deleteStorage}>del storage</button> -->
       <button on:click={logStorage}>log</button>
     </div>
+  </li>
+  <li>
+    <div><label>help support development → </label> artsee.eth</div>
+    <span class=info>eth & nfts welcome!</span>
+    <br />
+    <span>
+      💚 <a href="https://ambition.wtf" target="_blank">ambition.wtf</a>
+    </span>
   </li>
 </ul>
 
@@ -111,6 +115,11 @@
     @apply text-xs text-gray-400;
   }
 
+  a {
+    @apply text-sm text-grey-300;
+    @apply underline hover:no-underline;
+  }
+
   label {
     @apply text-green-300;
   }
@@ -126,7 +135,7 @@
     @apply pt-2 pb-1;
 
     @apply hover:ring-1;
-    @apply ring-green-700;
+    @apply ring-green-500;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-0;
   }
 

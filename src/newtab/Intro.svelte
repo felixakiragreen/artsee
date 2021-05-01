@@ -5,6 +5,7 @@
   import { wallet, synced, fetchAllAssets, clearAssets } from '../model'
   
   import Button from '../lib/Button.svelte'
+  import artseeIcon from '../assets/icons/icon.svg'
   
   let provider
 
@@ -107,18 +108,13 @@
 
 <section>
 
-  <p class=emoji>
-    🖼 👀
-  </p>
+  <div class=logo>
+    <img alt="cute lil artsee" src={artseeIcon} />
+  </div>
 
   <h2>welcome to the artsee BETA!</h2>
   
-  <i>a thing for viewing your NFthings</i>
-
-  <p>
-    right now things are super basic<br />
-    to get started just enter your wallet here
-  </p>
+  <i>bring NFTs into your daily life</i>
 
   <div class=wallet>
     <input
@@ -138,19 +134,13 @@
   {/if}
 
   <p>
-    pls join our <a href="https://discord.gg/6j65H7nqSd" target="_blank">discord</a>
-    to report bugs
-    or request features!
-  </p>
-
-  <p>
-    🙏 thank you for trying out the artsee beta!
+    join our <a href="https://discord.gg/6j65H7nqSd" target="_blank">discord</a>
+    to report bugs or request features
   </p>
 
   <p>
     💚 <a href="https://ambition.wtf" target="_blank">ambition.wtf</a>
   </p>
-
 
 </section>
 
@@ -169,8 +159,8 @@
     @apply px-4;
   }
 
-  .emoji {
-    @apply text-8xl font-sans;
+  .logo {
+    @apply h-40 w-32 mx-auto;
   }
 
   h2 {
@@ -179,7 +169,8 @@
 
   i {
     @apply block;
-    @apply italic font-serif my-4;
+    @apply my-4;
+    @apply text-base text-green-300;
   }
 
   .wallet {
@@ -202,11 +193,11 @@
     @apply focus:text-green-200;
     
     @apply px-4 py-2;
-    @apply rounded-lg;
+    @apply rounded-md;
     @apply w-[500px];
 
     /* @apply ring-green-300 dark:ring-green-700; */
-    @apply ring-green-700;
+    @apply ring-green-500;
     @apply hover:ring-1;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-0;
 

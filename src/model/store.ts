@@ -77,7 +77,7 @@ export const fetchAllAssets = async () => {
     let imax = 50
     let limit = 50
     let timer = null
-    let delay = 1000
+    let delay = 1500
 
     await fetchLatestEvent(address).then((event) => {
       synced.update((existing) => ({

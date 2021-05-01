@@ -1,6 +1,14 @@
 <script lang="ts">
-  import { model, logStorage, deleteStorage } from '../model'
-  import { wallet, synced, assets, clearAssets, fetchAllAssets } from '../model/store2'
+  import { 
+    settings,
+    logStorage,
+    deletePersistence,
+    wallet,
+    synced,
+    assets,
+    clearAssets,
+    fetchAllAssets
+  } from '../model'
 
   const sync = async () => {
     clearAssets()
@@ -10,49 +18,75 @@
   $: syncedDate = $synced?.finished ? new Date($synced?.finished).toISOString() : "n/a"
 
   const clearWallet = () => {
-    wallet.set('')
-    synced.set({})
-    assets.set([])
+    deletePersistence()
   }
+
+  $: ({ autoSync,
+    autoHideControls,
+    autoHideText,
+    autoCycle,
+    autoPlay
+  } = settings)
 
 </script>
 
 <h2>settings</h2>
 
-<dl>
-  <dt>
-    <label for="wallet">my wallet address:</label>
-  </dt>
-  <dd>
-    <input type="text" name="wallet" bind:value={$wallet} />
-  </dd>
-
-  <dt>synced:</dt>
-  <dd>
-    <div>
-      {syncedDate}
-    </div>
+<ul>
+  <li>
+    <label for=autoSync>auto sync:</label>
+    <input type=checkbox name=autoSync id=autoSync bind:checked={$autoSync} />
+    <span class=info>(might want to disable for large collections)</span>
+  </li>
+  <li>
+    <label for=autoHideControls>auto hide controls:</label>
+    <input type=number name=autoHideControls id=autoHideControls bind:value={$autoHideControls} />
+    <span class=info>(seconds — set to 0 to disable)</span>
+  </li>
+  <li>
+    <label for=autoHideText>auto hide text:</label>
+    <input type=number name=autoHideText id=autoHideText bind:value={$autoHideText} />
+    <span class=info>(seconds — set to 0 to disable)</span>
+  </li>
+  <li>
+    <label for=autoCycle>auto cycle:</label>
+    <input type=number name=autoCycle id=autoCycle bind:value={$autoCycle} />
+    <span class=info>(kinda like a screensaver)</span>
+  </li>
+  <li>
+    <label for=autoPlay>auto play:</label>
+    <input type=checkbox name=autoPlay id=autoPlay bind:checked={$autoPlay} />
+    <span class=info>(video & audio)</span>
+  </li>
+</ul>
+<ul>
+  <li>
+    <label for="wallet">wallet address:</label><br />
+    <input type="text" name="wallet" id=wallet bind:value={$wallet} />
+  </li>
+  <li>
+    <div><label>last sync:</label> {syncedDate}</div>
+  </li>
+  <li>
+    <div><label>number of NFTs:</label> {$assets?.length || "n/a"}</div>
+  </li>
+  <li>
     <div>
       <button on:click={sync}>refresh NFTs</button>
-      <button on:click={logStorage}>log storage</button>
-      <button on:click={deleteStorage}>del storage</button>
       <button on:click={clearWallet}>clear wallet</button>
+      <!-- <button on:click={deleteStorage}>del storage</button> -->
+      <button on:click={logStorage}>log</button>
     </div>
-  </dd>
+  </li>
+</ul>
 
-  <dt>number of NFTs:</dt>
-  <dd>
-    {$assets?.length || "n/a"}
-  </dd>
+<!-- <dt>fucking NERD shit:</dt>
+<dd>
+  <div class=json>
+    {$synced && JSON.stringify($synced, null, 2)}
+  </div>
+</dd> -->
 
-  <dt>fucking NERD shit:</dt>
-  <dd>
-    <div class=json>
-      {$synced && JSON.stringify($synced, null, 2)}
-    </div>
-  </dd>
-
-</dl>
 
 <style style lang="postcss">
   
@@ -60,55 +94,81 @@
     @apply text-2xl;
   }
 
-  input[type="text"] {
-    @apply bg-grey-300 dark:bg-grey-700;
-    
-    @apply text-base;
-    @apply text-grey-800 dark:text-gray-200;
-    @apply focus:text-green-800 focus:dark:text-green-200;
-    
-    @apply px-4 pt-2 pb-1;
-    @apply rounded;
-    @apply w-[450px];
+  ul {
+    @apply space-y-4;
+    @apply pt-8;
+  }
 
-    @apply ring-green-300 dark:ring-green-700;
+  li {
+    @apply text-base text-gray-200;
+  }
+
+  .json {
+    @apply whitespace-pre;
+  }
+
+  .info {
+    @apply text-xs text-gray-400;
+  }
+
+  label {
+    @apply text-green-300;
+  }
+
+  input {
+    @apply bg-grey-700;
+
+    @apply text-base;
+    @apply text-gray-200;
+    @apply focus:text-green-200;
+        
+    @apply rounded;
+    @apply pt-2 pb-1;
+
     @apply hover:ring-1;
+    @apply ring-green-700;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-0;
   }
 
+  input[type="text"] {
+    @apply w-[450px];    
+    @apply px-4;
+    /* @apply px-4 pt-2 pb-1; */
+  }
+
+  #wallet {
+    @apply mt-2;
+  }
+
+  input[type="number"] {
+    @apply w-12;
+    @apply px-2;
+  }
+
   button {
-    @apply bg-grey-300 dark:bg-grey-700 hover:bg-grey-100 hover:dark:bg-grey-900;
+    /* @apply bg-grey-300 dark:bg-grey-700 hover:bg-grey-100 hover:dark:bg-grey-900; */
+    @apply bg-grey-700 hover:bg-grey-900;
 
     @apply border border-gray-500 hover:border-green-500;
 
     @apply text-sm font-medium;
-    @apply text-grey-800 dark:text-gray-200 text-base;
-    @apply hover:text-green-800 hover:dark:text-green-200;
+    /* @apply text-grey-800 dark:text-gray-200 text-base;
+    @apply hover:text-green-800 hover:dark:text-green-200; */
+    @apply text-gray-200 text-base;
+    @apply hover:text-green-200;
     
     @apply px-4 py-2;
     @apply shadow-sm;
     @apply rounded-md;
 
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-green-700 focus:dark:ring-green-700;
+    /* @apply focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-green-700 focus:dark:ring-green-700; */
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-green-700;
   }
 
-  dl {
-    @apply space-y-2;
-  }
-
-  dt {
-    @apply text-base text-grey-600 dark:text-gray-400;
-    @apply pt-4;
-  }
-
-  dd {
-    @apply flex flex-col;
-    @apply text-lg;
-    @apply space-y-2;
-  }
-
-  .json {
-    @apply whitespace-pre;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
 </style>

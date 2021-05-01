@@ -147,3 +147,15 @@ export const remapArtist = (asset: string): string => {
       return artist
   }
 }
+
+export function randomInt(n: number) {
+  return Math.floor(Math.random() * n)
+}
+
+export function randomElement<T>(arr: T[]): T {
+  if (arr.length > 0) {
+    return arr[randomInt(arr.length)]
+  } else {
+    return null
+  }
+}

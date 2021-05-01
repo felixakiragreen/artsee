@@ -12,11 +12,13 @@ export type Model = {
   wallet?: WalletAddress // wallet address
   synced?: Synced
   assets?: OpenSeaAsset[] // array of open sea assets
+  config?: Config
 }
 
 export type StorageModel = {
   wallet?: WalletAddress // wallet address
   synced?: Synced
+  config?: Config
 } & AssetStorage
 
 export type AssetStorage = {
@@ -41,4 +43,12 @@ export type MediumTag = 'video' | 'image' | 'media' | 'audio'
 export type Medium = {
   tag: MediumTag
   file: string
+}
+
+export type Config = {
+  autoSync: boolean
+  autoHideControls: number
+  autoHideText: number
+  autoCycle: number
+  autoPlay: boolean
 }

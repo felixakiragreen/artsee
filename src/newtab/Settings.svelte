@@ -76,7 +76,7 @@
     @apply space-y-0 space-x-4;
 
     &.cog {
-      @apply top-8 left-8;
+      @apply top-4 left-4;
     }
     &.close {
       @apply top-4 right-4;
@@ -85,6 +85,7 @@
 
   .spinner {
     @apply h-10 w-10 p-2;
+    @apply text-grey-500;
     @apply transition-transform animate-spin;
   }
 

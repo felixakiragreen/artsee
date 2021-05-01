@@ -1,19 +1,24 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import {
-    settings,
+    config,
     ui,
+    assets,
+    viewingIndex,
+    randomInt,
   } from '../model'
 
   $: ({ showAllControls, showAllText, isAboveArt } = ui)
-  $: ({ autoHideControls, autoHideText, autoCycle } = settings)
 
   onMount(async () => {
-    if ($autoHideControls > 0) {
+    if ($config.autoHideControls > 0) {
       timeoutUI()
     }
-    if ($autoHideText > 0) {
+    if ($config.autoHideText > 0) {
       timeoutTI()
+    }
+    if ($config.autoCycle > 0) {
+      timeoutSS()
     }
   })
 
@@ -24,7 +29,7 @@
 
   const delayMM = 500
   let throttled = false
-  let enabled = ($autoHideControls !== 0 || $autoHideControls !== 0)
+  let enabled = ($config.autoHideControls !== 0 || $config.autoHideControls !== 0 || $config.autoCycle !== 0)
 
   const onInteract = () => {
     if (!throttled && enabled) {
@@ -38,6 +43,9 @@
       if (timerTI) {
         clearTimeout(timerTI)
       }
+      if (timerSS) {
+        clearTimeout(timerSS)
+      }
       
       throttled = true
   
@@ -50,6 +58,7 @@
       timeoutMM()
       timeoutUI()
       timeoutTI()
+      timeoutSS()
     }
   }
 
@@ -60,22 +69,49 @@
   }
 
   const timeoutUI = () => {
-    if ($autoHideControls > 0) {
+    if ($config.autoHideControls > 0) {
       timerUI = setTimeout(() => {
         console.log(`timeoutUI(${$isAboveArt})`)
         // showAllControls.set(false)
         showAllControls.set($isAboveArt)
-      }, $autoHideControls * 1000)
+      }, $config.autoHideControls * 1000)
     }
   }
 
   const timeoutTI = () => {
-    if ($autoHideText > 0) {
+    if ($config.autoHideText > 0) {
       timerTI = setTimeout(() => {
         console.log(`timeoutTI(${$isAboveArt})`)
         // showAllText.set(false)
         showAllText.set($isAboveArt)
-      }, $autoHideText * 1000)
+      }, $config.autoHideText * 1000)
+    }
+  }
+
+  const timeoutSS = () => {
+    if ($config.autoCycle > 0) {
+      timerSS = setTimeout(() => {
+        console.log("onScreenSave()")
+        cycle()
+        timeoutSS()
+      }, $config.autoCycle * 1000)
+    }
+  }
+
+  let lastIndex: number
+  const cycle = () => {
+    if (!$isAboveArt) {    
+      lastIndex = $viewingIndex
+      let newIndex = randomInt($assets.length)
+      let i = 0
+      while (i < 10 && lastIndex === newIndex) {
+        console.log("cycle.tryAgain", { lastIndex, newIndex })
+        i++
+        newIndex = randomInt($assets.length)
+      }
+      viewingIndex.set(newIndex)
+
+      console.log("cycle", { lastIndex, newIndex })
     }
   }
 

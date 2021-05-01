@@ -2,7 +2,14 @@
   import { onMount } from 'svelte'
   import { fly } from 'svelte/transition'
   
-  import Icon, { ChevronLeft, ChevronRight, ChevronDoubleLeft, ChevronDoubleRight, Refresh, ArrowsExpand } from 'svelte-hero-icons'
+  import Icon, {
+    ChevronLeft,
+    ChevronRight,
+    ChevronDoubleLeft,
+    ChevronDoubleRight,
+    Refresh,
+    ArrowsExpand
+  } from 'svelte-hero-icons'
   import IconButton from '../lib/IconButton.svelte'
   
   import { ui, assets, viewingIndex } from '../model'
@@ -86,7 +93,7 @@
         bind:value={index}
         on:change={onIndexChange}
       />
-      <div>/{$assets.length}</div>
+      <div><span>/</span> <span class=total>{$assets.length}</span></div>
     </div>
     <div>
       <IconButton onClick={onNext}>
@@ -130,8 +137,13 @@
       @apply bg-opacity-25;
       @apply backdrop-filter backdrop-blur-md;
 
-      @apply h-10 p-2;
+      @apply h-10 p-2 pl-0;
       @apply rounded rounded-l-none;
+
+      line-height: 24px;
+      & .total {
+        line-height: 26px;
+      }
     }
   }
   input[type="number"] {
@@ -151,7 +163,7 @@
     @apply transition;
 
     @apply h-10;
-    @apply p-2;
+    @apply p-2 pr-0;
     @apply rounded rounded-r-none;
 
     /* @apply ring-green-300 dark:ring-green-700; */

@@ -1,170 +1,145 @@
 import { writable } from 'svelte/store'
-import { isEqual } from 'lodash'
+import { isEqual, uniqWith, concat } from 'lodash'
 
-import type { WalletAddress, Model } from './types'
+import type { WalletAddress, Synced, OpenSeaAsset } from './types'
 
-import {
-  loadStorage,
-  saveStorage,
-  mapToStorage,
-  mapFromStorage,
-} from './storage'
+import { loadOpenSeaAssets, fetchMostRecentOpenSeaEvent } from './opensea'
 
-import { loadOpenSeaAssets } from './opensea'
+export const wallet = writable<WalletAddress>('')
+export const synced = writable<Synced>({})
+export const assets = writable<OpenSeaAsset[]>([])
 
-const createModel = () => {
-  const { subscribe, set, update } = writable<Model>({})
+const setSyncStarted = () => {
+  // set started, clear finished
+  synced.update((existing) => ({
+    ...existing,
+    started: true,
+    // finished: undefined,
+  }))
+}
 
-  // const unsub = subscribe((model) => {
-  //   console.log('store.subscribe _ to model changes', model)
-  //   if (model && !isEqual(model, {})) {
-  //     chrome.storage.sync.get(null, (data) => {
-  //       const shouldSaveModel = !isEqual(mapFromStorage(data), model)
-  //       console.log(
-  //         'store.subscribe _ save model to storage?',
-  //         shouldSaveModel,
-  //         {
-  //           data,
-  //           model,
-  //         },
-  //       )
+const setSyncFinished = () => {
+  // unset started, log finished date
+  synced.update((existing) => ({
+    ...existing,
+    error: undefined,
+    started: false,
+    finished: new Date().valueOf(),
+  }))
+}
 
-  //       if (shouldSaveModel) {
-  //         saveStorage(mapToStorage(model))
-  //       }
-  //     })
-  //   }
-  // })
+const setSyncError = (error: string) => {
+  synced.update((existing) => ({
+    ...existing,
+    started: false,
+    finished: undefined,
+    error,
+  }))
+}
 
-  const setSyncStarted = () => {
-    update((model) => ({
-      ...model,
-      synced: {
-        ...model?.synced,
-        started: true,
-        finished: undefined,
-      },
-      assets: [],
+const incrSyncAssets = (fetchedAssets) => {
+  assets.update((existingAssets) => {
+    const assets = uniqWith(
+      concat(existingAssets || [], fetchedAssets),
+      isEqual,
+    )
+
+    synced.update((existing) => ({
+      ...existing,
+      count: assets.length,
     }))
-  }
 
-  const setSyncFinished = () => {
-    update((model) => ({
-      ...model,
-      synced: {
-        ...model?.synced,
-        started: false,
-        finished: new Date().valueOf(),
-      },
-    }))
-  }
+    return assets
+  })
+}
 
-  const setSyncError = (error: string) => {
-    update((model) => ({
-      ...model,
-      synced: {
-        ...model?.synced,
-        started: false,
-        finished: undefined,
-        error,
-      },
-    }))
-  }
+export const clearAssets = () => {
+  // clear the assets
+  assets.set([])
+}
 
-  const syncAssets = (fetchedAssets) => {
-    update((model) => {
-      const assets = [...(model?.assets || []), ...fetchedAssets]
+export const fetchAllAssets = async () => {
+  setSyncStarted()
 
-      return {
-        ...model,
-        synced: {
-          ...model?.synced,
-          count: assets.length,
-        },
-        assets,
-      }
+  let address: WalletAddress
+  let syncStarted: boolean
+  const unsubW = wallet.subscribe((w) => {
+    address = w
+  })
+  const unsubS = synced.subscribe((s) => {
+    syncStarted = s.started
+  })
+
+  console.log(`store.fetchAll(${address})`, syncStarted)
+
+  if (address) {
+    let i = 0
+    let imax = 50
+    let limit = 50
+    let timer = null
+    let delay = 1000
+
+    await fetchLatestEvent(address).then((event) => {
+      synced.update((existing) => ({
+        ...existing,
+        eventId: event.id,
+      }))
     })
-  }
 
-  return {
-    set,
-    subscribe,
-    update,
-    initialize: async () => {
-      loadStorage().then((model) => {
-        console.log('store.initialize() →', { model })
+    const fetchAssets = async (offset: number) => {
+      await loadOpenSeaAssets(address, offset, limit).then((assets) => {
+        console.log(`store.loadOpenSeaAssets(${offset}) →`, { assets })
 
-        if (!isEqual(model, {})) {
-          set(mapFromStorage(model))
+        incrSyncAssets(assets)
+
+        if (assets.length > 0 && i < imax && syncStarted) {
+          console.log('store.fetching loop...', assets, i, syncStarted)
+          i++
+          timer = setTimeout(() => {
+            fetchAssets(offset + limit)
+          }, delay)
+        } else {
+          setSyncFinished()
+          clearTimeout(timer)
         }
       })
-    },
-    fetchAll: async () => {
-      setSyncStarted()
+    }
 
-      let address: WalletAddress
-      let syncStarted: boolean
-      const unsub = subscribe((model) => {
-        address = model.wallet
-        syncStarted = model.synced?.started
-      })
-
-      console.log(`store.fetchAll(${address}`, syncStarted)
-
-      if (address) {
-        let i = 0
-        let imax = 50
-        let limit = 20
-        let timer = null
-        let delay = 2000
-
-        const fetchAssets = async (offset: number) => {
-          await loadOpenSeaAssets(address, offset).then((assets) => {
-            console.log(`store.loadOpenSeaAssets(${offset}) →`, { assets })
-
-            syncAssets(assets)
-
-            if (assets.length > 0 && i < imax && syncStarted) {
-              console.log('store.fetching loop...', assets, i, syncStarted)
-              i++
-              timer = setTimeout(() => {
-                fetchAssets(offset + limit)
-              }, delay)
-            } else {
-              setSyncFinished()
-              clearTimeout(timer)
-            }
-
-            // USE SYNC COUNT as offset
-            // IF we return 0 then we mark syncing finished
-            // ELSE if syncing isn't finished, go again.
-
-            // setSyncStarted(true)
-          })
-        }
-
-        fetchAssets(0)
-      } else {
-        setSyncError('address not defined BITCH!')
-      }
-
-      // return new Promise((resolve, reject) => {
-
-      //   if (address) {
-      //     let assets = await loadOpenSeaAssets(address)
-      //   } else {
-      //     reject("no wallet address")
-      //   }
-
-      // })
-      // update(async (model: Model): Promise<Model> => {
-
-      // })
-    },
-    // increment: () => update(n => n + 1),
-    // decrement: () => update(n => n - 1),
-    // reset: () => set(0)
+    fetchAssets(0)
+  } else {
+    setSyncError('address not defined BITCH!')
   }
 }
 
-export const model = createModel()
+const fetchLatestEvent = async (address) => {
+  if (address) {
+    return fetchMostRecentOpenSeaEvent(address)
+      .then((fetched) => fetched)
+      .catch((err) => {
+        console.error(`couldn't fetch most recent event`, err)
+      })
+  } else {
+    console.error('address not defined')
+  }
+}
+
+export const isSyncedUp = async () => {
+  let address: WalletAddress
+  let eventId: string
+  const unsubW = wallet.subscribe((w) => {
+    address = w
+  })
+  const unsubS = synced.subscribe((s) => {
+    eventId = s.eventId
+  })
+
+  if (address && eventId) {
+    const fetchedLatestEvent = await fetchLatestEvent(address)
+
+    // console.log('isSyncedUp()', { eventId, fetchedLatestEvent })
+
+    return isEqual(eventId, fetchedLatestEvent.id)
+  } else {
+    return false
+  }
+}

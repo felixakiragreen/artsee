@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte'
+  // import { onMount, onDestroy } from 'svelte'
   // import ColorThief from 'colorthief'
   // import { contrastColor } from 'contrast-color'
 
-  import { assets, viewingIndex, viewingAsset, settings } from '../model'
+  import { assets, viewingIndex, viewingAsset, randomInt } from '../model'
 
   import Controls from './Controls.svelte'
   import Empty from './Empty.svelte'
@@ -14,34 +14,6 @@
   // $: ({ isFullScreen } = ui)
 
   // const colorThief = new ColorThief()
-
-  $: ({ autoSync,
-    autoHideControls,
-    autoHideText,
-    autoCycle,
-    autoPlay
-  } = settings)
-
-  onMount(async () => {
-    // console.log("frame onMount")
-    // onScreenSave()
-  })
-  onDestroy(() => {
-    clearTimeout(timerSS)
-    timerSS = null
-  })
-
-  function randomInt (n: number) {
-    return Math.floor(Math.random() * n)
-  }
-
-  function randomElement<T> (arr: T[]): T {
-    if (arr.length > 0) {
-      return arr[randomInt(arr.length)]
-    } else {
-      return null
-    }
-  }
 
   let lastIndex: number
   // let index: number
@@ -66,7 +38,7 @@
     }
     viewingIndex.set(newIndex)
 
-    console.log("onRandom", { lastIndex, newIndex })
+    // console.log("onRandom", { lastIndex, newIndex })
   }
 
   const onPrev = () => {
@@ -76,8 +48,7 @@
     } else {
       viewingIndex.set($assets.length - 1)
     }
-
-    console.log("onPrev", $viewingIndex)
+    // console.log("onPrev", $viewingIndex)
   }
 
   const onNext = () => {
@@ -88,36 +59,25 @@
       viewingIndex.set(0)
     }
 
-    console.log("onNext", $viewingIndex)
+    // console.log("onNext", $viewingIndex)
   }
 
   const onFirst = () => {
     lastIndex = $viewingIndex
     viewingIndex.set(0)
     
-    console.log("onFirst", $viewingIndex)
+    // console.log("onFirst", $viewingIndex)
   }
 
   const onLast = () => {
     lastIndex = $viewingIndex
     viewingIndex.set($assets.length - 1)
     
-    console.log("onLast", $viewingIndex)
+    // console.log("onLast", $viewingIndex)
   }
 
   const onExpand = () => {
     // isFullScreen.update(isFS => !isFS)
-  }
-
-  let timerSS
-  let delaySS = 60 * 1000
-  const onScreenSave = () => {
-    timerSS = setTimeout(() => {
-      console.log("onScreenSave()")
-      onRandom()
-      onScreenSave()
-      
-    }, delaySS)
   }
 
   const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
@@ -146,10 +106,6 @@
 </script>
 
 
-
-
-
-
 <section
   style="--img-bg-color: {bgHex || "--clear"};"
   class="{bgIsDark ? "light" : "dark"}"
@@ -171,10 +127,6 @@
 
   <Dev />
 </section>
-
-
-
-
 
 
 <style style lang="postcss">

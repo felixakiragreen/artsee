@@ -4,6 +4,7 @@
 
   import { 
     ui,
+    config,
     viewingIndex,
     viewingAsset,
     cachedAssetData,
@@ -81,12 +82,12 @@
             on:mouseleave={onLeave}
           ></iframe>
         {:else if getType(nftData).tag === "video"}
-          <video loop autoplay>
+          <video loop autoplay={$config.autoPlay}>
             <source src={getUrl(nftData)} type="video/mp4" />
             <track default kind="captions" />
           </video>
         {:else if getType(nftData).tag === "audio"}
-          <audio loop autoplay controls>
+          <audio loop autoplay={$config.autoPlay} controls>
             <source src={getUrl(nftData)} type="audio/mpeg" />
             <track default kind="captions" />
           </audio>
@@ -133,7 +134,7 @@
     @apply flex flex-col items-center justify-center;
     @apply relative;
 
-    width: 50vw;
+    width: 50vh;
     height: 50vh;
 
     & img, video, iframe {
@@ -144,7 +145,8 @@
     }
 
     & .wide {
-      @apply w-full;
+      /* @apply w-full; */
+      width: 50vw;
     }
 
     /* &.full {
@@ -189,6 +191,10 @@
   .dimensions {
     @apply absolute;
     z-index: -1;
+
+    & iframe {
+      box-shadow: none !important;
+    }
   }
 
   .hide {

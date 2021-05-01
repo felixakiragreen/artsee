@@ -5,7 +5,8 @@
     isSyncedUp,
     fetchAllAssets,
     wallet,
-    synced
+    synced,
+    config
   } from '../model'
 
   import Settings from './Settings.svelte'
@@ -19,8 +20,7 @@
     
     const syncedUp = await isSyncedUp()
 
-    // TODO: add background syncing...
-    if (!syncedUp) {
+    if (!syncedUp && $config.autoSync) {
       await fetchAllAssets()
     }
   }
@@ -31,10 +31,10 @@
 
 <main>
 
-  <Timers />
   <Settings />
   
   {#if $wallet && $synced.finished}
+    <Timers />
     <Gallery />
     <Frame />
   {:else}

@@ -1,42 +1,20 @@
 <script lang="ts">
-  import { onMount} from 'svelte'
   import { fade } from 'svelte/transition'
   import { get } from 'lodash'
 
-  import { fetchOpenSeaAsset, ui } from '../model'
-  import { assets } from '../model/store2'
-  import type { OpenSeaAsset } from '../model'
-  import { viewingIndex, viewingAsset, cachedAssetData } from '../model/cache'
-
-  import {
+  import { 
+    ui,
+    viewingIndex,
+    viewingAsset,
+    cachedAssetData,
     getType,
     getUrl,
     getImgUrl
-  } from '../model/funcs'
+  } from '../model'
 
   import Empty from './Empty.svelte'
 
-  // $: ({ isFullScreen } = ui)
-
-  // export let index: number
-  // export let assets: OpenSeaAsset[]
-  export let getBgColor: () => void
-
-  // onMount(async () => {
-  //   console.log("asdf", $currentAssetIndex, $currentAsset)
-  // })
-
-  // $: fetchNft = getNftData(assets[index])
-  // $: fetchNft = getNftData($currentAsset)
-    
-  // const getNftData = async (asset) => {
-  //   console.log("Frame.getNftData()", { asset })
-  //   return new Promise((resolve, reject) => {
-  //     fetchOpenSeaAsset(asset.c, asset.t)
-  //       .then(result => resolve(result))
-  //       .catch((err) => reject(err))
-  //   })
-  // }
+  // export let getBgColor: () => void
 
   let imgH
   let imgW
@@ -61,7 +39,15 @@
     }
   }
 
-  $: ({ showAllText } = ui)
+  $: ({ isAboveArt } = ui)
+
+  const onEnter = () => {
+    isAboveArt.set(true)
+  }
+  const onLeave = () => {
+    isAboveArt.set(false)
+  }
+
 </script>
 
 
@@ -91,6 +77,8 @@
             style="min-height: inherit;"
             title={nftData["name"]}
             class={iFrameClass(nftData)}
+            on:mouseenter={onEnter}
+            on:mouseleave={onLeave}
           ></iframe>
         {:else if getType(nftData).tag === "video"}
           <video loop autoplay>
@@ -108,6 +96,8 @@
             class="dimensions"
             bind:clientHeight={imgH}
             bind:clientWidth={imgW}
+            on:mouseenter={onEnter}
+            on:mouseleave={onLeave}
           >
             <img
               id={`img-${$viewingIndex}`}

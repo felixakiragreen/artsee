@@ -1,21 +1,18 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import { get } from 'lodash'
-  // import pkg from '../manifest.json'
-
-  import { ui } from '../model'
-  import { viewingIndex, viewingAsset, cachedAssetData } from '../model/cache'
 
   import {
-    getFileTypeFromUrl,
+    ui,
+    viewingAsset,
+    cachedAssetData,
     getType,
     getUrl,
-    getImgUrl,
     getOpenSeaLink,
     getExternalLink,
     remapArtist,
     figureOutUndefined
-  } from '../model/funcs'
+  } from '../model'
 
   $: ({ showAllText } = ui)
 
@@ -92,6 +89,8 @@
     @apply absolute;
     @apply bottom-4 right-4;
     @apply z-50;
+
+    @apply max-w-xs lg:max-w-sm xl:max-w-md;
     
     @apply p-4;
     @apply font-sans;

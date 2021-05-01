@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import { ethers } from 'ethers'
+  
+  import { wallet, synced, fetchAllAssets, clearAssets } from '../model'
+  
   import Button from '../lib/Button.svelte'
-
-  import { wallet, synced, fetchAllAssets, clearAssets } from '../model/store2'
   
   let provider
 
@@ -158,7 +159,8 @@
 <style style lang="postcss">
 
   section {
-    @apply text-grey-900 dark:text-gray-100;
+    /* @apply text-grey-900 dark:text-gray-100; */
+    @apply text-gray-100;
     @apply font-mono;
     @apply text-center;
 
@@ -190,26 +192,32 @@
   }
 
   input[type="text"] {
-    @apply bg-grey-200 dark:bg-grey-800;
+    /* @apply bg-grey-200 dark:bg-grey-800; */
+    @apply bg-grey-800;
     
     @apply text-lg;
-    @apply text-grey-800 dark:text-gray-200;
-    @apply focus:text-green-800 focus:dark:text-green-200;
+    /* @apply text-grey-800 dark:text-gray-200;
+    @apply focus:text-green-800 focus:dark:text-green-200; */
+    @apply text-gray-200;
+    @apply focus:text-green-200;
     
     @apply px-4 py-2;
     @apply rounded-lg;
     @apply w-[500px];
 
-    @apply ring-green-300 dark:ring-green-700;
+    /* @apply ring-green-300 dark:ring-green-700; */
+    @apply ring-green-700;
     @apply hover:ring-1;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-0;
 
     &.valid {
-      @apply bg-green-200 dark:bg-green-800;
+      /* @apply bg-green-200 dark:bg-green-800; */
+      @apply bg-green-800;
     }
 
     &.invalid {
-      @apply bg-red-200 dark:bg-red-800;
+      /* @apply bg-red-200 dark:bg-red-800; */
+      @apply bg-red-800;
     }
   }
 
@@ -218,7 +226,8 @@
   }
 
   .error {
-    @apply text-red-700 dark:text-red-300;
+    /* @apply text-red-700 dark:text-red-300; */
+    @apply text-red-300;
   }
 
 </style>

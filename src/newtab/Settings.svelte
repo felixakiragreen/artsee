@@ -5,8 +5,7 @@
   import IconButton from '../lib/IconButton.svelte'
 
   import SettingsPanel from './SettingsPanel.svelte'
-  import { ui } from '../model'
-  import { synced } from '../model/store2'
+  import { ui, synced } from '../model'
 
   let isOpen = false
 
@@ -48,8 +47,10 @@
   
   aside {
     @apply relative;
-    @apply bg-grey-200 dark:bg-grey-800;
-    @apply text-grey-900 dark:text-gray-100;
+    /* @apply bg-grey-200 dark:bg-grey-800;
+    @apply text-grey-900 dark:text-gray-100; */
+    @apply bg-grey-800;
+    @apply text-gray-100;
     @apply backdrop-filter backdrop-blur-lg;
     @apply font-mono;
 

@@ -193,7 +193,8 @@
 <style style lang="postcss">
   
   section {
-    @apply text-grey-900 dark:text-gray-100;
+    /* @apply text-grey-900 dark:text-gray-100; */
+    @apply text-gray-100;
 
     z-index: 1;
   }

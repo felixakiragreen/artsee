@@ -5,9 +5,7 @@
   import Icon, { ChevronLeft, ChevronRight, ChevronDoubleLeft, ChevronDoubleRight, Refresh, ArrowsExpand } from 'svelte-hero-icons'
   import IconButton from '../lib/IconButton.svelte'
   
-  import { ui } from '../model'
-  import { assets } from '../model/store2'
-  import { viewingIndex } from '../model/cache'
+  import { ui, assets, viewingIndex } from '../model'
   
   export let onRandom
   export let onPrev
@@ -112,7 +110,7 @@
 
   .controls {
     @apply flex flex-row justify-center;
-    @apply space-x-4;
+    @apply space-x-2;
     @apply p-4;
     @apply fixed bottom-0 left-0 right-0;
     @apply z-50;
@@ -124,8 +122,10 @@
     @apply flex flex-row items-center;
 
     > div {
-      @apply text-grey-900 dark:text-gray-100;
-      @apply bg-grey-200 dark:bg-grey-800;
+      /* @apply text-grey-900 dark:text-gray-100;
+      @apply bg-grey-200 dark:bg-grey-800; */
+      @apply text-gray-100;
+      @apply bg-grey-800;
 
       @apply bg-opacity-25;
       @apply backdrop-filter backdrop-blur-md;
@@ -135,11 +135,16 @@
     }
   }
   input[type="number"] {
-    @apply text-grey-900 dark:text-gray-100;
+    /* @apply text-grey-900 dark:text-gray-100;
     @apply hover:text-green-700 hover:dark:text-green-300;
 
     @apply bg-grey-200 dark:bg-grey-800;
-    @apply hover:bg-green-300 hover:dark:bg-green-700;
+    @apply hover:bg-green-300 hover:dark:bg-green-700; */
+    @apply text-gray-100;
+    @apply hover:text-green-300;
+
+    @apply bg-grey-800;
+    @apply hover:bg-green-700;
 
     @apply bg-opacity-25 hover:bg-opacity-50;
     @apply backdrop-filter backdrop-blur-md;
@@ -149,7 +154,8 @@
     @apply p-2;
     @apply rounded rounded-r-none;
 
-    @apply ring-green-300 dark:ring-green-700;
+    /* @apply ring-green-300 dark:ring-green-700; */
+    @apply ring-green-700;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-0;
   }
 

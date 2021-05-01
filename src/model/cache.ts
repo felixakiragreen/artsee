@@ -5,12 +5,8 @@
 import { writable, derived } from 'svelte/store'
 import { derivedPromisable } from 'svelte-promisable-stores'
 
-// import { model } from './store'
-import { assets } from './store2'
+import { assets } from './store'
 import { fetchOpenSeaAsset, fetchOpenSeaAssetUrl } from './opensea'
-import type { OpenSeaAsset } from './types'
-
-// TODO: update to use store2
 
 export const viewingIndex = writable(0)
 

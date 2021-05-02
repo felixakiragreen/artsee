@@ -9,6 +9,9 @@ export const wallet = writable<WalletAddress>('')
 export const synced = writable<Synced>({})
 export const assets = writable<OpenSeaAsset[]>([])
 
+// for syncing....
+let timer = null
+
 const setSyncStarted = () => {
   // set started, clear finished
   synced.update((existing) => ({
@@ -26,6 +29,7 @@ const setSyncFinished = () => {
     started: false,
     finished: new Date().valueOf(),
   }))
+  clearTimeout(timer)
 }
 
 const setSyncError = (error: string) => {
@@ -58,6 +62,28 @@ export const clearAssets = () => {
   assets.set([])
 }
 
+export const stopSync = () => {
+  clearTimeout(timer)
+  synced.update((existing) => ({
+    ...existing,
+    error: undefined,
+    started: false,
+  }))
+}
+
+export const storeF = () => {
+  synced.update((existing) => ({
+    ...existing,
+    error: undefined,
+    eventId: '',
+    started: false,
+  }))
+  assets.update((existing) => {
+    existing.pop()
+    return existing
+  })
+}
+
 export const fetchAllAssets = async () => {
   setSyncStarted()
 
@@ -74,9 +100,8 @@ export const fetchAllAssets = async () => {
 
   if (address) {
     let i = 0
-    let imax = 50
+    let imax = 20
     let limit = 50
-    let timer = null
     let delay = 1500
 
     await fetchLatestEvent(address).then((event) => {
@@ -105,7 +130,9 @@ export const fetchAllAssets = async () => {
       })
     }
 
-    fetchAssets(0)
+    timer = setTimeout(() => {
+      fetchAssets(0)
+    }, delay)
   } else {
     setSyncError('address not defined BITCH!')
   }

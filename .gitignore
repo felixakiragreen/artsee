@@ -14,6 +14,12 @@ dist
 dist-ssr
 *.local
 
+builds/
+artsee
+*.crx
+*.pem
+*.zip
+
 # yarn
 yarn-error.log
 .yarn/*

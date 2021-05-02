@@ -12,10 +12,15 @@ export const viewingIndex = writable(0)
 
 export const viewingAsset = derived(
   [assets, viewingIndex],
-  ([$assets, $viewingIndex]) => $assets[$viewingIndex],
+  ([$assets, $viewingIndex]) => $assets?.[$viewingIndex],
 )
 
-const cache = new Map()
+let cache = new Map()
+
+export const clearCache = () => {
+  cache = new Map()
+  viewingIndex.set(0)
+}
 
 const retrieveAssetData = async ($asset) => {
   console.log('fetchAssetData()', { $asset })

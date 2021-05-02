@@ -80,5 +80,5 @@ export const deletePersistence = () => {
   wallet.set('')
   synced.set({})
   assets.set([])
-  deleteStorage()
+  deleteStorage(['wallet', 'synced', 'assets'])
 }

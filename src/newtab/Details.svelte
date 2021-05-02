@@ -30,11 +30,13 @@
   let seaLink
   let extLink
 
-  $: {
+  $: if ($viewingAsset) {
     $cachedAssetData.then(data => {
-      medium = getType(data)
-      seaLink = getOpenSeaLink(data)
-      extLink = getExternalLink(data)
+      if (data) {
+        medium = getType(data)
+        seaLink = getOpenSeaLink(data)
+        extLink = getExternalLink(data)
+      }
     })
   }
 

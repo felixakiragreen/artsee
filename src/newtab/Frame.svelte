@@ -3,7 +3,7 @@
   // import ColorThief from 'colorthief'
   // import { contrastColor } from 'contrast-color'
 
-  import { assets, viewingIndex, viewingAsset, randomInt } from '../model'
+  import { assets, viewingIndex, viewingAsset, randomInt, synced } from '../model'
 
   import Controls from './Controls.svelte'
   import Empty from './Empty.svelte'
@@ -19,15 +19,15 @@
   // let index: number
   let hasFetched = false
 
-  $: if ($assets && !hasFetched) {
-    console.log("$ Frame.reactive")
-    
+  $: if ($assets && !hasFetched && !$synced.started) {
+    // console.log("$ Frame.reactive")
     onRandom()
   }
 
   // TODO: maybe this logic should move out to a store.... !?
 
   const onRandom = () => {
+    hasFetched = true
     lastIndex = $viewingIndex
     let newIndex = randomInt($assets.length)
     let i = 0
@@ -103,6 +103,10 @@
     // console.log('Frame.getBgColor', { img, bgHex, textHex, bgIsDark })
   }
 
+  // $: {
+  //   console.log('lala', $viewingAsset)
+  // }
+
 </script>
 
 
@@ -118,7 +122,7 @@
     </div>
     <Controls {onRandom} {onPrev} {onNext} {onFirst} {onLast} {onExpand} />
     <Details />
-  
+    
   {:else}
 
     <Empty />

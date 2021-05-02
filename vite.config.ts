@@ -18,6 +18,7 @@ export default defineConfig({
         name: 'ArtSee',
       },
     },
+    outDir: 'builds/artsee',
   },
   optimizeDeps: {
     include: ['svelte-hero-icons'],

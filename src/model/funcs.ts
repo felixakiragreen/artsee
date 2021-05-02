@@ -34,23 +34,23 @@ export const getType = (asset): Medium => {
   let tag: MediumTag
 
   // animation
-  if (asset['animation_url']) {
+  if (asset?.['animation_url']) {
     file = getFileTypeFromUrl(asset['animation_url'])
     tag = 'video'
   }
 
-  if (!file && asset['animation_original_url']) {
+  if (!file && asset?.['animation_original_url']) {
     file = getFileTypeFromUrl(asset['animation_original_url'])
     tag = 'video'
   }
 
   // image
-  if (!file && asset['image_url']) {
+  if (!file && asset?.['image_url']) {
     file = getFileTypeFromUrl(asset['image_url'])
     tag = 'image'
   }
 
-  if (!file && asset['image_original_url']) {
+  if (!file && asset?.['image_original_url']) {
     file = getFileTypeFromUrl(asset['image_original_url'])
     tag = 'image'
   }
@@ -82,13 +82,13 @@ const remapTypes = (medium: Medium): Medium => {
 }
 
 export const getUrl = (asset) => {
-  if (asset['animation_url']) {
+  if (asset?.['animation_url']) {
     return asset['animation_url']
-  } else if (asset['animation_original_url']) {
+  } else if (asset?.['animation_original_url']) {
     return asset['animation_original_url']
-  } else if (asset['image_url']) {
+  } else if (asset?.['image_url']) {
     return asset['image_url']
-  } else if (asset['image_original_url']) {
+  } else if (asset?.['image_original_url']) {
     return asset['image_original_url']
   } else {
     console.error('getUrl() could not find URL for:', { asset })
@@ -97,9 +97,9 @@ export const getUrl = (asset) => {
 }
 
 export const getImgUrl = (asset) => {
-  if (asset['image_url']) {
+  if (asset?.['image_url']) {
     return asset['image_url']
-  } else if (asset['image_original_url']) {
+  } else if (asset?.['image_original_url']) {
     return asset['image_original_url']
   } else {
     console.error('getImgUrl() could not find URL for:', { asset })

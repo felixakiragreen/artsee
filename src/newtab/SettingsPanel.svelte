@@ -7,11 +7,15 @@
     synced,
     assets,
     clearAssets,
-    fetchAllAssets
+    clearCache,
+    fetchAllAssets,
+    stopSync,
+    storeF,
   } from '../model'
 
   const sync = async () => {
     clearAssets()
+    clearCache()
     await fetchAllAssets()
   }
 
@@ -19,6 +23,15 @@
 
   const clearWallet = () => {
     deletePersistence()
+    clearCache()
+  }
+
+  const onSyncChange = () => {
+    stopSync()
+  }
+
+  const f = () => {
+    storeF()
   }
 
 </script>
@@ -28,7 +41,7 @@
 <ul>
   <li>
     <label for=autoSync>sync new NFTs automatically</label>
-    <input type=checkbox name=autoSync id=autoSync bind:checked={$config.autoSync} />
+    <input type=checkbox name=autoSync id=autoSync bind:checked={$config.autoSync} on:change={onSyncChange} />
     <br />
     <span class=info>increases network usage for collections over 50</span>
   </li>
@@ -72,10 +85,13 @@
       <button on:click={clearWallet}>remove wallet</button>
       <!-- <button on:click={deleteStorage}>del storage</button> -->
       <button on:click={logStorage}>log</button>
+      <!-- <button on:click={f}>f</button> -->
     </div>
   </li>
+</ul>
+<ul>
   <li>
-    <div><label>help support development → </label> artsee.eth</div>
+    <div><label>support our development → </label> artsee.eth</div>
     <span class=info>eth & nfts welcome!</span>
     <br />
     <span>
@@ -99,7 +115,7 @@
   }
 
   ul {
-    @apply space-y-4;
+    @apply space-y-2;
     @apply pt-8;
   }
 

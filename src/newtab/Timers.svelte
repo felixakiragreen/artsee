@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import {
     config,
     ui,
@@ -21,6 +21,12 @@
       timeoutSS()
     }
   })
+  onDestroy(() => {
+    clearTimeout(timerMM)
+    clearTimeout(timerUI)
+    clearTimeout(timerTI)
+    clearTimeout(timerSS)
+  })
 
   let timerMM // mouse move
   let timerUI // user interface buttons
@@ -33,7 +39,7 @@
 
   const onInteract = () => {
     if (!throttled && enabled) {
-      console.log("onInteract")
+      // console.log("onInteract")
       if (timerMM) {
         clearTimeout(timerMM)
       }
@@ -71,7 +77,7 @@
   const timeoutUI = () => {
     if ($config.autoHideControls > 0) {
       timerUI = setTimeout(() => {
-        console.log(`timeoutUI(${$isAboveArt})`)
+        // console.log(`timeoutUI(${$isAboveArt})`)
         // showAllControls.set(false)
         showAllControls.set($isAboveArt)
       }, $config.autoHideControls * 1000)
@@ -81,7 +87,7 @@
   const timeoutTI = () => {
     if ($config.autoHideText > 0) {
       timerTI = setTimeout(() => {
-        console.log(`timeoutTI(${$isAboveArt})`)
+        // console.log(`timeoutTI(${$isAboveArt})`)
         // showAllText.set(false)
         showAllText.set($isAboveArt)
       }, $config.autoHideText * 1000)
@@ -91,7 +97,7 @@
   const timeoutSS = () => {
     if ($config.autoCycle > 0) {
       timerSS = setTimeout(() => {
-        console.log("onScreenSave()")
+        // console.log("onScreenSave()")
         cycle()
         timeoutSS()
       }, $config.autoCycle * 1000)
@@ -100,18 +106,23 @@
 
   let lastIndex: number
   const cycle = () => {
-    if (!$isAboveArt) {    
+    if (!$isAboveArt) {
       lastIndex = $viewingIndex
       let newIndex = randomInt($assets.length)
       let i = 0
       while (i < 10 && lastIndex === newIndex) {
-        console.log("cycle.tryAgain", { lastIndex, newIndex })
+        // console.log("cycle.tryAgain", { lastIndex, newIndex })
         i++
         newIndex = randomInt($assets.length)
       }
       viewingIndex.set(newIndex)
+      
+      timerTI = setTimeout(() => {
+        showAllText.set(true)
+        timeoutTI()
+      }, 10)
 
-      console.log("cycle", { lastIndex, newIndex })
+      // console.log("cycle", { lastIndex, newIndex })
     }
   }
 

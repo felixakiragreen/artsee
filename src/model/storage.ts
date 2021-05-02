@@ -31,8 +31,14 @@ export const logStorage = async () => {
   })
 }
 
-export const deleteStorage = async () => {
+export const nukeStorage = async () => {
   chrome.storage.sync.clear(() => {
+    console.log('storage.nukeStorage()')
+  })
+}
+
+export const deleteStorage = async (keys: string | string[]) => {
+  chrome.storage.sync.remove(keys, () => {
     console.log('storage.delStorage()')
   })
 }

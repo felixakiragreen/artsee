@@ -1,23 +1,27 @@
+BUGS:
+  [ ] sync, clear wallet, sync again → we get duplicates
+  [ ] sometimes the detail thing doesn't show up
 
 BY LAUNCH:
   [x] @bylaunch Auto-syncing
     [x] check every load → get any new ones
-
-  [ ] make icon, half art, half eye
+  [x] make icon, half art, half eye
 
   Settings:
-    [ ] autoSync 
-    [ ] autoHideButtons
-    [ ] autoHideText
-    [ ] autoCycle
-    [ ] autoPlay (video/audio)
+    [x] autoSync 
+    [x] autoHideButtons
+    [x] autoHideText
+    [x] autoCycle
+    [x] autoPlay (video/audio)
 
     [ ] language (this will be localized)
       [x] "clear wallet"
       [x] "refresh"
-    [ ] donate/settings/credits
-      [ ] add donate ETH button
-  [ ] prevent ScreenSave if interacting inside iframe!?
+    [x] donate/settings/credits
+      [x] add donate ETH button
+  [x] prevent ScreenSave if interacting inside iframe!?
+  [x] onScreenSave show the text again
+  [x] fix the initial shadow bug loading for Jeff's
   
   [x] logo size on load
   [x] MAYBE - support .eth domains
@@ -36,6 +40,8 @@ BY LAUNCH:
     [x] move the index number down to the pagination controls
     [x] let you type in which number
 
+  
+
 NFT support:
   [x] get the art for this music one
     https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/36719803494851039880066145456282917715064893508771189490274221064385390968833
@@ -45,7 +51,6 @@ NFT support:
   [x] use new Image() - onload to get the images that are undefined
   [ ] WebGL 
     https://www.solvency.art/view/384
-
 
 FUTURE:
   [ ] Frame around NFT
@@ -60,6 +65,13 @@ FUTURE:
       [ ] turn dominant color on/off
       [ ] blurred scaled-up
       [ ] light/dark
+
+  [ ] City mode
+    [ ] show NFTs on the side of a building
+    [ ] bill board mode
+    [ ] all kinds of shit
+
+  [ ] get data from artblocks API
 
 MAYBE:
   [ ] Try to get wallet address from MetaMask

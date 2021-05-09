@@ -1,3 +1,6 @@
+NEXT:
+  [ ] fullscreen
+
 BUGS:
   [ ] sync, clear wallet, sync again → we get duplicates
   [ ] sometimes the detail thing doesn't show up

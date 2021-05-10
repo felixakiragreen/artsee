@@ -1,5 +1,6 @@
 NEXT:
   [ ] fullscreen
+  [ ] set up website - should be same repo?
 
 BUGS:
   [ ] sync, clear wallet, sync again → we get duplicates

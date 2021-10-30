@@ -1,6 +1,15 @@
+FELIX:
+  [x] remove the felix color library 
+
 NEXT:
   [ ] fullscreen
   [ ] set up website - should be same repo?
+  [ ] use the new Collections endpoint
+  [ ] Artists are sometimes incorrect
+    (it says who it's minted by)
+    (like satman's says minted by him)
+  [ ] how to structure monorepo?
+  [ ] or should I just make an artsee.wtf?
 
 BUGS:
   [ ] sync, clear wallet, sync again → we get duplicates

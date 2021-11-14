@@ -2,7 +2,7 @@
   import { fade } from 'svelte/transition'
   import { get } from 'lodash'
 
-  import { 
+  import {
     ui,
     config,
     viewingIndex,
@@ -10,7 +10,8 @@
     cachedAssetData,
     getType,
     getUrl,
-    getImgUrl
+    getImgUrl,
+    logStorage,
   } from '../model'
 
   import Empty from './Empty.svelte'
@@ -20,21 +21,25 @@
   let imgH
   let imgW
 
-  const iFrameClass = (nftData) => {
+  const iFrameClass = nftData => {
     const artist = get(nftData, 'creator.user.username', '')
     switch (artist) {
-      case "ge1doot": return "wide"
-      default: return undefined
+      case 'ge1doot':
+        return 'wide'
+      default:
+        return undefined
     }
   }
 
-  const imgClass = (nftData) => {
+  const imgClass = nftData => {
     const medium = getType(nftData)
 
     switch (true) {
-      case medium.tag === "video":
-      case medium.tag === "media":
-        return "hide"
+      case medium.tag === 'video':
+      case medium.tag === 'media':
+        return 'hide'
+      case medium.file === 'svg':
+        return 'svg'
       default:
         return
     }
@@ -48,45 +53,39 @@
   const onLeave = () => {
     isAboveArt.set(false)
   }
-
 </script>
-
-
 
 {#if $viewingAsset}
   {#await $cachedAssetData}
-
     <Empty />
-
   {:then nftData}
-
     <div class="bg" transition:fade={{ duration: 600 }} />
 
     <section transition:fade={{ duration: 300 }}>
       <!-- {#if $showAllText}
         <div class="caption" transition:fade={{ duration: 300 }}><span class="index">{index}</span></div>
       {/if} -->
-      <div class=frame>
-        {#if getType(nftData).tag === "media"}
+      <div class="frame">
+        {#if getType(nftData).tag === 'media'}
           <iframe
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             frameborder="0"
             sandbox="allow-scripts"
             src={getUrl(nftData)}
-            width={imgW ? `${imgW}px` : "100%"}
-            height={imgH ? `${imgH}px` : "100%"}
+            width={imgW ? `${imgW}px` : '100%'}
+            height={imgH ? `${imgH}px` : '100%'}
             style="min-height: inherit;"
-            title={nftData["name"]}
+            title={nftData['name']}
             class={iFrameClass(nftData)}
             on:mouseenter={onEnter}
             on:mouseleave={onLeave}
-          ></iframe>
-        {:else if getType(nftData).tag === "video"}
+          />
+        {:else if getType(nftData).tag === 'video'}
           <video loop autoplay={$config.autoPlay}>
             <source src={getUrl(nftData)} type="video/mp4" />
             <track default kind="captions" />
           </video>
-        {:else if getType(nftData).tag === "audio"}
+        {:else if getType(nftData).tag === 'audio'}
           <audio loop autoplay={$config.autoPlay} controls>
             <source src={getUrl(nftData)} type="audio/mpeg" />
             <track default kind="captions" />
@@ -103,7 +102,7 @@
             <img
               id={`img-${$viewingIndex}`}
               src={getImgUrl(nftData)}
-              alt={nftData["name"]}
+              alt={nftData['name']}
               class={imgClass(nftData)}
             />
           </div>
@@ -113,22 +112,17 @@
         <div class="caption" transition:fade={{ duration: 300 }}>{nftData["name"]}</div>
       {/if} -->
     </section>
-
   {:catch err}
-
     <Empty />
-
   {/await}
 {/if}
 
-
 <style style lang="postcss">
-  
   section {
     @apply absolute top-0 left-0 right-0 bottom-0;
     @apply flex flex-col items-center justify-center;
   }
-  
+
   .frame {
     @apply z-20;
     @apply flex flex-col items-center justify-center;
@@ -137,11 +131,12 @@
     width: 50vh;
     height: 50vh;
 
-    & img, video, iframe {
-      box-shadow:
-        0px 5px 2px -3px rgba(0, 0, 0, 0.25),
+    & img,
+    video,
+    iframe {
+      box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.25),
         0px 8px 6px -3px rgba(0, 0, 0, 0.35),
-        0px 24px 12px -8px rgba(0, 0, 0, 0.20);
+        0px 24px 12px -8px rgba(0, 0, 0, 0.2);
     }
 
     & .wide {
@@ -158,14 +153,19 @@
       @apply h-12;
       @apply absolute;
       @apply bottom-12;
-      -webkit-appearance:none;
+      -webkit-appearance: none;
       background-color: transparent;
     }
   }
 
-  img, video {
+  img,
+  video {
     max-width: 50vw;
     max-height: 50vh;
+  }
+  img.svg {
+    /* min-width: 50vw; */
+    min-height: 50vh;
   }
 
   audio::-webkit-media-controls-enclosure {
@@ -176,7 +176,7 @@
     background-color: rgba(255, 255, 255, 0.5);
     @apply backdrop-filter backdrop-blur-md;
   }
-  
+
   /* audio::-webkit-media-controls-play-button {} */
 
   .caption {
@@ -207,5 +207,4 @@
     /* background: var(--img-bg-color); */
     z-index: -1;
   }
-
 </style>

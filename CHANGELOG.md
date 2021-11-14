@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.1
+
+**12021·11·14**
+
+- #bug fix on-chain SVGs no loading
+
 **12021·04·28**
 
 - add screensave (new random after a minute)

@@ -163,8 +163,9 @@
     max-width: 50vw;
     max-height: 50vh;
   }
+
+  // Added min-height to SVGs so they will show up if they have no intrinsic size
   img.svg {
-    /* min-width: 50vw; */
     min-height: 50vh;
   }
 

@@ -164,7 +164,7 @@
     max-height: 50vh;
   }
 
-  // Added min-height to SVGs so they will show up if they have no intrinsic size
+  /* Added min-height to SVGs so they will show up if they have no intrinsic size */
   img.svg {
     min-height: 50vh;
   }

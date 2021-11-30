@@ -4,6 +4,8 @@ const options = {
 	method: 'GET',
 	headers: {
 		Accept: 'application/json',
+    // TODO: this should probably be an environment variable
+    // But I'm not super concerned with security right now
 		'X-API-KEY': '22811317a55a4a859cb3931b9b12c75b',
 	},
 }

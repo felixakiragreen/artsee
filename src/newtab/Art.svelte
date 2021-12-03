@@ -45,7 +45,7 @@
     }
   }
 
-  $: ({ isAboveArt } = ui)
+  $: ({ isAboveArt, isFullScreen } = ui)
 
   const onEnter = () => {
     isAboveArt.set(true)
@@ -65,7 +65,7 @@
       <!-- {#if $showAllText}
         <div class="caption" transition:fade={{ duration: 300 }}><span class="index">{index}</span></div>
       {/if} -->
-      <div class="frame">
+      <div class={$isFullScreen ? "frame full-screen" : "frame"}>
         {#if getType(nftData).tag === 'media'}
           <iframe
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -76,12 +76,12 @@
             height={imgH ? `${imgH}px` : '100%'}
             style="min-height: inherit;"
             title={nftData['name']}
-            class={iFrameClass(nftData)}
+            class={$isFullScreen ? `${iFrameClass(nftData)} full-screen` : iFrameClass(nftData)}
             on:mouseenter={onEnter}
             on:mouseleave={onLeave}
           />
         {:else if getType(nftData).tag === 'video'}
-          <video loop autoplay={$config.autoPlay}>
+          <video loop autoplay={$config.autoPlay} class={$isFullScreen ? "full-screen" : ""}>
             <source src={getUrl(nftData)} type="video/mp4" />
             <track default kind="captions" />
           </video>
@@ -103,7 +103,7 @@
               id={`img-${$viewingIndex}`}
               src={getImgUrl(nftData)}
               alt={nftData['name']}
-              class={imgClass(nftData)}
+              class={$isFullScreen ? `${imgClass(nftData)} full-screen` : imgClass(nftData)}
             />
           </div>
         {/if}
@@ -128,8 +128,8 @@
     @apply flex flex-col items-center justify-center;
     @apply relative;
 
-    width: 50vh;
     height: 50vh;
+    width: 50vh;
 
     & img,
     video,
@@ -208,4 +208,38 @@
     /* background: var(--img-bg-color); */
     z-index: -1;
   }
+
+  /* Full Screen */
+
+  .frame, img {
+    &.full-screen {
+      min-height: 100vh;
+      /* min-width: 100vw; */
+      width: auto;
+
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+  }
+
+  iframe {
+    &.full-screen {
+      min-height: 100vh;
+      min-width: 100vw;
+    }
+  }
+
+  video {
+    &.full-screen {
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+  }
+
+  /* NOTES */
+  /* 
+    Animated SVG's size is governed by 'img min-height/width'
+    Static SVG's size is controlled by frame or 'svg min-height'
+    MP4's size is controlled by 'video min-height/width'
+  */
 </style>

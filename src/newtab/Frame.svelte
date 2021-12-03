@@ -77,7 +77,8 @@
   }
 
   const onExpand = () => {
-    // isFullScreen.update(isFS => !isFS)
+    isFullScreen.update(isFS => !isFS)
+    
     // console.log('isFullScreen', $isFullScreen)
   }
 
@@ -118,7 +119,7 @@
   
   {#if $viewingAsset}
 
-    <div class=frame>
+    <div class={$isFullScreen ? "frame full" : "frame"}>
       <Art />
     </div>
     <Controls {onRandom} {onPrev} {onNext} {onFirst} {onLast} {onExpand} />
@@ -154,10 +155,10 @@
     width: 50vw;
     height: 50vh;
 
-    /* &.full {
+    &.full {
       width: 100vw;
       height: 100vh;
-    } */
+    }
   }
 
 </style>

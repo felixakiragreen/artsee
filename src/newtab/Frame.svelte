@@ -78,6 +78,9 @@
 
   const onExpand = () => {
     isFullScreen.update(isFS => !isFS)
+
+    // Get and set background color
+    // $isFullScreen ? getBgColor() : bgHex = null
     
     // console.log('isFullScreen', $isFullScreen)
   }
@@ -93,14 +96,14 @@
 
   const getBgColor = async () => {
     // const img = document.querySelector(`img#img-${$viewingIndex}`)
-
+    
     // const [r, g, b] = await colorThief.getColor(img)
-
+    
     // bgHex = rgbToHex(r, g, b);
 
     // let textHex = contrastColor({ bgColor: bgHex })
 
-    // bgIsDark = textHex === "#FFFFFF"
+    // // bgIsDark = textHex === "#FFFFFF"
 
     // console.log('Frame.getBgColor', { img, bgHex, textHex, bgIsDark })
   }
@@ -158,6 +161,8 @@
     &.full {
       width: 100vw;
       height: 100vh;
+
+      background: #222;
     }
   }
 

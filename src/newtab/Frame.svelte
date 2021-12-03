@@ -3,7 +3,7 @@
   // import ColorThief from 'colorthief'
   // import { contrastColor } from 'contrast-color'
 
-  import { assets, viewingIndex, viewingAsset, randomInt, synced } from '../model'
+  import { assets, viewingIndex, viewingAsset, randomInt, synced, ui } from '../model'
 
   import Controls from './Controls.svelte'
   import Empty from './Empty.svelte'
@@ -11,7 +11,7 @@
   import Dev from './Dev.svelte'
   import Details from './Details.svelte'
 
-  // $: ({ isFullScreen } = ui)
+  $: ({ isFullScreen } = ui)
 
   // const colorThief = new ColorThief()
 
@@ -78,6 +78,7 @@
 
   const onExpand = () => {
     // isFullScreen.update(isFS => !isFS)
+    // console.log('isFullScreen', $isFullScreen)
   }
 
   const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {

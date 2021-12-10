@@ -1,5 +1,15 @@
+FULLSCREEN:
+  [ ] Settings:
+    [ ] White / Black / Grey BG
+    [ ] Remember expanded / closed 
+
+  When we make filter collections, add option to open new ones sequentially instead of randomly 
+
+BUG:
+  [ ] sometimes controls don't show up
+
 NEXT:
-[ ] fullscreen
+[x] fullscreen
 [ ] set up website - should be same repo?
 [ ] use the new Collections endpoint
 [ ] Artists are sometimes incorrect
@@ -11,6 +21,7 @@ NEXT:
 BUGS:
 [ ] sync, clear wallet, sync again → we get duplicates
 [ ] sometimes the detail thing doesn't show up
+[ ] responsive breakpoints
 
 BY LAUNCH:
 [x] @bylaunch Auto-syncing

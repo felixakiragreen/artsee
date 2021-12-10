@@ -14,7 +14,7 @@
       provider = new ethers.providers.Web3Provider(window.ethereum)
     } else {
       provider = new ethers.providers.JsonRpcProvider(
-        'https://mainnet.infura.io/v3/da815cf05b444e48a14150ab422c132e',
+        'https://eth-mainnet.alchemyapi.io/v2/mg8Vn9Oe0RUWDpQRMD3vA6Dn5MGvnvqC',
       )
     }
   })

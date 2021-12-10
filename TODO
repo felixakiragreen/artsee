@@ -1,3 +1,11 @@
+TODO:
+  [ ] checklist for releasing
+
+CLEANUP:
+  [ ] package depedencies
+  [ ] console.logs
+  [ ] unused files from templates
+
 FULLSCREEN:
   [ ] Settings:
     [ ] White / Black / Grey BG

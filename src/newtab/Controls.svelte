@@ -19,7 +19,7 @@
   export let onNext
   export let onFirst
   export let onLast
-  // export let onExpand
+  export let onExpand
 
   let index = $viewingIndex + 1
 
@@ -105,11 +105,11 @@
         <Icon src="{ChevronDoubleRight}" />
       </IconButton>
     </div>
-    <!-- <div>
+    <div>
       <IconButton onClick={onExpand}>
         <Icon src="{ArrowsExpand}" />
       </IconButton>
-    </div> -->
+    </div>
   </div>
 {/if}
 

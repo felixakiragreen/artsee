@@ -1,5 +1,15 @@
 import type { WalletAddress, OpenSeaAsset } from './types'
 
+const options = {
+	method: 'GET',
+	headers: {
+		Accept: 'application/json',
+    // TODO: this should probably be an environment variable
+    // But I'm not super concerned with security right now
+		'X-API-KEY': '22811317a55a4a859cb3931b9b12c75b',
+	},
+}
+
 export const loadOpenSeaAssets = async (
   address: WalletAddress,
   offset: number = 0,
@@ -31,7 +41,7 @@ export const fetchOpenSeaAssets = async (
 
   return new Promise((resolve, reject) => {
     try {
-      fetch(url)
+      fetch(url, options)
         .then((res) => res.json())
         .then((json) => {
           console.log(`store.fetchOpenSeaAssets(${url}) → `, { json })
@@ -71,7 +81,7 @@ export const fetchOpenSeaAsset = (
 
   return new Promise((resolve, reject) => {
     try {
-      fetch(url)
+      fetch(url, options)
         .then((res) => res.json())
         .then((json) => {
           console.log(`store.fetchOpenSeaAsset(${url}) → `, { json })
@@ -100,7 +110,7 @@ export const fetchMostRecentOpenSeaEvent = async (
 
   return new Promise((resolve, reject) => {
     try {
-      fetch(url)
+      fetch(url, options)
         .then((res) => res.json())
         .then((json) => {
           console.log(`store.fetchMostRecentOpenSeaEvent(${url}) → `, { json })

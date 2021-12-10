@@ -1,10 +1,16 @@
 # CHANGELOG
 
+## v0.1.2
+
+**12021·12·01**
+
+- **bug** fix OpenSea API not fetching
+
 ## v0.1.1
 
 **12021·11·14**
 
-- #bug fix on-chain SVGs no loading
+- **bug** fix on-chain SVGs no loading
 
 **12021·04·28**
 

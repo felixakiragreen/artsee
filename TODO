@@ -5,6 +5,7 @@ CLEANUP:
   [ ] package depedencies
   [ ] console.logs
   [ ] unused files from templates
+  [ ] TODOs
 
 FULLSCREEN:
   [ ] Settings:
@@ -13,35 +14,33 @@ FULLSCREEN:
 
   When we make filter collections, add option to open new ones sequentially instead of randomly 
 
-BUG:
-  [ ] sometimes controls don't show up
-
 NEXT:
-[x] fullscreen
-[ ] set up website - should be same repo?
-[ ] use the new Collections endpoint
-[ ] Artists are sometimes incorrect
-(it says who it's minted by)
-(like satman's says minted by him)
-[ ] how to structure monorepo?
-[ ] or should I just make an artsee.wtf?
+  [x] fullscreen
+  [ ] set up website - should be same repo?
+  [ ] use the new Collections endpoint
+  [ ] Artists are sometimes incorrect
+  (it says who it's minted by)
+  (like satman's says minted by him)
+  [ ] how to structure monorepo?
+  [ ] or should I just make an artsee.wtf?
 
 BUGS:
-[ ] sync, clear wallet, sync again → we get duplicates
-[ ] sometimes the detail thing doesn't show up
-[ ] responsive breakpoints
+  [ ] sync, clear wallet, sync again → we get duplicates
+  [ ] sometimes the detail thing doesn't show up
+  [ ] responsive breakpoints
+  [ ] sometimes the controls don't show up for FULLSCREEN
 
 BY LAUNCH:
-[x] @bylaunch Auto-syncing
-[x] check every load → get any new ones
-[x] make icon, half art, half eye
+  [x] @bylaunch Auto-syncing
+  [x] check every load → get any new ones
+  [x] make icon, half art, half eye
 
 Settings:
-[x] autoSync
-[x] autoHideButtons
-[x] autoHideText
-[x] autoCycle
-[x] autoPlay (video/audio)
+  [x] autoSync
+  [x] autoHideButtons
+  [x] autoHideText
+  [x] autoCycle
+  [x] autoPlay (video/audio)
 
     [ ] language (this will be localized)
       [x] "clear wallet"
@@ -49,71 +48,68 @@ Settings:
     [x] donate/settings/credits
       [x] add donate ETH button
 
-[x] prevent ScreenSave if interacting inside iframe!?
-[x] onScreenSave show the text again
-[x] fix the initial shadow bug loading for Jeff's
+  [x] prevent ScreenSave if interacting inside iframe!?
+  [x] onScreenSave show the text again
+  [x] fix the initial shadow bug loading for Jeff's
 
-[x] logo size on load
-[x] MAYBE - support .eth domains
-[x] fix the artist name for CryptoJunks (make it ambition.wtf)
-[-] make cryptojunks.wtf & ambition.wtf & hexis.wtf linkable
+  [x] logo size on load
+  [x] MAYBE - support .eth domains
+  [x] fix the artist name for CryptoJunks (make it ambition.wtf)
+  [-] make cryptojunks.wtf & ambition.wtf & hexis.wtf linkable
 
-[x] if animation URL ends in .mp3, we also show the image URL
-[x] update VIDEO/HTML to MEDIA/HTML
+  [x] if animation URL ends in .mp3, we also show the image URL
+  [x] update VIDEO/HTML to MEDIA/HTML
 
 Labels:
-[x] add artist name
-[x] Include links to OpenSea detail
-[x] REDO the label with name / artist name to look like jeff davis' wesbite
+  [x] add artist name
+  [x] Include links to OpenSea detail
+  [x] REDO the label with name / artist name to look like jeff davis' wesbite
 
 Controls:
-[x] move the index number down to the pagination controls
-[x] let you type in which number
+  [x] move the index number down to the pagination controls
+  [x] let you type in which number
 
 NFT support:
-[x] get the art for this music one
-https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/36719803494851039880066145456282917715064893508771189490274221064385390968833
-[x] make sure all of artblocks work
-https://api.artblocks.io/image/12000010
+  [x] get the art for this music one
+  https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/36719803494851039880066145456282917715064893508771189490274221064385390968833
+  [x] make sure all of artblocks work
+  https://api.artblocks.io/image/12000010
 
-[x] use new Image() - onload to get the images that are undefined
-[ ] WebGL
-https://www.solvency.art/view/384
+  [x] use new Image() - onload to get the images that are undefined
+  [ ] WebGL
+  https://www.solvency.art/view/384
 
 FUTURE:
-[ ] Frame around NFT
-[ ] check attribute rarities !?
-[ ] show abbreviated wallet address ??
-[ ] improve background experience
-[ ] performance ??
-[ ] add the expand/contract button "cinematic mode"
-[ ] add little hover tooltips for the buttons (or make text?)
-[ ] just add a hide NFT button, much easier
-[ ] Background customization
-[ ] turn dominant color on/off
-[ ] blurred scaled-up
-[ ] light/dark
+  [ ] Frame around NFT
+  [ ] check attribute rarities !?
+  [ ] show abbreviated wallet address ??
+  [ ] improve background experience
+  [ ] performance ??
+  [ ] add the expand/contract button "cinematic mode"
+  [ ] add little hover tooltips for the buttons (or make text?)
+  [ ] just add a hide NFT button, much easier
+  [ ] Background customization
+  [ ] turn dominant color on/off
+  [ ] blurred scaled-up
+  [ ] light/dark
 
-[ ] City mode
-[ ] show NFTs on the side of a building
-[ ] bill board mode
-[ ] all kinds of shit
+  [ ] City mode
+  [ ] show NFTs on the side of a building
+  [ ] bill board mode
+  [ ] all kinds of shit
 
-[ ] get data from artblocks API
+  [ ] get data from artblocks API
 
 MAYBE:
-[ ] Try to get wallet address from MetaMask
-[ ] use "background_color" if set on OpeSea asset
-[ ] OPTION to prefer "original_url"? (loads slower, higher bandwidth)
-[ ] customize the controls button transition, so it slides out, but then returns with 0 opacity so that if you click in the same spot, still works
-[ ] add custom title name / add note ?
-[ ] show acquired date
-[x] make .eth domains work when typing in wallet address
+  [ ] Try to get wallet address from MetaMask
+  [ ] use "background_color" if set on OpeSea asset
+  [ ] OPTION to prefer "original_url"? (loads slower, higher bandwidth)
+  [ ] customize the controls button transition, so it slides out, but then returns with 0 opacity so that if you click in the same spot, still works
+  [ ] add custom title name / add note ?
+  [ ] show acquired date
+  [x] make .eth domains work when typing in wallet address
 
 Some Shit:
-[ ] put the releases on Github
-[ ] add error messaging
-[ ] make loading state clearer
-
-DM:
-[ ] Jeff Davis (artblocks)
+  [ ] put the releases on Github
+  [ ] add error messaging
+  [ ] make loading state clearer

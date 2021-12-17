@@ -10,6 +10,7 @@
   import Art from './Art.svelte'
   import Dev from './Dev.svelte'
   import Details from './Details.svelte'
+  import KeyboardShortcuts from './KeyboardShortcuts.svelte';
 
   $: ({ isFullScreen } = ui)
 
@@ -112,6 +113,10 @@
   //   console.log('lala', $viewingAsset)
   // }
 
+  const handleKeydown = e => {
+    console.log(e);
+  }
+
 </script>
 
 
@@ -135,8 +140,8 @@
   {/if}
 
   <Dev />
+  <KeyboardShortcuts />
 </section>
-
 
 <style style lang="postcss">
 

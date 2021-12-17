@@ -54,6 +54,7 @@
   $: ({ showAllControls } = ui)
 </script>
 
+<!-- Do we still need this (below)?-->
 <!-- <div class="wrapper">
   <IconButton onClick={onRandom}>
     <Icon src="{Refresh}" />

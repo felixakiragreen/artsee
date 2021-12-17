@@ -114,7 +114,7 @@
   // }
 
   const handleKeydown = e => {
-    console.log(e);
+    console.log("'Frame' handleKeydown hit");
   }
 
 </script>

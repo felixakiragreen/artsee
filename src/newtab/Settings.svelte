@@ -7,17 +7,17 @@
   import SettingsPanel from './SettingsPanel.svelte'
   import { ui, synced } from '../model'
 
+  $: ({ showAllControls, showSettings } = ui)
   let isOpen = false
 
   const onClick = () => {
-    isOpen = !isOpen
+    $showSettings = !$showSettings
   }
 
-  $: ({ showAllControls } = ui)
 </script>
 
 
-{#if isOpen}
+{#if $showSettings}
   <aside transition:fly="{{ x: -400 }}" class=panel>
     <div class="icon close">
       <IconButton {onClick}>

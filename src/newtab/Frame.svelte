@@ -113,8 +113,32 @@
   //   console.log('lala', $viewingAsset)
   // }
 
-  const handleKeydown = e => {
-    console.log("'Frame' handleKeydown hit");
+  const dispatch = action => {
+    console.log('dispatch', action);
+    
+    switch (action) {
+      case 'LEFT':
+        onPrev()
+        break
+      case 'RIGHT':
+        onNext()
+        break
+      case 'EXPAND':
+        onExpand()
+        break
+      case 'RANDOM':
+        onRandom()
+        break
+      case 'FIRST':
+        onFirst()
+        break
+      case 'LAST':
+        onLast()
+        break
+      default:
+        console.error('Keyboard shortcut dispatch error. Unhandled error.')
+        break
+    }
   }
 
 </script>
@@ -140,7 +164,7 @@
   {/if}
 
   <Dev />
-  <KeyboardShortcuts />
+  <KeyboardShortcuts {dispatch} />
 </section>
 
 <style style lang="postcss">

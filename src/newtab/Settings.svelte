@@ -8,7 +8,6 @@
   import { ui, synced } from '../model'
 
   $: ({ showAllControls, showSettings } = ui)
-  let isOpen = false
 
   const onClick = () => {
     $showSettings = !$showSettings

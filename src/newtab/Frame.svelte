@@ -10,6 +10,7 @@
   import Art from './Art.svelte'
   import Dev from './Dev.svelte'
   import Details from './Details.svelte'
+  import KeyboardShortcuts from './KeyboardShortcuts.svelte';
 
   $: ({ isFullScreen } = ui)
 
@@ -112,6 +113,34 @@
   //   console.log('lala', $viewingAsset)
   // }
 
+  const dispatch = action => {
+    console.log('dispatch', action);
+    
+    switch (action) {
+      case 'LEFT':
+        onPrev()
+        break
+      case 'RIGHT':
+        onNext()
+        break
+      case 'EXPAND':
+        onExpand()
+        break
+      case 'RANDOM':
+        onRandom()
+        break
+      case 'FIRST':
+        onFirst()
+        break
+      case 'LAST':
+        onLast()
+        break
+      default:
+        console.error('Keyboard shortcut dispatch error. Unhandled error.')
+        break
+    }
+  }
+
 </script>
 
 
@@ -135,8 +164,8 @@
   {/if}
 
   <Dev />
+  <KeyboardShortcuts {dispatch} />
 </section>
-
 
 <style style lang="postcss">
 

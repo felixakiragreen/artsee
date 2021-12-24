@@ -3,6 +3,7 @@ import { writable } from 'svelte/store'
 const showAllControls = writable(true)
 const showAllText = writable(true)
 const isAboveArt = writable(false)
+const showSettings = writable(false)
 // const autoHide = writable(true)
 
 const isFullScreen = writable(false)
@@ -12,7 +13,10 @@ export const ui = {
   showAllText,
   isAboveArt,
   isFullScreen,
+  showSettings
 }
+
+
 
 // Persist certain settings in storage...
 

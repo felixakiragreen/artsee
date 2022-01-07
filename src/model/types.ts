@@ -51,4 +51,5 @@ export type Config = {
   autoHideText: number
   autoCycle: number
   autoPlay: boolean
+  startInFullScreen: boolean
 }

@@ -114,7 +114,7 @@
   // }
 
   const dispatch = action => {
-    console.log('dispatch', action);
+    // console.log('dispatch', action);
     
     switch (action) {
       case 'LEFT':

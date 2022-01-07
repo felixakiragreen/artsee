@@ -12,10 +12,9 @@ export const ui = {
   showAllControls,
   showAllText,
   isAboveArt,
-  isFullScreen,
-  showSettings
+  showSettings,
+  isFullScreen
 }
-
 
 
 // Persist certain settings in storage...

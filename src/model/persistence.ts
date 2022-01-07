@@ -2,6 +2,8 @@ import { isEqual } from 'lodash'
 
 import { wallet, synced, assets } from './store'
 import { config } from './config'
+import { get } from 'svelte/store'
+import { ui } from './ui'
 
 import {
   loadStorage,
@@ -26,6 +28,10 @@ export const initialize = async () => {
     }
     if (data.config) {
       config.set(data.config)
+
+      // Check config for "startInFullScreen"
+      // console.log('start in fullscreen:', get(config).startInFullScreen);
+      if (get(config).startInFullScreen) { ui.isFullScreen.update(isFS => !isFS) }
     }
 
     createPersistence()

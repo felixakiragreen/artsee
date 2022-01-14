@@ -67,6 +67,10 @@
     <label for=autoPlay>auto play audio & video</label>
     <input type=checkbox name=autoPlay id=autoPlay bind:checked={$config.autoPlay} />
   </li>
+  <li>
+    <label for=startInFullScreen>start artsee with fullscreen NFTs</label>
+    <input type=checkbox name=startInFullScreen id=startInFullScreen bind:checked={$config.startInFullScreen} />
+  </li>
 </ul>
 <ul>
   <li>

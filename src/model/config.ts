@@ -30,6 +30,8 @@ import type { Config } from './types'
 //   autoPlay: true,
 // })
 
+
+// These set the default config values
 const createConfig = () => {
   const { subscribe, set, update } = writable<Config>({
     autoSync: true,
@@ -37,6 +39,7 @@ const createConfig = () => {
     autoHideText: 8,
     autoCycle: 60,
     autoPlay: true,
+    startInFullScreen: false
   })
 
   const updateProp = (key: keyof Config, value) => {

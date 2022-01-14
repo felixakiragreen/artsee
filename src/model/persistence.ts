@@ -31,7 +31,7 @@ export const initialize = async () => {
 
       // Check config for "startInFullScreen"
       // console.log('start in fullscreen:', get(config).startInFullScreen);
-      if (get(config).startInFullScreen) { ui.isFullScreen.update(isFS => !isFS) }
+      if (get(config).startInFullScreen) { ui.isFullScreen.set(get(config).startInFullScreen) }
     }
 
     createPersistence()

@@ -6,85 +6,84 @@ import { get } from 'svelte/store'
 import { ui } from './ui'
 
 import {
-  loadStorage,
-  saveStorage,
-  deleteStorage,
-  chunkAssets,
-  dechunkAssets,
+	loadStorage,
+	saveStorage,
+	deleteStorage,
+	chunkAssets,
+	dechunkAssets,
 } from './storage'
 
 export const initialize = async () => {
-  return loadStorage().then((data) => {
-    console.log('persistence.initialize() →', { data })
+	return loadStorage().then(data => {
+		console.log('persistence.initialize() →', { data })
 
-    if (data.wallet) {
-      wallet.set(data.wallet)
-    }
-    if (data.synced) {
-      synced.set(data.synced)
-    }
-    if (data.ass000) {
-      assets.set(dechunkAssets(data))
-    }
-    if (data.config) {
-      config.set(data.config)
+		if (data.wallet) {
+			wallet.set(data.wallet)
+		}
+		if (data.synced) {
+			synced.set(data.synced)
+		}
+		if (data.ass000) {
+			assets.set(dechunkAssets(data))
+		}
+		if (data.config) {
+			config.set(data.config)
 
-      // Check config for "startInFullScreen"
-      // console.log('start in fullscreen:', get(config).startInFullScreen);
-      if (get(config).startInFullScreen) { ui.isFullScreen.set(get(config).startInFullScreen) }
-    }
+			// Set config for "startInFullScreen"
+			ui.isFullScreen.set(get(config).startInFullScreen)
+		}
 
-    createPersistence()
-  })
+		createPersistence()
+	})
 }
 
 const createPersistence = () => {
-  console.log('createPersistence()')
-  const unsub1 = wallet.subscribe((wallet) => {
-    chrome.storage.sync.get(null, (data) => {
-      // if (!isEqual(wallet, data.wallet)) {
-      //   saveStorage({ wallet })
-      // }
-      if (!isEqual(wallet, '') && !isEqual(wallet, data.wallet)) {
-        saveStorage({ wallet })
-      }
-    })
-  })
+	console.log('createPersistence()')
+	const unsub1 = wallet.subscribe(wallet => {
+		chrome.storage.sync.get(null, data => {
+			// if (!isEqual(wallet, data.wallet)) {
+			//   saveStorage({ wallet })
+			// }
+			if (!isEqual(wallet, '') && !isEqual(wallet, data.wallet)) {
+				saveStorage({ wallet })
+			}
+		})
+	})
 
-  const unsub2 = synced.subscribe((synced) => {
-    chrome.storage.sync.get(null, (data) => {
-      // if (!isEqual(synced, data.synced)) {
-      //   saveStorage({ synced })
-      // }
-      if (!isEqual(synced, {}) && !isEqual(synced, data.synced)) {
-        saveStorage({ synced })
-      }
-    })
-  })
+	const unsub2 = synced.subscribe(synced => {
+		chrome.storage.sync.get(null, data => {
+			// if (!isEqual(synced, data.synced)) {
+			//   saveStorage({ synced })
+			// }
+			if (!isEqual(synced, {}) && !isEqual(synced, data.synced)) {
+				saveStorage({ synced })
+			}
+		})
+	})
 
-  const unsub3 = assets.subscribe((assets) => {
-    chrome.storage.sync.get(null, (data) => {
-      // if (!isEqual(assets, dechunkAssets(data))) {
-      //   saveStorage(chunkAssets(assets))
-      // }
-      if (!isEqual(assets, []) && !isEqual(assets, dechunkAssets(data))) {
-        saveStorage(chunkAssets(assets))
-      }
-    })
-  })
+	const unsub3 = assets.subscribe(assets => {
+		chrome.storage.sync.get(null, data => {
+			// if (!isEqual(assets, dechunkAssets(data))) {
+			//   saveStorage(chunkAssets(assets))
+			// }
+			if (!isEqual(assets, []) && !isEqual(assets, dechunkAssets(data))) {
+				saveStorage(chunkAssets(assets))
+			}
+		})
+	})
 
-  const unsub4 = config.subscribe((config) => {
-    chrome.storage.sync.get(null, (data) => {
-      if (!isEqual(config, {}) && !isEqual(config, data.config)) {
-        saveStorage({ config })
-      }
-    })
-  })
+	const unsub4 = config.subscribe(config => {
+		chrome.storage.sync.get(null, data => {
+			if (!isEqual(config, {}) && !isEqual(config, data.config)) {
+				saveStorage({ config })
+			}
+		})
+	})
 }
 
 export const deletePersistence = () => {
-  wallet.set('')
-  synced.set({})
-  assets.set([])
-  deleteStorage(['wallet', 'synced', 'assets'])
+	wallet.set('')
+	synced.set({})
+	assets.set([])
+	deleteStorage(['wallet', 'synced', 'assets'])
 }

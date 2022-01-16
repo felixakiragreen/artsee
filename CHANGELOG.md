@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.3.0
+
+- add keyboard shortcuts
+- add setting for starting in fullscreen
+
 ## v0.2.0
 
 **12021·12·10**

@@ -96,6 +96,8 @@
 		console.log({ disabledCollections })
 	}
 
+	// TODO: make the whole row clickable
+
 	// let isCollectionFetched = false
 	// $: {
 	//   if ($wallet && !isCollectionFetched) {
@@ -111,11 +113,13 @@
 		<li>
 			<div>
 				<input
+					name={collection.slug}
+					id={collection.slug}
 					type="checkbox"
 					checked={!disabledCollections.includes(collection.slug)}
 					on:change={() => onToggleCollection(collection.slug)}
 				/>
-				<span>{collection.name}</span>
+				<label for={collection.slug}>{collection.name}</label>
 			</div>
 			<span class="info">{collection.owned_asset_count}</span>
 		</li>

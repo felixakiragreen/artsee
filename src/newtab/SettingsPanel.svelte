@@ -37,8 +37,6 @@
 	}
 </script>
 
-<h2>settings</h2>
-
 <ul>
 	<li>
 		<label for="autoSync">sync new NFTs automatically</label>

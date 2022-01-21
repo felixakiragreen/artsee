@@ -1,8 +1,10 @@
 TODAY COLLECTIONS:
   [x] fetch collections from OpenSea API
-  [ ] show a list of collections
-  [ ] toggle subset of the list
+  [x] show a list of collections
+  [x] toggle subset of the list
   [ ] TODO: figure out how to rework the caching based on the new data structure
+    moving it out into its own store
+    [ ] visual: fix long lists overflow
 
   BUG:
     [ ] `main.js:9 Uncaught (in promise) TypeError: Failed to construct 'URL': Invalid URL`

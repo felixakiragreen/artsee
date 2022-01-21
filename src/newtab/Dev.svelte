@@ -9,7 +9,7 @@
 
 {#if $showAllText}
 	<aside transition:fade={{ duration: 300 }}>
-		<p>artsee BETA v0.3.0</p>
+		<p>artsee BETA v0.4.0</p>
 
 		<p>
 			join our <a href="https://discord.gg/6j65H7nqSd" target="_blank"

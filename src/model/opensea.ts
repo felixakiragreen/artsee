@@ -123,6 +123,42 @@ export const fetchMostRecentOpenSeaEvent = async (
   })
 }
 
+
+const OPENSEA_COLLECTIONS_URL = 'https://api.opensea.io/api/v1/collections'
+
+fetch('https://api.opensea.io/api/v1/collections?asset_owner=0xc0D4A42dD3Cf5AC320D82E20A1285b50eFe26615&offset=0&limit=300', options)
+
+
+export const fetchOpenSeaCollectionsUrl = (
+  assetOwner: string,
+  offset: number = 0,
+  limit: number = 300,
+): string => `${OPENSEA_COLLECTIONS_URL}?asset_owner=${assetOwner}&offset=${offset}&limit=${limit}`
+
+export const fetchOpenSeaCollections = (
+  assetOwner: string,
+): Promise<Object> => {
+  const url = fetchOpenSeaCollectionsUrl(assetOwner)
+
+  console.log('store.fetchOpenSeaCollections()', url)
+
+  return new Promise((resolve, reject) => {
+    try {
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(`store.fetchOpenSeaCollections(${url}) → `, { json })
+
+          resolve(json)
+        })
+    } catch (err) {
+      console.error(err)
+      reject(err)
+    }
+  })
+}
+
+
 // {
 //   "id":21042046
 //   "token_id":"449"

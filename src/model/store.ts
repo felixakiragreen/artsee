@@ -84,6 +84,7 @@ export const storeF = () => {
   })
 }
 
+// This is called for initial setup (or when wallet changes)
 export const fetchAllAssets = async () => {
   setSyncStarted()
 

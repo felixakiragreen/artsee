@@ -3,10 +3,98 @@
 
 	import { config, wallet, fetchOpenSeaCollections } from '../model'
 
+	/*
+  {
+    "primary_asset_contracts": [],
+    "traits": {},
+    "stats": {
+        "one_day_volume": 0.32,
+        "one_day_change": -0.24705882352941172,
+        "one_day_sales": 3,
+        "one_day_average_price": 0.10666666666666667,
+        "seven_day_volume": 4.043,
+        "seven_day_change": 0.4747939009265342,
+        "seven_day_sales": 19,
+        "seven_day_average_price": 0.21278947368421053,
+        "thirty_day_volume": 12.73010001,
+        "thirty_day_change": -0.014705767757216215,
+        "thirty_day_sales": 116,
+        "thirty_day_average_price": 0.10974224146551724,
+        "total_volume": 1644.2017937186358,
+        "total_sales": 4464,
+        "total_supply": 4712,
+        "count": 4712,
+        "num_owners": 2416,
+        "average_price": 0.36832477457854745,
+        "num_reports": 0,
+        "market_cap": 1002.664,
+        "floor_price": 0
+    },
+    "banner_image_url": "https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500",
+    "chat_url": null,
+    "created_date": "2021-12-09T23:50:03.010012",
+    "default_to_fiat": false,
+    "description": "Transitions by Jason Ting x Matt Bilfield - Art Blocks Factory",
+    "dev_buyer_fee_basis_points": "0",
+    "dev_seller_fee_basis_points": "750",
+    "discord_url": null,
+    "display_data": {
+        "card_display_style": "contain",
+        "images": []
+    },
+    "external_url": "https://www.artblocks.io/project/117",
+    "featured": false,
+    "featured_image_url": "https://lh3.googleusercontent.com/zkwdi-5NwIx5PZxR4biqwKqJ5ZfBzTYds69cqiwNb1Baz2yfRFiENpWVytaECLYVmCcl2ASgP5sDU8Q5CRzaXdabZ9tsvltALai8",
+    "hidden": false,
+    "safelist_request_status": "verified",
+    "image_url": "https://lh3.googleusercontent.com/zkwdi-5NwIx5PZxR4biqwKqJ5ZfBzTYds69cqiwNb1Baz2yfRFiENpWVytaECLYVmCcl2ASgP5sDU8Q5CRzaXdabZ9tsvltALai8",
+    "is_subject_to_whitelist": false,
+    "large_image_url": null,
+    "medium_username": null,
+    "name": "Transitions by Jason Ting x Matt Bilfield",
+    "only_proxied_transfers": false,
+    "opensea_buyer_fee_basis_points": "0",
+    "opensea_seller_fee_basis_points": "250",
+    "payout_address": "0x6c093fe8bc59e1e0cae2ec10f0b717d3d182056b",
+    "require_email": false,
+    "short_description": null,
+    "slug": "transitions-by-jason-ting-x-matt-bilfield",
+    "telegram_url": null,
+    "twitter_username": null,
+    "instagram_username": null,
+    "wiki_url": null,
+    "owned_asset_count": 3
+}
+  */
+
+	type Collection = {
+		name: string
+		description: string
+		slug: string
+		owned_asset_count: number
+	}
+
+	let collections: Collection[] = []
+
+	let disabledCollections: string[] = []
+
 	onMount(async () => {
 		console.log('onMount.collections', $wallet)
-		await fetchOpenSeaCollections($wallet)
+		collections = await fetchOpenSeaCollections($wallet)
 	})
+
+	$: {
+		console.log({ collections, disabledCollections })
+	}
+
+	function onToggleCollection(slug: string) {
+		if (disabledCollections.includes(slug)) {
+			disabledCollections = disabledCollections.filter(s => s !== slug)
+		} else {
+			disabledCollections.push(slug)
+		}
+		console.log({ disabledCollections })
+	}
 
 	// let isCollectionFetched = false
 	// $: {
@@ -19,18 +107,19 @@
 </script>
 
 <ul>
-	<!-- <li>
-		<label for="autoSync">sync new NFTs automatically</label>
-		<input
-			type="checkbox"
-			name="autoSync"
-			id="autoSync"
-			bind:checked={$config.autoSync}
-			on:change={onSyncChange}
-		/>
-		<br />
-		<span class="info">increases network usage for collections over 50</span>
-	</li> -->
+	{#each collections as collection}
+		<li>
+			<div>
+				<input
+					type="checkbox"
+					checked={!disabledCollections.includes(collection.slug)}
+					on:change={() => onToggleCollection(collection.slug)}
+				/>
+				<span>{collection.name}</span>
+			</div>
+			<span class="info">{collection.owned_asset_count}</span>
+		</li>
+	{/each}
 </ul>
 
 <style style lang="postcss">
@@ -44,6 +133,7 @@
 	}
 
 	li {
+		@apply flex justify-between items-baseline;
 		@apply text-base text-gray-200;
 	}
 

@@ -137,7 +137,7 @@ export const fetchOpenSeaCollectionsUrl = (
 
 export const fetchOpenSeaCollections = (
   assetOwner: string,
-): Promise<Object> => {
+): Promise<any[]> => {
   const url = fetchOpenSeaCollectionsUrl(assetOwner)
 
   console.log('store.fetchOpenSeaCollections()', url)
